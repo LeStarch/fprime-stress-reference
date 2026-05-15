@@ -13,6 +13,8 @@
 //                must be dispatched as a command from the GDS.
 // ======================================================================
 #include "Top/FprimeStressReferenceTopology.hpp"
+#include "DoomSubtopology/SubtopologyTopologyAc.hpp"
+#include "Doom/DoomEngine.hpp"
 
 #include <Fw/Logger/Logger.hpp>
 #include <Os/Os.hpp>
@@ -80,9 +82,9 @@ int main(int argc, char* argv[]) {
     FprimeStressReference::setupTopology(state);
 
     if (state.autoStart) {
-        Fw::Logger::log(
-            "Auto-start requested; operators should dispatch the Start "
-            "command from the GDS or include it in a sequence.\n");
+        const bool ok = DoomSubtopology::doom.forceStart();
+        Fw::Logger::log("Auto-start: doom.forceStart() returned %s\n",
+                        ok ? "ok" : "fail");
     }
 
     FprimeStressReference::startRateGroups(Fw::TimeInterval(1, 0));
