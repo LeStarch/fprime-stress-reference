@@ -22,8 +22,13 @@ module FprimeStressReference {
   # Active component instances
   # ----------------------------------------------------------------------
 
+  # rateGroup1Comp paces DOOM at ~33 Hz. Its queue gets a bigger
+  # reservoir than the default because the dispatch of one cycle fans
+  # out to roughly 80 telemetry packets / cycle (one per FrameChunk),
+  # so brief CPU stalls on the housekeeping handlers must not back up
+  # CycleIn into a FATAL.
   instance rateGroup1Comp: Svc.ActiveRateGroup base id 0x10001000 \
-    queue size Default.QUEUE_SIZE \
+    queue size 64 \
     stack size Default.STACK_SIZE \
     priority 43
 

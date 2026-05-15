@@ -24,9 +24,13 @@ enum : FwSizeType {
 // unpredictable runtime allocations (see the DoomSubtopology).
 static Fw::MallocAllocator s_cmdSeqAllocator;
 
-// The deployment divides the incoming 1 Hz timer into 1 Hz, 0.5 Hz,
-// and 0.25 Hz rate groups (same cadence as Ref).
-static Svc::RateGroupDriver::DividerSet s_rateGroupDivisorsSet{{{1, 0}, {2, 0}, {4, 0}}};
+// The deployment divides the incoming 100 Hz timer into:
+//   rateGroup1 = 100 / 3   = ~33 Hz  (drives DOOM via DoomSubtopology.schedIn)
+//   rateGroup2 = 100 / 10  = 10 Hz   (cmdSeq pacing, fileMgr housekeeping)
+//   rateGroup3 = 100 / 100 = 1 Hz    (long-cycle housekeeping, healthRun)
+// The DOOM rate group must run at 30+ Hz to drive doomgeneric at its
+// native ~35 fps cadence and to make this a useful stress workload.
+static Svc::RateGroupDriver::DividerSet s_rateGroupDivisorsSet{{{3, 0}, {10, 0}, {100, 0}}};
 
 static U32 s_rateGroup1Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
 static U32 s_rateGroup2Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};

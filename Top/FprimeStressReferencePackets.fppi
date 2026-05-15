@@ -11,6 +11,10 @@ telemetry packets FprimeStressReferencePackets {
     DoomSubtopology.doom.KeyQueueDepth
     DoomSubtopology.doom.KeyEventsDropped
     DoomSubtopology.doom.FramesDropped
+    DoomSubtopology.doom.FrameRateHz
+    DoomSubtopology.doom.FrameDataRateBps
+    DoomSubtopology.doom.InputCommandRateHz
+    DoomSubtopology.doom.InputDataRateBps
   }
 
   packet CDH id 2 group 1 {

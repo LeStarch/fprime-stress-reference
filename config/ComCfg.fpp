@@ -11,7 +11,7 @@ module ComCfg {
     dictionary constant SpacecraftId = 0x0044
 
     @ Fixed size of CCSDS TM frames
-    dictionary constant TmFrameFixedSize = 8192  # Overridden to fit FW_COM_BUFFER_MAX_SIZE = 4096 (DOOM FrameChunk)
+    dictionary constant TmFrameFixedSize = 8192  # Overridden to fit FW_COM_BUFFER_MAX_SIZE = 4096 (DOOM 640x400 FrameChunk)
 
     @ Upper Bound on Fixed size of CCSDS AOS frames
     constant AosMaxFrameFixedSize = 1536
