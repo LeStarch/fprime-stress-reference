@@ -22,13 +22,14 @@ module FprimeStressReference {
   # Active component instances
   # ----------------------------------------------------------------------
 
-  # rateGroup1Comp paces DOOM at ~33 Hz. Its queue gets a bigger
-  # reservoir than the default because the dispatch of one cycle fans
-  # out to roughly 80 telemetry packets / cycle (one per FrameChunk),
-  # so brief CPU stalls on the housekeeping handlers must not back up
-  # CycleIn into a FATAL.
+  # rateGroup1Comp paces DOOM at ~33 Hz via a sync schedIn on
+  # DoomEngine. A tick that overruns its budget is surfaced through
+  # Svc.ActiveRateGroup's RateGroupCycleSlips telemetry channel. The
+  # queue is deeper than the default to absorb sustained overruns
+  # without blowing FATAL during the stress demo - the slip telemetry
+  # is still the canonical evidence of overload.
   instance rateGroup1Comp: Svc.ActiveRateGroup base id 0x10001000 \
-    queue size 64 \
+    queue size 512 \
     stack size Default.STACK_SIZE \
     priority 43
 

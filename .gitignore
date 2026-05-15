@@ -4,3 +4,5 @@ build-artifacts/
 __pycache__/
 .vscode/
 fprime-venv/
+logs/
+core.*
