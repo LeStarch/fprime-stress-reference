@@ -3,9 +3,14 @@ module ComCcsdsConfig {
     # instance.
     constant BASE_ID = 0x02000000
 
+    # ComCcsds queue sizes are deliberately oversized for the DOOM
+    # stress demo. The DoomEngine emits 80 distinct FrameOutNN channels
+    # at 35 Hz (=2,800 ComQueue enqueues/sec for chunks alone) so the
+    # comQueue and aggregator queues must each hold one full burst
+    # without slipping while the framer drains it.
     module QueueSizes {
-        constant comQueue    = 50
-        constant aggregator  = 10
+        constant comQueue    = 1024
+        constant aggregator  = 256
     }
 
     module StackSizes {
@@ -18,9 +23,11 @@ module ComCcsdsConfig {
         constant comQueue   = 29
     }
 
+    # tlm depth holds one full FrameOut00..79 burst plus the rate
+    # channels with margin.
     module QueueDepths {
         constant events      = 200
-        constant tlm         = 500
+        constant tlm         = 2048
         constant file        = 100
     }
 
