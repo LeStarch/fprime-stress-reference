@@ -67,8 +67,8 @@ module FprimeStressReference {
       # Linux timer to drive cycle
       linuxTimer.CycleOut -> rateGroupDriverComp.CycleIn
 
-      # Rate group 1 - 33 Hz (matches DOOM's native 35 fps closely
-      # enough that the engine sees its own ticks as monotonic).
+      # Rate group 1 - 35 Hz, DOOM's native gameplay cadence. One tick
+      # = one doomgeneric_Tick = one full FrameOut burst.
       # rateGroup1 is configured by the deployment's main entrypoint.
       rateGroupDriverComp.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1Comp.CycleIn
       rateGroup1Comp.RateGroupMemberOut[0] -> DoomSubtopology.Subtopology.schedIn

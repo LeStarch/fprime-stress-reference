@@ -7,7 +7,7 @@ module CdhCoreConfig {
     module QueueSizes {
         constant cmdDisp     = 10
         constant events      = 10
-        # The 33 Hz schedIn on DoomEngine emits 80 FrameChunk writes
+        # The 35 Hz schedIn on DoomEngine emits 80 FrameChunk writes
         # per cycle. The upstream default depth of 10 drops 70 of
         # every 80 chunks before TlmChan can serialise them; size
         # this clear of the per-cycle burst.

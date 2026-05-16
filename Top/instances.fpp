@@ -22,12 +22,12 @@ module FprimeStressReference {
   # Active component instances
   # ----------------------------------------------------------------------
 
-  # rateGroup1Comp paces DOOM at ~33 Hz via a sync schedIn on
-  # DoomEngine. A tick that overruns its budget is surfaced through
-  # Svc.ActiveRateGroup's RateGroupCycleSlips telemetry channel. The
-  # queue is deeper than the default to absorb sustained overruns
-  # without blowing FATAL during the stress demo - the slip telemetry
-  # is still the canonical evidence of overload.
+  # rateGroup1Comp paces DOOM at 35 Hz (DOOM's native gameplay cadence)
+  # via a sync schedIn on DoomEngine. A tick that overruns its budget is
+  # surfaced through Svc.ActiveRateGroup's RateGroupCycleSlips telemetry
+  # channel. The queue is deeper than the default to absorb sustained
+  # overruns without blowing FATAL during the stress demo - the slip
+  # telemetry is still the canonical evidence of overload.
   instance rateGroup1Comp: Svc.ActiveRateGroup base id 0x10001000 \
     queue size 512 \
     stack size Default.STACK_SIZE \

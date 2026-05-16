@@ -87,10 +87,10 @@ int main(int argc, char* argv[]) {
                         ok ? "ok" : "fail");
     }
 
-    // 100 Hz base timer. The rate-group dividers (3 / 10 / 100) then
-    // produce 33 Hz / 10 Hz / 1 Hz rate groups - DOOM is driven from
-    // the 33 Hz group.
-    FprimeStressReference::startRateGroups(Fw::TimeInterval(0, 10000));
+    // ~70 Hz base timer (14286 us per tick). The rate-group dividers
+    // (2 / 7 / 70) then produce 35 Hz / 10 Hz / 1 Hz rate groups; DOOM
+    // runs on the 35 Hz group, matching its native cadence.
+    FprimeStressReference::startRateGroups(Fw::TimeInterval(0, 14286));
 
     FprimeStressReference::teardownTopology(state);
     Fw::Logger::log("Exiting...\n");
