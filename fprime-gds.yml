@@ -1,16 +1,22 @@
 # fprime-gds.yml: project-local fprime-gds defaults.
 #
-# fprime-gds loads this file automatically when started from the project
-# root. Anything under `command-line-options` is passed to the GDS as
-# CLI arguments, so the operator can just run `fprime-gds` without
-# spelling out flags. Override any of these on the command line.
+# fprime-gds auto-loads this file (DEFAULT_CONFIGURATION_PATH =
+# Path("fprime-gds.yml")) when invoked from the project root, so
+# running plain `fprime-gds` is enough to pick up everything below.
 #
-# To enable the Dashboard tab (and load the doom-display addon), run
-# `lib/fprime-stress/gds-plugin/install.sh` once after `pip install -r
-# requirements.txt`. That script patches the active fprime-gds package
-# so dashboards render and the doom-display custom tag is registered.
-# The Dashboard XML to upload is at:
-#   lib/fprime-stress/gds-plugin/dashboard.xml
+# Anything under `command-line-options` is passed to the GDS as CLI
+# arguments. Anything under `flask` is set on the Flask `app.config`
+# at startup - that is how we swap in the project-local `config.js`
+# below, which is what flips dashboards on.
+#
+# To register the doom-display addon source itself, run
+# `lib/fprime-stress/gds-plugin/install.sh` once after `pip install
+# --pre -r requirements.txt`. The script copies the addon into the
+# active fprime-gds package and appends an import to `enabled.js`;
+# fprime-gds does not yet expose a CLI flag for out-of-tree addons.
+# The Dashboard XML to upload from the browser is at:
+#     lib/fprime-stress/gds-plugin/dashboard.xml
+
 command-line-options:
     # Suppress the auto-launched flight-software companion app
     # (fprime-gds normally tries to start the deployment binary; we
@@ -25,3 +31,15 @@ command-line-options:
     ip-port: 50100
     # Threaded TCP server (TTS) port - fprime-cli command-send target.
     tts-port: 50101
+
+flask:
+    # Point fprime-gds's `/js/config.js` route at this project's
+    # config.js (committed under the GDS-plugin directory next to the
+    # dashboard XML it pairs with) instead of the package default.
+    # That config.js sets `config.enableDashboards = true`, so the
+    # Dashboard tab is visible without mutating the installed
+    # fprime-gds site-packages tree.
+    #
+    # The !PATH tag resolves the value relative to this YAML file's
+    # directory; see fprime_gds.executables.cli.ConfigDrivenParser.
+    JS_CONFIGURATION_FILE: !PATH lib/fprime-stress/gds-plugin/config.js

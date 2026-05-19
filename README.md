@@ -120,10 +120,12 @@ lib/fprime-stress/gds-plugin/install.sh
 ```
 
 `install.sh` copies the `doom-display` Vue addon into the active
-fprime-gds package, registers it in `enabled.js`, and flips
-`config.enableDashboards = true` so the Dashboard tab actually renders.
-The shipped `fprime-gds.yml` at the project root sets the GUI/IP/TTS
-ports so a plain `fprime-gds` invocation just works:
+fprime-gds package and registers it in `enabled.js`. The dashboards
+feature flag (`config.enableDashboards`) is not touched - that is
+flipped per-project by the `fprime-gds.yml` at the project root,
+which points the GDS at `lib/fprime-stress/gds-plugin/config.js` via
+its `flask.JS_CONFIGURATION_FILE` override. The same `fprime-gds.yml`
+also sets the GUI/IP/TTS ports, so a plain invocation just works:
 
 ```sh
 fprime-gds
