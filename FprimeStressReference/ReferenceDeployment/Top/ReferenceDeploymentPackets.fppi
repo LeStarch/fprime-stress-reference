@@ -1,9 +1,9 @@
-# Packet groupings for the FprimeStressReference deployment.
+# Packet groupings for the ReferenceDeployment deployment.
 #
 # The Doom component's FrameOut and PaletteOut channels are large
 # (multi-kilobyte struct samples) and are intentionally left OUT of
 # the packetizer; they flow as direct telemetry through TlmChan.
-telemetry packets FprimeStressReferencePackets {
+telemetry packets ReferenceDeploymentPackets {
 
   packet Engine id 1 group 1 {
     DoomSubtopology.doom.State

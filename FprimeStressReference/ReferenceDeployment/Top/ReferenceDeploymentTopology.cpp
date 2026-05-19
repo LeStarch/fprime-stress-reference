@@ -1,5 +1,5 @@
 // ======================================================================
-// \title  FprimeStressReferenceTopology.cpp
+// \title  ReferenceDeploymentTopology.cpp
 // \brief  Topology setup / teardown implementation.
 //
 // Brings up the deployment topology: a 1/0.5/0.25 Hz rate-group split
@@ -7,11 +7,11 @@
 // The DoomSubtopology's `doom` instance is configured here with the
 // WAD path before the Start command is accepted.
 // ======================================================================
-#include "Top/FprimeStressReferenceTopologyAc.hpp"
+#include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopologyAc.hpp"
 
 #include <Fw/Types/MallocAllocator.hpp>
 
-using namespace FprimeStressReference;
+using namespace ReferenceDeployment;
 
 enum : FwSizeType {
     CMD_SEQ_POOL_BYTES = 5 * 1024,
@@ -58,7 +58,7 @@ static void configureTopology(const TopologyState& state) {
     }
 }
 
-namespace FprimeStressReference {
+namespace ReferenceDeployment {
 
 void setupTopology(const TopologyState& state) {
     initComponents(state);
@@ -74,7 +74,7 @@ void setupTopology(const TopologyState& state) {
     startTasks(state);
     if ((state.hostname != nullptr) && (state.port != 0U)) {
         Os::TaskString commName("ReceiveTask");
-        comDriver.start(commName, COMM_PRIORITY, FprimeStressReference::Default::STACK_SIZE);
+        comDriver.start(commName, COMM_PRIORITY, ReferenceDeployment::Default::STACK_SIZE);
     }
 }
 
@@ -98,4 +98,4 @@ void teardownTopology(const TopologyState& state) {
     deinitComponents(state);
 }
 
-}  // namespace FprimeStressReference
+}  // namespace ReferenceDeployment

@@ -1,4 +1,4 @@
-module FprimeStressReference {
+module ReferenceDeployment {
 
   # ----------------------------------------------------------------------
   # Base ID Convention

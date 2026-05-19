@@ -1,0 +1,7 @@
+# fprime-stress-reference Python requirements.
+#
+# Pulls in the F Prime framework's own requirements (fprime-tools,
+# fprime-gds, fprime-fpp, ...), then layers on the DOOM-fetch CLI
+# that ships inside the fprime-stress library.
+-r ./lib/fprime/requirements.txt
+./lib/fprime-stress/tools/fprime-get-doom

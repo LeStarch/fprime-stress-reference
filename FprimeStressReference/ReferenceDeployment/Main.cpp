@@ -1,6 +1,6 @@
 // ======================================================================
 // \title  Main.cpp
-// \brief  Entry point for the FprimeStressReference deployment.
+// \brief  Entry point for the ReferenceDeployment deployment.
 //
 //   fprime-stress-reference [-a hostname] [-p port] [-w /path/to/DOOM1.WAD] [-S]
 //
@@ -12,7 +12,7 @@
 //   -S           Auto-start the engine immediately. By default, Start
 //                must be dispatched as a command from the GDS.
 // ======================================================================
-#include "Top/FprimeStressReferenceTopology.hpp"
+#include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopology.hpp"
 #include "DoomSubtopology/SubtopologyTopologyAc.hpp"
 #include "Doom/DoomEngine.hpp"
 
@@ -37,7 +37,7 @@ void printUsage(const char* app) {
 }
 
 void signalHandler(int /*signum*/) {
-    FprimeStressReference::stopRateGroups();
+    ReferenceDeployment::stopRateGroups();
 }
 
 }  // namespace
@@ -45,7 +45,7 @@ void signalHandler(int /*signum*/) {
 int main(int argc, char* argv[]) {
     Os::init();
 
-    FprimeStressReference::TopologyState state{};
+    ReferenceDeployment::TopologyState state{};
     state.hostname = nullptr;
     state.port = 0U;
     state.wadPath = "";
@@ -77,9 +77,9 @@ int main(int argc, char* argv[]) {
     signal(SIGINT, signalHandler);
     signal(SIGTERM, signalHandler);
 
-    Fw::Logger::log("FprimeStressReference (DOOM) starting. Ctrl-C to exit.\n");
+    Fw::Logger::log("ReferenceDeployment (DOOM) starting. Ctrl-C to exit.\n");
 
-    FprimeStressReference::setupTopology(state);
+    ReferenceDeployment::setupTopology(state);
 
     if (state.autoStart) {
         const bool ok = DoomSubtopology::doom.forceStart();
@@ -90,9 +90,9 @@ int main(int argc, char* argv[]) {
     // ~70 Hz base timer (14286 us per tick). The rate-group dividers
     // (2 / 7 / 70) then produce 35 Hz / 10 Hz / 1 Hz rate groups; DOOM
     // runs on the 35 Hz group, matching its native cadence.
-    FprimeStressReference::startRateGroups(Fw::TimeInterval(0, 14286));
+    ReferenceDeployment::startRateGroups(Fw::TimeInterval(0, 14286));
 
-    FprimeStressReference::teardownTopology(state);
+    ReferenceDeployment::teardownTopology(state);
     Fw::Logger::log("Exiting...\n");
     return 0;
 }

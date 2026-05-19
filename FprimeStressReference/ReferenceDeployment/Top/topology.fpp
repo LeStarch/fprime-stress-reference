@@ -1,4 +1,4 @@
-module FprimeStressReference {
+module ReferenceDeployment {
 
   # ----------------------------------------------------------------------
   # Symbolic constants for port numbers
@@ -10,7 +10,7 @@ module FprimeStressReference {
     rateGroup3
   }
 
-  topology FprimeStressReference {
+  topology ReferenceDeployment {
     # ----------------------------------------------------------------------
     # Subtopology instances - the DOOM subsystem and the standard
     # F Prime services are each absorbed in a single declaration.
@@ -56,7 +56,7 @@ module FprimeStressReference {
     # Telemetry packets
     # ----------------------------------------------------------------------
 
-    include "FprimeStressReferencePackets.fppi"
+    include "ReferenceDeploymentPackets.fppi"
 
     # ----------------------------------------------------------------------
     # Direct graph specifiers
@@ -127,5 +127,5 @@ module FprimeStressReference {
       FileHandling.Subtopology.fileUplinkBufferSendOut -> ComCcsds.Subtopology.fileUplinkReturnIn
     }
 
-  } # end topology FprimeStressReference
-} # end module FprimeStressReference
+  } # end topology ReferenceDeployment
+} # end module ReferenceDeployment

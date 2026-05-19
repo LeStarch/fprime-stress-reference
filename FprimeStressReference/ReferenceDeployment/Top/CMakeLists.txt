@@ -1,5 +1,5 @@
 ####
-# Top: deployment topology module for the FprimeStressReference
+# Top: deployment topology module for the ReferenceDeployment
 # deployment.
 ####
 add_compile_options(
@@ -7,12 +7,11 @@ add_compile_options(
 )
 
 register_fprime_module(
-    FprimeStressReference_Top
     AUTOCODER_INPUTS
         "${CMAKE_CURRENT_LIST_DIR}/instances.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/topology.fpp"
     SOURCES
-        "${CMAKE_CURRENT_LIST_DIR}/FprimeStressReferenceTopology.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/ReferenceDeploymentTopology.cpp"
     DEPENDS
         Fw_Logger
         Svc_PosixTime

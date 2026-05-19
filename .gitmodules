@@ -1,0 +1,6 @@
+[submodule "lib/fprime"]
+	path = lib/fprime
+	url = https://github.com/nasa/fprime.git
+[submodule "lib/fprime-stress"]
+	path = lib/fprime-stress
+	url = https://github.com/JPL-Devin/fprime-stress.git
