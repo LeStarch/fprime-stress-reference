@@ -8,7 +8,10 @@
 //                GDS uplink/downlink (default: no TCP comm).
 //   -p port      TCP port (default: 0 - disables TCP).
 //   -w wadPath   Path to the IWAD file passed to doomgeneric_Create.
-//                If omitted, DOOM uses its own auto-search heuristics.
+//                Defaults to `../data/doom1.wad`, which matches the path
+//                `fprime-util run` lands the WAD at when the deployment
+//                is built and `fprime-get-doom` is run from the project
+//                root with no arguments.
 //   -S           Auto-start the engine immediately. By default, Start
 //                must be dispatched as a command from the GDS.
 // ======================================================================
@@ -26,14 +29,21 @@
 
 namespace {
 
+// Default WAD path assumes the binary is launched from inside its
+// install bin directory: build-artifacts/<platform>/<dep>/bin/.
+// From there `../data/doom1.wad` resolves to the sibling
+// build-artifacts/<platform>/<dep>/data/doom1.wad, which is also
+// where `fprime-get-doom` writes the WAD by default.
+constexpr const char* DEFAULT_WAD_PATH = "../data/doom1.wad";
+
 void printUsage(const char* app) {
     Fw::Logger::log(
         "Usage: %s [-a hostname] [-p port] [-w wad_path] [-S]\n"
         "    -a hostname  TCP hostname for GDS uplink/downlink\n"
         "    -p port      TCP port for GDS uplink/downlink\n"
-        "    -w wad_path  Path to the DOOM IWAD file\n"
+        "    -w wad_path  Path to the DOOM IWAD file (default: %s)\n"
         "    -S           Auto-start the DOOM engine on boot\n",
-        app);
+        app, DEFAULT_WAD_PATH);
 }
 
 void signalHandler(int /*signum*/) {
@@ -48,7 +58,7 @@ int main(int argc, char* argv[]) {
     ReferenceDeployment::TopologyState state{};
     state.hostname = nullptr;
     state.port = 0U;
-    state.wadPath = "";
+    state.wadPath = DEFAULT_WAD_PATH;
     state.autoStart = false;
 
     I32 option = 0;

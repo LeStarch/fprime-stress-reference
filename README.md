@@ -59,22 +59,14 @@ git submodule update --init --recursive
 python3 -m venv fprime-venv
 . fprime-venv/bin/activate
 pip install -U pip
-pip install -r requirements.txt
+pip install --pre -r requirements.txt
 ```
 
-This pulls in F Prime's own requirements (fprime-tools, fprime-gds,
-fprime-fpp) and installs the `fprime-get-doom` CLI from
-`lib/fprime-stress/tools/fprime-get-doom`.
-
-### Fetch the shareware DOOM WAD
-
-```sh
-fprime-get-doom -o doom1.wad
-```
-
-`doom1.wad` is the freely-distributable shareware demo from
-id Software. See the `lib/fprime-stress` README for the licensing
-discussion.
+The `--pre` flag is required because `requirements.txt` pins
+`fprime-gds==4.2.2a1` (alpha release) for the polling-loop throughput
+improvements the 35 Hz x 80-chunk-per-frame DOOM stream depends on.
+The install also pulls F Prime's own requirements and the
+`fprime-get-doom` CLI from `lib/fprime-stress/tools/fprime-get-doom`.
 
 ### Build the deployment
 
@@ -83,6 +75,21 @@ cd FprimeStressReference/ReferenceDeployment
 fprime-util generate
 fprime-util build
 ```
+
+### Fetch the shareware DOOM WAD
+
+```sh
+fprime-get-doom   # auto-discovers build-artifacts/, lands in data/
+```
+
+With no arguments, `fprime-get-doom` writes to
+`build-artifacts/<platform>/<deployment>/data/doom1.wad`. That is
+also the path the deployment binary's default `-w` flag resolves to
+(`../data/doom1.wad` relative to the binary's `bin/` dir), so a
+no-flag launch from inside `build-artifacts/.../bin/` just works.
+`doom1.wad` is the freely-distributable shareware demo from
+id Software. See the `lib/fprime-stress` README for the licensing
+discussion.
 
 ### Cross-compile
 
@@ -100,14 +107,33 @@ fprime-util build    arm-hf-linux
 ### Run
 
 ```sh
-# From the project root:
-./build-fprime-automatic-native/bin/Linux/FprimeStressReference_ReferenceDeployment \
-    -a 127.0.0.1 -p 50000 -w doom1.wad
+# From inside the deployment's bin/ dir so -w defaults work:
+cd build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/bin
+./FprimeStressReference_ReferenceDeployment -a 127.0.0.1 -p 50100 -S
 ```
 
-Then point `fprime-gds` at the deployment and load the
-`doom-display` JS plugin from `lib/fprime-stress/gds-plugin/` to see
-DOOM render in the GDS dashboard.
+### Install the GDS plugin and start the GDS
+
+```sh
+# From the project root, one-shot install:
+lib/fprime-stress/gds-plugin/install.sh
+```
+
+`install.sh` copies the `doom-display` Vue addon into the active
+fprime-gds package, registers it in `enabled.js`, and flips
+`config.enableDashboards = true` so the Dashboard tab actually renders.
+The shipped `fprime-gds.yml` at the project root sets the GUI/IP/TTS
+ports so a plain `fprime-gds` invocation just works:
+
+```sh
+fprime-gds
+```
+
+With the GDS open, click **Dashboard** in the nav, then
+**Upload Dashboard File**, and select
+`lib/fprime-stress/gds-plugin/dashboard.xml`. The DOOM panel
+appears and starts rendering frames as soon as the deployment binary
+is sending telemetry.
 
 ## License
 

@@ -5,3 +5,9 @@
 # that ships inside the fprime-stress library.
 -r ./lib/fprime/requirements.txt
 ./lib/fprime-stress/tools/fprime-get-doom
+
+# Pin to the fprime-gds 4.2.2a1 alpha for the throughput / latency
+# improvements that the 35 Hz x 80-chunk-per-frame DOOM stream relies on.
+# Overrides the 4.2.1 pin from lib/fprime/requirements.txt. Requires the
+# `--pre` flag at install time: `pip install --pre -r requirements.txt`.
+fprime-gds==4.2.2a1
