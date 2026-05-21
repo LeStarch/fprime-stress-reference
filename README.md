@@ -40,40 +40,34 @@ component itself is sourced from `lib/fprime-stress`.
 
 ## Getting Started
 
-### Clone with submodules
+### Clone and bootstrap
 
 ```sh
-git clone --recursive https://github.com/JPL-Devin/fprime-stress-reference.git
+pip install fprime-bootstrap
+fprime-bootstrap clone https://github.com/JPL-Devin/fprime-stress-reference.git
 cd fprime-stress-reference
-```
-
-If you already cloned without `--recursive`:
-
-```sh
-git submodule update --init --recursive
-```
-
-### Set up the Python environment
-
-```sh
-python3 -m venv fprime-venv
 . fprime-venv/bin/activate
-pip install -U pip
-pip install --pre -r requirements.txt
 ```
 
-The `--pre` flag is required because `requirements.txt` pins
-`fprime-gds==4.2.2a1` (alpha release) for the polling-loop throughput
-improvements the 35 Hz x 80-chunk-per-frame DOOM stream depends on.
-The install also pulls F Prime's own requirements and the
-`fprime-get-doom` CLI from `lib/fprime-stress/tools/fprime-get-doom`.
+`fprime-bootstrap clone` recurses submodules, creates `fprime-venv/`,
+and installs `requirements.txt` (F Prime framework deps + the
+`fprime-get-doom` CLI from `lib/fprime-stress/tools/fprime-get-doom`).
+
+### Upgrade to the fprime-gds alpha
+
+The 35 Hz x 80-chunk-per-frame DOOM downlink depends on throughput /
+latency improvements that only ship in the alpha release. Bump
+`fprime-gds` past the framework's `==4.2.1` pin once:
+
+```sh
+pip install --pre -U fprime-gds
+```
 
 ### Build the deployment
 
 ```sh
-cd FprimeStressReference/ReferenceDeployment
-fprime-util generate
-fprime-util build
+fprime-util generate FprimeStressReference/ReferenceDeployment
+fprime-util build    FprimeStressReference/ReferenceDeployment
 ```
 
 ### Fetch the shareware DOOM WAD
@@ -106,23 +100,21 @@ fprime-util generate arm-hf-linux
 fprime-util build    arm-hf-linux
 ```
 
-### Run
-
-```sh
-# From the project root - the default -w is rooted here.
-./build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/bin/FprimeStressReference_ReferenceDeployment \
-    -a 127.0.0.1 -p 50100 -S
-```
-
-For cross-compiled deployments or runs from a different working
-directory, override the WAD path explicitly with `-w`.
-
 ### Install the GDS plugin and start the GDS
 
 ```sh
-# From the project root, one-shot install:
+# From the project root, one-shot install of the doom-display addon:
 lib/fprime-stress/gds-plugin/install.sh
+
+# Start the GDS - it auto-launches the FSW binary, opens the GUI on
+# http://127.0.0.1:5001, and loads the project-local fprime-gds.yml
+# which turns on the Dashboard tab and the doom-display addon.
+fprime-gds -d FprimeStressReference/ReferenceDeployment
 ```
+
+For cross-compiled deployments or runs from a different working
+directory, override the WAD path explicitly with `-w` on the binary
+or pass `--app <path>` to fprime-gds.
 
 `install.sh` copies the `doom-display` Vue addon into the active
 fprime-gds package and registers it in `enabled.js`. The dashboards

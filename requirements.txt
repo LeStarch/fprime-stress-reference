@@ -3,11 +3,15 @@
 # Pulls in the F Prime framework's own requirements (fprime-tools,
 # fprime-gds, fprime-fpp, ...), then layers on the DOOM-fetch CLI
 # that ships inside the fprime-stress library.
+#
+# Note: the 35 Hz x 80-chunk-per-frame DOOM downlink relies on
+# throughput / latency improvements only present in the fprime-gds
+# alpha. After this file is installed, upgrade fprime-gds with:
+#
+#     pip install --pre -U fprime-gds
+#
+# That step lives outside this file because lib/fprime/requirements.txt
+# exact-pins fprime-gds==4.2.1 and pip's resolver rejects mixing an
+# exact pin with an override in the same install pass.
 -r ./lib/fprime/requirements.txt
 ./lib/fprime-stress/tools/fprime-get-doom
-
-# Pin to the fprime-gds 4.2.2a1 alpha for the throughput / latency
-# improvements that the 35 Hz x 80-chunk-per-frame DOOM stream relies on.
-# Overrides the 4.2.1 pin from lib/fprime/requirements.txt. Requires the
-# `--pre` flag at install time: `pip install --pre -r requirements.txt`.
-fprime-gds==4.2.2a1

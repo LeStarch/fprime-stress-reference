@@ -18,10 +18,6 @@
 #     lib/fprime-stress/gds-plugin/dashboard.xml
 
 command-line-options:
-    # Suppress the auto-launched flight-software companion app
-    # (fprime-gds normally tries to start the deployment binary; we
-    # launch the binary ourselves so the GDS sees a live downlink).
-    no-app:
     # ZMQ network layer off - we use the IP-comm path against the
     # deployment binary directly.
     no-zmq:
