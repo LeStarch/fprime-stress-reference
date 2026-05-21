@@ -66,11 +66,12 @@ pip install --pre -U fprime-gds
 ### Build the deployment
 
 ```sh
-cd FprimeStressReference/ReferenceDeployment
 fprime-util generate
 fprime-util build
-cd ../..
 ```
+
+Run from the project root; `fprime-util` discovers the deployment via
+`settings.ini`.
 
 ### Fetch the shareware DOOM WAD
 

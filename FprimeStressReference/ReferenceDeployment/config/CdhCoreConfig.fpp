@@ -5,7 +5,13 @@ module CdhCoreConfig {
     constant BASE_ID = 0x01000000
 
     module QueueSizes {
-        constant cmdDisp     = 10
+        # GDS sends a burst of registration / parameter-restore
+        # commands the instant comm comes up. The upstream default
+        # depth of 10 is shallower than that burst, so the second
+        # the deployment connects with comm under load it FATALs
+        # with Os::Queue::FULL. 256 leaves headroom for the burst
+        # plus the routine key-event cadence.
+        constant cmdDisp     = 256
         constant events      = 10
         # The 35 Hz schedIn on DoomEngine emits 80 FrameChunk writes
         # per cycle. The upstream default depth of 10 drops 70 of
