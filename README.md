@@ -66,8 +66,10 @@ pip install --pre -U fprime-gds
 ### Build the deployment
 
 ```sh
-fprime-util generate FprimeStressReference/ReferenceDeployment
-fprime-util build    FprimeStressReference/ReferenceDeployment
+cd FprimeStressReference/ReferenceDeployment
+fprime-util generate
+fprime-util build
+cd ../..
 ```
 
 ### Fetch the shareware DOOM WAD

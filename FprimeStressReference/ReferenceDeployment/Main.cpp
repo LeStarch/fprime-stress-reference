@@ -27,22 +27,41 @@
 #include <cstdlib>
 #include <getopt.h>
 #include <signal.h>
+#include <sys/stat.h>
 
 namespace {
 
-// Default WAD path is rooted at the project directory so the binary
-// works identically whether it is launched manually from the project
-// root or auto-launched by `fprime-gds`. fprime-gds currently inherits
-// the operator's working directory when spawning the FSW binary (see
-// https://github.com/nasa/fprime/issues/5185), so a `bin/`-relative
-// default (e.g. `../data/doom1.wad`) breaks under the GDS-launch path.
-//
-// The path below matches the location `fprime-get-doom` lands the WAD
-// at with no arguments for the native (host Linux) build. Cross-compile
-// deployments and operators running from a different CWD should pass
-// an explicit `-w` to override.
+// fprime-gds inherits the operator's working directory when spawning
+// the FSW binary (see https://github.com/nasa/fprime/issues/5185),
+// so a `bin/`-relative default (e.g. `../data/doom1.wad`) breaks
+// under the GDS-launch path. The default path search below covers
+// the conventional WAD locations whether the binary is launched from
+// the project root (GDS auto-launch), from inside its own `bin/` dir
+// (`fprime-util run`), or after a fresh `fprime-get-doom` run that
+// landed the WAD at the project root because no build-artifacts
+// directory existed yet.
 constexpr const char* DEFAULT_WAD_PATH =
     "./build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/data/doom1.wad";
+
+constexpr const char* WAD_PATH_CANDIDATES[] = {
+    "./build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/data/doom1.wad",
+    "./doom1.wad",
+    "../data/doom1.wad",
+};
+
+bool fileExists(const char* path) {
+    struct stat info;
+    return path != nullptr && ::stat(path, &info) == 0 && S_ISREG(info.st_mode);
+}
+
+const char* resolveDefaultWadPath() {
+    for (const char* candidate : WAD_PATH_CANDIDATES) {
+        if (fileExists(candidate)) {
+            return candidate;
+        }
+    }
+    return DEFAULT_WAD_PATH;
+}
 
 void printUsage(const char* app) {
     Fw::Logger::log(
@@ -66,7 +85,7 @@ int main(int argc, char* argv[]) {
     ReferenceDeployment::TopologyState state{};
     state.hostname = nullptr;
     state.port = 0U;
-    state.wadPath = DEFAULT_WAD_PATH;
+    state.wadPath = resolveDefaultWadPath();
     state.autoStart = false;
 
     I32 option = 0;
