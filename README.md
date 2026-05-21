@@ -84,9 +84,11 @@ fprime-get-doom   # auto-discovers build-artifacts/, lands in data/
 
 With no arguments, `fprime-get-doom` writes to
 `build-artifacts/<platform>/<deployment>/data/doom1.wad`. That is
-also the path the deployment binary's default `-w` flag resolves to
-(`../data/doom1.wad` relative to the binary's `bin/` dir), so a
-no-flag launch from inside `build-artifacts/.../bin/` just works.
+also the deployment binary's default `-w` flag, rooted at the
+project directory so the binary behaves the same whether it's
+launched manually from the project root or auto-launched by
+`fprime-gds` (which inherits the operator's working directory; see
+https://github.com/nasa/fprime/issues/5185 for the upstream fix).
 `doom1.wad` is the freely-distributable shareware demo from
 id Software. See the `lib/fprime-stress` README for the licensing
 discussion.
@@ -107,10 +109,13 @@ fprime-util build    arm-hf-linux
 ### Run
 
 ```sh
-# From inside the deployment's bin/ dir so -w defaults work:
-cd build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/bin
-./FprimeStressReference_ReferenceDeployment -a 127.0.0.1 -p 50100 -S
+# From the project root - the default -w is rooted here.
+./build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/bin/FprimeStressReference_ReferenceDeployment \
+    -a 127.0.0.1 -p 50100 -S
 ```
+
+For cross-compiled deployments or runs from a different working
+directory, override the WAD path explicitly with `-w`.
 
 ### Install the GDS plugin and start the GDS
 

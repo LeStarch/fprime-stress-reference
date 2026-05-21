@@ -8,10 +8,11 @@
 //                GDS uplink/downlink (default: no TCP comm).
 //   -p port      TCP port (default: 0 - disables TCP).
 //   -w wadPath   Path to the IWAD file passed to doomgeneric_Create.
-//                Defaults to `../data/doom1.wad`, which matches the path
-//                `fprime-util run` lands the WAD at when the deployment
-//                is built and `fprime-get-doom` is run from the project
-//                root with no arguments.
+//                Defaults to the conventional native-build WAD location,
+//                rooted at the project directory so the binary works
+//                identically whether it is launched manually from the
+//                project root or auto-launched by `fprime-gds`. See the
+//                DEFAULT_WAD_PATH comment below.
 //   -S           Auto-start the engine immediately. By default, Start
 //                must be dispatched as a command from the GDS.
 // ======================================================================
@@ -29,12 +30,19 @@
 
 namespace {
 
-// Default WAD path assumes the binary is launched from inside its
-// install bin directory: build-artifacts/<platform>/<dep>/bin/.
-// From there `../data/doom1.wad` resolves to the sibling
-// build-artifacts/<platform>/<dep>/data/doom1.wad, which is also
-// where `fprime-get-doom` writes the WAD by default.
-constexpr const char* DEFAULT_WAD_PATH = "../data/doom1.wad";
+// Default WAD path is rooted at the project directory so the binary
+// works identically whether it is launched manually from the project
+// root or auto-launched by `fprime-gds`. fprime-gds currently inherits
+// the operator's working directory when spawning the FSW binary (see
+// https://github.com/nasa/fprime/issues/5185), so a `bin/`-relative
+// default (e.g. `../data/doom1.wad`) breaks under the GDS-launch path.
+//
+// The path below matches the location `fprime-get-doom` lands the WAD
+// at with no arguments for the native (host Linux) build. Cross-compile
+// deployments and operators running from a different CWD should pass
+// an explicit `-w` to override.
+constexpr const char* DEFAULT_WAD_PATH =
+    "./build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/data/doom1.wad";
 
 void printUsage(const char* app) {
     Fw::Logger::log(
