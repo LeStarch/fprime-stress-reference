@@ -9,6 +9,7 @@
 // ======================================================================
 #include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopologyAc.hpp"
 
+#include <Fw/Logger/Logger.hpp>
 #include <Fw/Types/MallocAllocator.hpp>
 
 namespace {
@@ -21,7 +22,7 @@ constexpr FwTaskPriorityType COMM_PRIORITY = 34;
 // init-time allocation. The framework-provided Fw::MallocAllocator
 // implements that pattern; BufferManager is reserved for truly
 // unpredictable runtime allocations (see the DoomSubtopology).
-static Fw::MallocAllocator s_cmdSeqAllocator;
+Fw::MallocAllocator s_cmdSeqAllocator;
 
 // The deployment divides the incoming ~70 Hz timer into:
 //   rateGroup1 = 70 / 2  = 35 Hz (drives DOOM via DoomSubtopology.schedIn)
@@ -29,11 +30,11 @@ static Fw::MallocAllocator s_cmdSeqAllocator;
 //   rateGroup3 = 70 / 70 = 1 Hz  (long-cycle housekeeping, healthRun)
 // 35 Hz is DOOM's native gameplay cadence: a tick on rateGroup1 maps
 // 1:1 to one DOOM game frame and one full FrameOut burst.
-static Svc::RateGroupDriver::DividerSet s_rateGroupDivisorsSet{{{2, 0}, {7, 0}, {70, 0}}};
+Svc::RateGroupDriver::DividerSet s_rateGroupDivisorsSet{{{2, 0}, {7, 0}, {70, 0}}};
 
-static U32 s_rateGroup1Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
-static U32 s_rateGroup2Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
-static U32 s_rateGroup3Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
+U32 s_rateGroup1Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
+U32 s_rateGroup2Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
+U32 s_rateGroup3Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
 
 void configureTopology(const ReferenceDeployment::TopologyState& state) {
     using namespace ReferenceDeployment;
@@ -66,7 +67,10 @@ void setupTopology(const TopologyState& state) {
     regCommands();
     configComponents(state);
     if (commEnabled) {
-        comDriver.configure(state.hostname, state.port);
+        const Drv::SocketIpStatus status = comDriver.configure(state.hostname, state.port);
+        if (status != Drv::SOCK_SUCCESS) {
+            Fw::Logger::log("comDriver.configure failed: %d\n", static_cast<I32>(status));
+        }
     }
     configureTopology(state);
     loadParameters();

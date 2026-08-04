@@ -71,14 +71,14 @@ void printUsage(const char* app) {
     Fw::Logger::log(
         "Usage: %s [-a hostname] [-p port] [-w wad_path] [-S]\n"
         "    -a hostname  TCP hostname for GDS uplink/downlink\n"
-        "    -p port      TCP port for GDS uplink/downlink\n"
+        "    -p port      TCP port for GDS uplink/downlink (0 disables TCP; default 0)\n"
         "    -w wad_path  Path to the DOOM IWAD file (default: %s)\n"
         "    -S           Auto-start the DOOM engine on boot\n",
         app, DEFAULT_WAD_PATH);
 }
 
-// Parse a decimal TCP port in 0..65535 (0 disables TCP, matching the
-// usage text). Returns true on success.
+// Parse a decimal TCP port in 0..65535 (0 disables TCP). Returns
+// true on success.
 bool parsePort(const char* text, U16& portOut) {
     if ((text == nullptr) || (text[0] == '\0')) {
         return false;
@@ -107,9 +107,11 @@ void* signalWaiter(void* /*arg*/) {
     sigset_t set;
     buildShutdownSigset(set);
     int sig = 0;
-    // Retry transient sigwait failures (e.g. EINTR) so the process
-    // always remains stoppable by SIGINT/SIGTERM.
+    // sigwait's only documented failure (EINVAL) is permanent; sleep
+    // between retries so a broken waiter cannot busy-spin a core while
+    // the process stays stoppable via SIGKILL.
     while (::sigwait(&set, &sig) != 0) {
+        Os::Task::delay(Fw::TimeInterval(1, 0));
     }
     ReferenceDeployment::stopRateGroups();
     return nullptr;
@@ -183,6 +185,8 @@ int main(int argc, char* argv[]) {
     ReferenceDeployment::startRateGroups(Fw::TimeInterval(0, 14286));
 
     ReferenceDeployment::teardownTopology(state);
+    // sigwait is a POSIX cancellation point, so a waiter still blocked
+    // in it (normal-exit path, no signal delivered) terminates here.
     (void)::pthread_cancel(signalThread);
     (void)::pthread_join(signalThread, nullptr);
     Fw::Logger::log("Exiting...\n");
