@@ -69,17 +69,16 @@ module ReferenceDeployment {
 
       # Rate group 1 - 35 Hz, DOOM's native gameplay cadence. One tick
       # = one doomgeneric_Tick = one full FrameOut burst.
-      # rateGroup1 is configured by the deployment's main entrypoint.
+      # rateGroup1 is configured in ReferenceDeploymentTopology.cpp.
       rateGroupDriverComp.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1Comp.CycleIn
       rateGroup1Comp.RateGroupMemberOut[0] -> DoomSubtopology.Subtopology.schedIn
       rateGroup1Comp.RateGroupMemberOut[1] -> CdhCore.Subtopology.tlmSendRun
       rateGroup1Comp.RateGroupMemberOut[2] -> FileHandling.Subtopology.fileDownlinkRun
-      rateGroup1Comp.RateGroupMemberOut[3] -> systemResources.run
-      rateGroup1Comp.RateGroupMemberOut[4] -> ComCcsds.Subtopology.comQueueRun
-      rateGroup1Comp.RateGroupMemberOut[5] -> CdhCore.Subtopology.cmdDispRun
-      rateGroup1Comp.RateGroupMemberOut[6] -> ComCcsds.Subtopology.aggregatorTimeout
+      rateGroup1Comp.RateGroupMemberOut[3] -> ComCcsds.Subtopology.comQueueRun
+      rateGroup1Comp.RateGroupMemberOut[4] -> CdhCore.Subtopology.cmdDispRun
+      rateGroup1Comp.RateGroupMemberOut[5] -> ComCcsds.Subtopology.aggregatorTimeout
 
-      # Rate group 2 - sequencer driver
+      # Rate group 2 - sequencer pacing and file-manager housekeeping
       rateGroupDriverComp.CycleOut[Ports_RateGroups.rateGroup2] -> rateGroup2Comp.CycleIn
       rateGroup2Comp.RateGroupMemberOut[0] -> cmdSeq.schedIn
       rateGroup2Comp.RateGroupMemberOut[1] -> FileHandling.Subtopology.fileManagerSchedIn
@@ -89,6 +88,9 @@ module ReferenceDeployment {
       rateGroup3Comp.RateGroupMemberOut[0] -> CdhCore.Subtopology.healthRun
       rateGroup3Comp.RateGroupMemberOut[1] -> ComCcsds.Subtopology.bufferManagerSchedIn
       rateGroup3Comp.RateGroupMemberOut[2] -> DoomSubtopology.Subtopology.bufferManagerSchedIn
+      # /proc-scraping housekeeping belongs on the 1 Hz group, not the
+      # deadline-sensitive 35 Hz DOOM group.
+      rateGroup3Comp.RateGroupMemberOut[3] -> systemResources.run
     }
 
     connections Communications {

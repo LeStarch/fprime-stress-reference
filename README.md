@@ -21,6 +21,7 @@ fprime-stress-reference/
 ├── LICENSE                         # GPLv2 (combined-work license, see notes)
 ├── requirements.txt                # F Prime deps + fprime-get-doom CLI
 ├── settings.ini                    # framework_path / library_locations
+├── fprime-gds.yml                  # project-local fprime-gds defaults
 ├── .gitmodules
 ├── lib/
 │   ├── fprime/                     # F Prime framework  (git submodule)
@@ -57,10 +58,11 @@ and installs `requirements.txt` (F Prime framework deps + the
 
 The 35 Hz x 80-chunk-per-frame DOOM downlink depends on throughput /
 latency improvements that only ship in the alpha release. Bump
-`fprime-gds` past the framework's `==4.2.1` pin once:
+`fprime-gds` past the framework's `==4.2.1` pin once (pinned to the
+tested alpha for reproducibility):
 
 ```sh
-pip install --pre -U fprime-gds
+pip install fprime-gds==4.2.2a4
 ```
 
 ### Build the deployment
@@ -80,10 +82,11 @@ fprime-get-doom   # auto-discovers build-artifacts/, lands in data/
 ```
 
 With no arguments, `fprime-get-doom` writes to
-`build-artifacts/<platform>/<deployment>/data/doom1.wad`. That is
-also the deployment binary's default `-w` flag, rooted at the
-project directory so the binary behaves the same whether it's
-launched manually from the project root or auto-launched by
+`build-artifacts/<platform>/<deployment>/data/doom1.wad`. When `-w`
+is not given, the binary searches a small list of candidate WAD
+locations (the project-rooted build-artifacts path, `./doom1.wad`,
+then `../data/doom1.wad`) so it behaves the same whether
+it's launched manually from the project root or auto-launched by
 `fprime-gds` (which inherits the operator's working directory; see
 https://github.com/nasa/fprime/issues/5185 for the upstream fix).
 `doom1.wad` is the freely-distributable shareware demo from
@@ -111,7 +114,8 @@ lib/fprime-stress/gds-plugin/install.sh
 
 # Start the GDS - it auto-launches the FSW binary, opens the GUI on
 # http://127.0.0.1:5001, and loads the project-local fprime-gds.yml
-# which turns on the Dashboard tab and the doom-display addon.
+# which turns on the Dashboard tab (the doom-display addon itself is
+# registered by install.sh above).
 fprime-gds -d FprimeStressReference/ReferenceDeployment
 ```
 
@@ -133,9 +137,11 @@ fprime-gds
 
 With the GDS open, click **Dashboard** in the nav, then
 **Upload Dashboard File**, and select
-`lib/fprime-stress/gds-plugin/dashboard.xml`. The DOOM panel
-appears and starts rendering frames as soon as the deployment binary
-is sending telemetry.
+`lib/fprime-stress/gds-plugin/dashboard.xml`. Then dispatch the
+`DoomSubtopology.doom.Start` command from the GDS **Commanding**
+tab — the engine does not start on its own — or launch the binary
+with `-S` to auto-start it. The DOOM panel begins rendering frames
+once the engine is started.
 
 ## License
 

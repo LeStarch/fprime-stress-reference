@@ -4,7 +4,9 @@ module ReferenceDeployment {
   # Base ID Convention
   # ----------------------------------------------------------------------
   #
-  # All Base IDs follow the 8-digit hex format: 0xDSSCCxxx
+  # The main-topology instances below follow the 8-digit hex format:
+  # 0xDSSCCxxx (subtopology BASE_IDs are pinned separately in the
+  # config overrides).
   #
   # Where:
   #   D   = Deployment digit (1-F)
@@ -23,11 +25,13 @@ module ReferenceDeployment {
   # ----------------------------------------------------------------------
 
   # rateGroup1Comp paces DOOM at 35 Hz (DOOM's native gameplay cadence)
-  # via a sync schedIn on DoomEngine. A tick that overruns its budget is
-  # surfaced through Svc.ActiveRateGroup's RateGroupCycleSlips telemetry
-  # channel. The queue is deeper than the default to absorb sustained
-  # overruns without blowing FATAL during the stress demo - the slip
-  # telemetry is still the canonical evidence of overload.
+  # via a sync schedIn on DoomEngine. CycleIn has a drop overflow
+  # policy, so a full queue sheds cycles (counted as cycle slips)
+  # rather than FATALing on CycleIn; the deep queue reduces dropped
+  # cycles during bursts. (PingIn uses the default assert policy.)
+  # Note PingIn shares this queue, so sustained backlog delays health
+  # pings - the RgCycleSlips channel remains the canonical overload
+  # evidence.
   instance rateGroup1Comp: Svc.ActiveRateGroup base id 0x10001000 \
     queue size 512 \
     stack size Default.STACK_SIZE \

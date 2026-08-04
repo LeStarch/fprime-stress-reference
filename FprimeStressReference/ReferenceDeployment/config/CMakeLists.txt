@@ -6,7 +6,8 @@
 #  - FpConstants / ComCfg / ComCcsdsConfig size the framing path
 #    around DOOM's per-frame chunk burst.
 #  - CdhCoreConfig bumps the TlmChan worker queue so the same burst
-#    is not dropped before serialisation.
+#    is not dropped before serialisation, and the cmdDisp queue to
+#    absorb the GDS connect-time command burst.
 ####
 register_fprime_config(
         stress_reference_config
