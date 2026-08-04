@@ -25,16 +25,17 @@ command-line-options:
     no-zmq:
     # GDS HTML UI on port 5001 (avoids the Flask dev default 5000).
     gui-port: 5001
-    # Bare CCSDS space packets over UDP datagrams - the deployment has
-    # no TM/TC transfer-frame layer (see Top/topology.fpp), matching
-    # the YAMCS UdpTmDataLink/UdpTcDataLink model used by fprime-yamcs.
-    # Project port convention (shared with yamcs/etc):
+    # CCSDS TM/TC transfer frames over UDP datagrams - the standard
+    # ComCcsds.Subtopology framing stack riding the Drv.Udp transport,
+    # matching the fprime-yamcs UdpTmFrameLink/UdpTcFrameLink links.
+    # SCID and TM frame size are read from the dictionary's ComCfg
+    # constants. Project port convention:
     #   50000 = ground TM listen  (FSW -p / GDS udp-recv-port)
     #   50001 = FSW TC listen     (FSW -u / GDS udp-send-port)
     # Loopback-bound: the uplink socket is unauthenticated, so it must
     # not listen on the LAN.
     communication-selection: udp
-    framing-selection: raw-space-packet
+    framing-selection: space-packet-space-data-link
     udp-address: 127.0.0.1
     udp-send-port: 50001
     udp-recv-port: 50000
