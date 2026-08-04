@@ -22,6 +22,8 @@
 #include "DoomSubtopology/SubtopologyTopologyAc.hpp"
 #include "Doom/DoomEngine.hpp"
 
+#include <config/IpCfg.hpp>
+
 #include <Fw/Logger/Logger.hpp>
 #include <Os/Os.hpp>
 #include <Os/Task.hpp>
@@ -69,7 +71,8 @@ void printUsage(const char* app) {
         "Usage: %s [-a hostname] [-p port] [-w wad_path] [-S] [-h]\n"
         "    -a hostname  TCP hostname for GDS uplink/downlink\n"
         "    -p port      TCP port for GDS uplink/downlink (0 disables TCP; default 0)\n"
-        "    -w wad_path  Path to the DOOM IWAD file (default: %s)\n"
+        "    -w wad_path  Path to the DOOM IWAD file (default: first\n"
+        "                 existing candidate near the binary, else %s)\n"
         "    -S           Auto-start the DOOM engine on boot\n"
         "    -h           Print this usage text and exit\n",
         app, DEFAULT_WAD_PATH);
@@ -132,6 +135,12 @@ int main(int argc, char* argv[]) {
     while ((option = getopt(argc, argv, "ha:p:w:S")) != -1) {
         switch (option) {
             case 'a':
+                if (::strlen(optarg) >= SOCKET_MAX_HOSTNAME_SIZE) {
+                    Fw::Logger::log("Hostname too long (max %d chars)\n",
+                                    SOCKET_MAX_HOSTNAME_SIZE - 1);
+                    printUsage(argv[0]);
+                    return 1;
+                }
                 state.hostname = optarg;
                 break;
             case 'p':
