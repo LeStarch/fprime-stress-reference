@@ -30,7 +30,7 @@ Fw::MallocAllocator s_cmdSeqAllocator;
 //   rateGroup3 = 70 / 70 = 1 Hz  (long-cycle housekeeping, healthRun)
 // 35 Hz is DOOM's native gameplay cadence: a tick on rateGroup1 maps
 // 1:1 to one DOOM game frame and one full FrameOut burst.
-Svc::RateGroupDriver::DividerSet s_rateGroupDivisorsSet{{{2, 0}, {7, 0}, {70, 0}}};
+const Svc::RateGroupDriver::DividerSet s_rateGroupDivisorsSet{{{2, 0}, {7, 0}, {70, 0}}};
 
 U32 s_rateGroup1Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
 U32 s_rateGroup2Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};

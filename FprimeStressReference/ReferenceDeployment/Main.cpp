@@ -2,7 +2,7 @@
 // \title  Main.cpp
 // \brief  Entry point for the ReferenceDeployment deployment.
 //
-//   fprime-stress-reference [-a hostname] [-p port] [-w /path/to/DOOM1.WAD] [-S]
+//   fprime-stress-reference [-a hostname] [-p port] [-w /path/to/DOOM1.WAD] [-S] [-h]
 //
 //   -a hostname  TCP host the topology should connect to for the
 //                GDS uplink/downlink (default: no TCP comm).
@@ -26,6 +26,7 @@
 #include <Os/Os.hpp>
 #include <Os/Task.hpp>
 
+#include <cctype>
 #include <cerrno>
 #include <cstdlib>
 #include <getopt.h>
@@ -35,15 +36,9 @@
 
 namespace {
 
-// fprime-gds inherits the operator's working directory when spawning
-// the FSW binary (see https://github.com/nasa/fprime/issues/5185),
-// so a `bin/`-relative default (e.g. `../data/doom1.wad`) breaks
-// under the GDS-launch path. The default path search below covers
-// the conventional WAD locations whether the binary is launched from
-// the project root (GDS auto-launch), from inside its own `bin/` dir
-// (`fprime-util run`), or after a fresh `fprime-get-doom` run that
-// landed the WAD at the project root because no build-artifacts
-// directory existed yet.
+// Default WAD search: covers launch from the project root (GDS
+// auto-launch inherits the operator's cwd - nasa/fprime#5185), from
+// bin/ (`fprime-util run`), or with the WAD at the project root.
 constexpr const char* WAD_PATH_CANDIDATES[] = {
     "./build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/data/doom1.wad",
     "./doom1.wad",
@@ -70,7 +65,7 @@ const char* resolveDefaultWadPath() {
 
 void printUsage(const char* app) {
     Fw::Logger::log(
-        "Usage: %s [-a hostname] [-p port] [-w wad_path] [-S]\n"
+        "Usage: %s [-a hostname] [-p port] [-w wad_path] [-S] [-h]\n"
         "    -a hostname  TCP hostname for GDS uplink/downlink\n"
         "    -p port      TCP port for GDS uplink/downlink (0 disables TCP; default 0)\n"
         "    -w wad_path  Path to the DOOM IWAD file (default: %s)\n"
@@ -85,9 +80,9 @@ bool parsePort(const char* text, U16& portOut) {
     if ((text == nullptr) || (text[0] == '\0')) {
         return false;
     }
-    // Reject sign characters explicitly: strtoul silently wraps
-    // negative inputs into the unsigned range.
-    if ((text[0] == '-') || (text[0] == '+')) {
+    // Require a leading digit: strtoul skips whitespace and wraps
+    // signed inputs into the unsigned range.
+    if (::isdigit(static_cast<unsigned char>(text[0])) == 0) {
         return false;
     }
     char* end = nullptr;
