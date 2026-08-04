@@ -14,8 +14,8 @@
 # requirements.txt and upgrading to the fprime-gds alpha
 # (`pip install fprime-gds==4.2.2a4`; see README). The script copies
 # the addon into the active fprime-gds package and appends an import
-# to `enabled.js`;
-# fprime-gds does not yet expose a CLI flag for out-of-tree addons.
+# to `enabled.js`; fprime-gds does not yet expose a CLI flag for
+# out-of-tree addons.
 # The Dashboard XML to upload from the browser is at:
 #     lib/fprime-stress/gds-plugin/dashboard.xml
 

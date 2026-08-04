@@ -138,9 +138,10 @@ fprime-gds
 With the GDS open, click **Dashboard** in the nav, then
 **Upload Dashboard File**, and select
 `lib/fprime-stress/gds-plugin/dashboard.xml`. Then dispatch the
-`DoomSubtopology.doom.Start` command from the GDS **Commanding** tab — the engine does
-not start on its own — or launch the binary with `-S` to auto-start
-it. The DOOM panel begins rendering frames once the engine is started.
+`DoomSubtopology.doom.Start` command from the GDS **Commanding**
+tab — the engine does not start on its own — or launch the binary
+with `-S` to auto-start it. The DOOM panel begins rendering frames
+once the engine is started.
 
 ## License
 
