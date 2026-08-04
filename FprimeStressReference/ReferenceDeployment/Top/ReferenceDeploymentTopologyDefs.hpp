@@ -61,10 +61,17 @@ enum { WARN = 3, FATAL = 5 };
 namespace ReferenceDeployment {
 
 //! Topology setup state. Wraps all the per-subtopology state pieces
-//! plus the deployment-specific knobs (TCP comm and WAD path).
+//! plus the deployment-specific knobs (UDP comm and WAD path).
 struct TopologyState {
+    //! Remote (ground) IP the downlink datagrams are sent to.
     const char* hostname = nullptr;
+    //! Remote UDP port receiving downlink (TM) datagrams.
     U16 port = 0;
+    //! Local UDP port to listen on for uplink (TC) datagrams; 0
+    //! binds an ephemeral port, effectively disabling uplink. Only
+    //! used when comms are enabled via hostname/port. Defaults to the
+    //! project convention shared with fprime-gds.yml and yamcs/etc.
+    U16 uplinkPort = 50001;
     //! Path to the DOOM IWAD file that should be passed to the engine.
     //! Must reference an existing WAD: the engine rejects a Start
     //! with no configured path (auto-search is not permitted).

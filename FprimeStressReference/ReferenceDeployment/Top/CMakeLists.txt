@@ -26,5 +26,5 @@ register_fprime_module(
         Svc_RateGroupDriver
         Svc_LinuxTimer
         Svc_SystemResources
-        Drv_TcpClient
+        Drv_Udp
 )

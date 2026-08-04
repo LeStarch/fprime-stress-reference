@@ -129,7 +129,9 @@ feature flag (`config.enableDashboards`) is not touched - that is
 flipped per-project by the `fprime-gds.yml` at the project root,
 which points the GDS at `lib/fprime-stress/gds-plugin/config.js` via
 its `flask.JS_CONFIGURATION_FILE` override. The same `fprime-gds.yml`
-also sets the GUI/IP/TTS ports, so a plain invocation just works:
+also selects the UDP transport and CCSDS framing (see
+"Communications" below) and sets the GUI/port options, so a plain
+invocation just works:
 
 ```sh
 fprime-gds
@@ -142,6 +144,35 @@ With the GDS open, click **Dashboard** in the nav, then
 tab — the engine does not start on its own — or launch the binary
 with `-S` to auto-start it. The DOOM panel begins rendering frames
 once the engine is started.
+
+## Communications: CCSDS TM/TC frames over UDP
+
+The deployment uses the standard `ComCcsds.Subtopology` framing stack
+(space packets aggregated into CCSDS TM transfer frames on downlink,
+TC frames on uplink) riding a `Drv.Udp` transport, matching the
+fprime-yamcs `UdpTmFrameLink`/`UdpTcFrameLink` links. Port
+convention (shared by `fprime-gds.yml` and the binary defaults):
+
+| Port  | Role |
+|-|-|
+| 50000 | ground TM listen (binary `-p` / GDS `udp-recv-port`) |
+| 50001 | FSW TC listen (binary `-u` / GDS `udp-send-port`) |
+
+## Run with YAMCS (fprime-yamcs)
+
+[`fprime-yamcs`](https://github.com/fprime-community/fprime-yamcs)
+launches YAMCS in lieu of the fprime-gds pipelines, converts the
+F Prime JSON dictionary to XTCE at startup, and configures its UDP
+frame links from the dictionary's `ComCfg` constants. Requires JDK +
+Maven (`mvn`) on the PATH.
+
+```sh
+pip install fprime-yamcs
+fprime-yamcs \
+    --app build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/bin/FprimeStressReference_ReferenceDeployment
+```
+
+YAMCS's web UI comes up on http://localhost:8090.
 
 ## License
 

@@ -68,11 +68,19 @@ void setupTopology(const TopologyState& state) {
     regCommands();
     configComponents(state);
     if (commEnabled) {
-        const Drv::SocketIpStatus status = comDriver.configure(state.hostname, state.port);
+        // Downlink: bare space packets, one per datagram, sent to the
+        // ground system's TM listen port.
+        Drv::SocketIpStatus status = comDriver.configureSend(state.hostname, state.port);
+        if (status == Drv::SOCK_SUCCESS) {
+            // Uplink: bind the local TC listen port. Port 0 binds an
+            // ephemeral port, effectively leaving uplink unused.
+            status = comDriver.configureRecv("0.0.0.0", state.uplinkPort,
+                                             ComCcsdsConfig::BuffMgr::commsBuffSize);
+        }
         if (status != Drv::SOCK_SUCCESS) {
             // Run without comms rather than spinning a ReceiveTask on
             // an unconfigured driver.
-            Fw::Logger::log("comDriver.configure failed (%d): running without comms\n",
+            Fw::Logger::log("comDriver configure failed (%d): running without comms\n",
                             static_cast<I32>(status));
             commEnabled = false;
         }
