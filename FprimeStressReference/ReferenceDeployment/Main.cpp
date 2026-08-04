@@ -2,11 +2,14 @@
 // \title  Main.cpp
 // \brief  Entry point for the ReferenceDeployment deployment.
 //
-//   fprime-stress-reference [-a hostname] [-p port] [-w /path/to/DOOM1.WAD] [-S] [-h]
+//   fprime-stress-reference [-a hostname] [-p port] [-u port] [-w /path/to/DOOM1.WAD] [-S] [-h]
 //
-//   -a hostname  TCP host the topology should connect to for the
-//                GDS uplink/downlink (default: no TCP comm).
-//   -p port      TCP port (default: 0 - disables TCP).
+//   -a hostname  IP the downlink (TM) datagrams are sent to, i.e. the
+//                ground system host (default: no comm).
+//   -p port      Remote UDP port receiving downlink datagrams
+//                (default: 0 - disables comm).
+//   -u port      Local UDP port to listen on for uplink (TC)
+//                datagrams (default: 50001; 0 disables uplink).
 //   -w wadPath   Path to the IWAD file passed to doomgeneric_Create.
 //                Defaults to the first existing entry among the
 //                conventional WAD locations (project build-artifacts,
@@ -68,9 +71,10 @@ const char* resolveDefaultWadPath() {
 
 void printUsage(const char* app) {
     Fw::Logger::log(
-        "Usage: %s [-a hostname] [-p port] [-w wad_path] [-S] [-h]\n"
-        "    -a hostname  TCP hostname for GDS uplink/downlink\n"
-        "    -p port      TCP port for GDS uplink/downlink (0 disables TCP; default 0)\n"
+        "Usage: %s [-a hostname] [-p port] [-u port] [-w wad_path] [-S] [-h]\n"
+        "    -a hostname  Ground system IP downlink (TM) datagrams are sent to\n"
+        "    -p port      Remote UDP port for downlink (0 disables comm; default 0)\n"
+        "    -u port      Local UDP port to listen on for uplink (0 disables uplink; default 50001)\n"
         "    -w wad_path  Path to the DOOM IWAD file (default: first\n"
         "                 existing candidate near the binary, else %s)\n"
         "    -S           Auto-start the DOOM engine on boot\n"
@@ -132,7 +136,7 @@ int main(int argc, char* argv[]) {
     state.wadPath = resolveDefaultWadPath();
 
     I32 option = 0;
-    while ((option = getopt(argc, argv, "ha:p:w:S")) != -1) {
+    while ((option = getopt(argc, argv, "ha:p:u:w:S")) != -1) {
         switch (option) {
             case 'a':
                 if (::strlen(optarg) >= SOCKET_MAX_HOSTNAME_SIZE) {
@@ -145,6 +149,13 @@ int main(int argc, char* argv[]) {
                 break;
             case 'p':
                 if (!parsePort(optarg, state.port)) {
+                    Fw::Logger::log("Invalid port '%s': expected 0-65535\n", optarg);
+                    printUsage(argv[0]);
+                    return 1;
+                }
+                break;
+            case 'u':
+                if (!parsePort(optarg, state.uplinkPort)) {
                     Fw::Logger::log("Invalid port '%s': expected 0-65535\n", optarg);
                     printUsage(argv[0]);
                     return 1;

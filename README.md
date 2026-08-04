@@ -129,7 +129,9 @@ feature flag (`config.enableDashboards`) is not touched - that is
 flipped per-project by the `fprime-gds.yml` at the project root,
 which points the GDS at `lib/fprime-stress/gds-plugin/config.js` via
 its `flask.JS_CONFIGURATION_FILE` override. The same `fprime-gds.yml`
-also sets the GUI/IP/TTS ports, so a plain invocation just works:
+also selects the UDP transport and `raw-space-packet` framing (see
+"Communications" below) and sets the GUI/port options, so a plain
+invocation just works:
 
 ```sh
 fprime-gds
@@ -142,6 +144,46 @@ With the GDS open, click **Dashboard** in the nav, then
 tab — the engine does not start on its own — or launch the binary
 with `-S` to auto-start it. The DOOM panel begins rendering frames
 once the engine is started.
+
+## Communications: bare space packets over UDP
+
+The deployment downlinks bare CCSDS space packets over UDP - the
+topology wires ComQueue -> SpacePacketFramer -> ComStub -> `Drv.Udp`
+directly, with no TM/TC transfer-frame layer. Each datagram carries
+exactly one space packet, which matches the YAMCS
+`UdpTmDataLink`/`UdpTcDataLink` packet-per-datagram model and makes
+the `FrameAccumulator`/`TcDeframer` unnecessary on uplink.
+
+Project port convention (shared by `fprime-gds.yml`, `yamcs/etc`, and
+the binary defaults):
+
+| Port  | Role |
+|-|-|
+| 50000 | ground TM listen (binary `-p` / GDS `udp-recv-port` / YAMCS `UDP_TM_IN`) |
+| 50001 | FSW TC listen (binary `-u` / GDS `udp-send-port` / YAMCS `UDP_TC_OUT`) |
+
+## Run with YAMCS (fprime-yamcs)
+
+The `yamcs/` directory is a project-local YAMCS configuration for
+[`fprime-yamcs`](https://github.com/fprime-community/fprime-yamcs),
+which launches YAMCS in lieu of the fprime-gds pipelines and converts
+the F Prime JSON dictionary to XTCE at startup. It differs from the
+fprime-yamcs default configuration in one way: the data links are the
+packet-per-datagram `UdpTmDataLink`/`UdpTcDataLink` instead of the
+CCSDS TM/TC frame links, matching the deployment's space-packet-only
+downlink. Requires JDK + Maven (`mvn`) on the PATH.
+
+```sh
+pip install fprime-yamcs
+fprime-yamcs --yamcs-config-dir yamcs \
+    --app build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/bin/FprimeStressReference_ReferenceDeployment
+```
+
+YAMCS's web UI comes up on http://localhost:8090. Note that the
+fprime-yamcs CLI's `--udp-uplink-port`/`--udp-downlink-port` options
+only rewrite the frame-link classes, so with this configuration the
+ports are fixed by `yamcs/etc/yamcs.fprime-project.yaml` (50000/50001
+per the table above).
 
 ## License
 

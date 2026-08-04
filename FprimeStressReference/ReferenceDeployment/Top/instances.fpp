@@ -64,6 +64,6 @@ module ReferenceDeployment {
 
   instance linuxTimer: Svc.LinuxTimer base id 0x10024000
 
-  instance comDriver: Drv.TcpClient base id 0x10025000
+  instance comDriver: Drv.Udp base id 0x10025000
 
 }

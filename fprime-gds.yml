@@ -20,18 +20,33 @@
 #     lib/fprime-stress/gds-plugin/dashboard.xml
 
 command-line-options:
-    # ZMQ network layer off - we use the IP-comm path against the
+    # ZMQ network layer off - we use the UDP comm path against the
     # deployment binary directly.
     no-zmq:
     # GDS HTML UI on port 5001 (avoids the Flask dev default 5000).
     gui-port: 5001
-    # IP socket the deployment binary connects to for uplink/downlink.
-    # Bound to loopback: the uplink socket is unauthenticated, so it
-    # must not listen on the LAN.
+    # Bare CCSDS space packets over UDP datagrams - the deployment has
+    # no TM/TC transfer-frame layer (see Top/topology.fpp), matching
+    # the YAMCS UdpTmDataLink/UdpTcDataLink model used by fprime-yamcs.
+    # Project port convention (shared with yamcs/etc):
+    #   50000 = ground TM listen  (FSW -p / GDS udp-recv-port)
+    #   50001 = FSW TC listen     (FSW -u / GDS udp-send-port)
+    # Loopback-bound: the uplink socket is unauthenticated, so it must
+    # not listen on the LAN.
+    communication-selection: udp
+    framing-selection: raw-space-packet
+    udp-address: 127.0.0.1
+    udp-send-port: 50001
+    udp-recv-port: 50000
+    # The GDS auto-launches the binary with `-a <ip-address> -p
+    # <ip-port>` regardless of the selected comm adapter, so these two
+    # options exist purely to shape those auto-launch arguments (the
+    # binary's -u uplink port defaults to 50001, matching
+    # udp-send-port above).
     ip-address: 127.0.0.1
-    ip-port: 50100
+    ip-port: 50000
     # Threaded TCP server (TTS) - fprime-cli command-send target.
-    # Loopback-bound for the same reason as ip-address above.
+    # Loopback-bound for the same reason as udp-address above.
     tts-addr: 127.0.0.1
     tts-port: 50101
 
