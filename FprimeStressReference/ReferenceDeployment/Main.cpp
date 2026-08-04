@@ -29,6 +29,7 @@
 #include <cctype>
 #include <cerrno>
 #include <cstdlib>
+#include <cstring>
 #include <getopt.h>
 #include <pthread.h>
 #include <signal.h>
@@ -125,10 +126,7 @@ int main(int argc, char* argv[]) {
     Os::init();
 
     ReferenceDeployment::TopologyState state{};
-    state.hostname = nullptr;
-    state.port = 0U;
     state.wadPath = resolveDefaultWadPath();
-    state.autoStart = false;
 
     I32 option = 0;
     while ((option = getopt(argc, argv, "ha:p:w:S")) != -1) {
@@ -144,16 +142,24 @@ int main(int argc, char* argv[]) {
                 }
                 break;
             case 'w':
+                if (::strlen(optarg) >= Doom::DoomEngine::WAD_PATH_MAX) {
+                    Fw::Logger::log("WAD path too long (max %" PRI_FwSizeType " chars)\n",
+                                    Doom::DoomEngine::WAD_PATH_MAX - 1);
+                    printUsage(argv[0]);
+                    return 1;
+                }
                 state.wadPath = optarg;
                 break;
             case 'S':
                 state.autoStart = true;
                 break;
             case 'h':
+                printUsage(argv[0]);
+                return 0;
             case '?':
             default:
                 printUsage(argv[0]);
-                return (option == 'h') ? 0 : 1;
+                return 1;
         }
     }
 
