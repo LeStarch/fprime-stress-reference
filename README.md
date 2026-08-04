@@ -57,10 +57,11 @@ and installs `requirements.txt` (F Prime framework deps + the
 
 The 35 Hz x 80-chunk-per-frame DOOM downlink depends on throughput /
 latency improvements that only ship in the alpha release. Bump
-`fprime-gds` past the framework's `==4.2.1` pin once:
+`fprime-gds` past the framework's `==4.2.1` pin once (pinned to the
+tested alpha for reproducibility):
 
 ```sh
-pip install --pre -U fprime-gds
+pip install fprime-gds==4.2.2a4
 ```
 
 ### Build the deployment
@@ -133,9 +134,10 @@ fprime-gds
 
 With the GDS open, click **Dashboard** in the nav, then
 **Upload Dashboard File**, and select
-`lib/fprime-stress/gds-plugin/dashboard.xml`. The DOOM panel
-appears and starts rendering frames as soon as the deployment binary
-is sending telemetry.
+`lib/fprime-stress/gds-plugin/dashboard.xml`. Then dispatch the
+`doom.Start` command from the GDS **Commanding** tab — the engine does
+not start on its own — or launch the binary with `-S` to auto-start
+it. The DOOM panel begins rendering frames once the engine is started.
 
 ## License
 

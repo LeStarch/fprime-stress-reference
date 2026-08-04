@@ -10,8 +10,9 @@
 # below, which is what flips dashboards on.
 #
 # To register the doom-display addon source itself, run
-# `lib/fprime-stress/gds-plugin/install.sh` once after `pip install
-# --pre -r requirements.txt`. The script copies the addon into the
+# `lib/fprime-stress/gds-plugin/install.sh` once after installing
+# requirements.txt and upgrading to the fprime-gds alpha
+# (`pip install fprime-gds==4.2.2a4`; see README). The script copies the addon into the
 # active fprime-gds package and appends an import to `enabled.js`;
 # fprime-gds does not yet expose a CLI flag for out-of-tree addons.
 # The Dashboard XML to upload from the browser is at:
@@ -24,6 +25,9 @@ command-line-options:
     # GDS HTML UI on port 5001 (avoids the Flask dev default 5000).
     gui-port: 5001
     # IP socket the deployment binary connects to for uplink/downlink.
+    # Bound to loopback: the uplink socket is unauthenticated, so it
+    # must not listen on the LAN.
+    ip-address: 127.0.0.1
     ip-port: 50100
     # Threaded TCP server (TTS) port - fprime-cli command-send target.
     tts-port: 50101

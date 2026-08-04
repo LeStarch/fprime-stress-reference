@@ -74,10 +74,9 @@ module ReferenceDeployment {
       rateGroup1Comp.RateGroupMemberOut[0] -> DoomSubtopology.Subtopology.schedIn
       rateGroup1Comp.RateGroupMemberOut[1] -> CdhCore.Subtopology.tlmSendRun
       rateGroup1Comp.RateGroupMemberOut[2] -> FileHandling.Subtopology.fileDownlinkRun
-      rateGroup1Comp.RateGroupMemberOut[3] -> systemResources.run
-      rateGroup1Comp.RateGroupMemberOut[4] -> ComCcsds.Subtopology.comQueueRun
-      rateGroup1Comp.RateGroupMemberOut[5] -> CdhCore.Subtopology.cmdDispRun
-      rateGroup1Comp.RateGroupMemberOut[6] -> ComCcsds.Subtopology.aggregatorTimeout
+      rateGroup1Comp.RateGroupMemberOut[3] -> ComCcsds.Subtopology.comQueueRun
+      rateGroup1Comp.RateGroupMemberOut[4] -> CdhCore.Subtopology.cmdDispRun
+      rateGroup1Comp.RateGroupMemberOut[5] -> ComCcsds.Subtopology.aggregatorTimeout
 
       # Rate group 2 - sequencer driver
       rateGroupDriverComp.CycleOut[Ports_RateGroups.rateGroup2] -> rateGroup2Comp.CycleIn
@@ -89,6 +88,9 @@ module ReferenceDeployment {
       rateGroup3Comp.RateGroupMemberOut[0] -> CdhCore.Subtopology.healthRun
       rateGroup3Comp.RateGroupMemberOut[1] -> ComCcsds.Subtopology.bufferManagerSchedIn
       rateGroup3Comp.RateGroupMemberOut[2] -> DoomSubtopology.Subtopology.bufferManagerSchedIn
+      # /proc-scraping housekeeping belongs on the 1 Hz group, not the
+      # deadline-sensitive 35 Hz DOOM group.
+      rateGroup3Comp.RateGroupMemberOut[3] -> systemResources.run
     }
 
     connections Communications {

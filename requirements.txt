@@ -6,9 +6,10 @@
 #
 # Note: the 35 Hz x 80-chunk-per-frame DOOM downlink relies on
 # throughput / latency improvements only present in the fprime-gds
-# alpha. After this file is installed, upgrade fprime-gds with:
+# alpha. After this file is installed, upgrade fprime-gds with the
+# pinned tested alpha:
 #
-#     pip install --pre -U fprime-gds
+#     pip install fprime-gds==4.2.2a4
 #
 # That step lives outside this file because lib/fprime/requirements.txt
 # exact-pins fprime-gds==4.2.1 and pip's resolver rejects mixing an

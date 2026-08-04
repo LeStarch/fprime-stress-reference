@@ -39,13 +39,14 @@ module ComCcsdsConfig {
 
     module BuffMgr {
         # DOOM telemetry: a 640x400 FrameChunk packet is up to
-        # ~3216 B pixels plus SpacePacket / framing overhead, so the
-        # framer requests buffers in the 3500-3600 B range. We round
-        # up to 4096 to match FW_COM_BUFFER_MAX_SIZE and bump the
-        # count to absorb the burst of 80 chunks emitted per frame.
+        # ~3216 B pixels plus SpacePacket / framing overhead. The
+        # comms bins must hold the framer's worst-case request of
+        # FW_COM_BUFFER_MAX_SIZE (4096) + SpacePacket header (6); size
+        # them to 4352 for margin, and bump the count to absorb the
+        # burst of 80 chunks emitted per frame.
         constant frameAccumulatorSize  = 4096
-        constant commsBuffSize         = 4096
-        constant commsFileBuffSize     = 4096
+        constant commsBuffSize         = 4352
+        constant commsFileBuffSize     = 4352
         constant commsBuffCount        = 128
         constant commsFileBuffCount    = 30
         constant commsBuffMgrId        = 200

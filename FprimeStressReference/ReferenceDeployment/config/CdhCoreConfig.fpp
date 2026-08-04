@@ -1,6 +1,6 @@
 # Project-local override of F Prime's CdhCoreConfig. Mirrors the
-# upstream defaults verbatim except for QueueSizes.tlmSend, which is
-# the only constant this deployment needs to tune.
+# upstream defaults verbatim except for QueueSizes.cmdDisp and
+# QueueSizes.tlmSend, the two constants this deployment tunes.
 module CdhCoreConfig {
     constant BASE_ID = 0x01000000
 

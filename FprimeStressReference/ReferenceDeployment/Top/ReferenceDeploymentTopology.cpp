@@ -2,7 +2,7 @@
 // \title  ReferenceDeploymentTopology.cpp
 // \brief  Topology setup / teardown implementation.
 //
-// Brings up the deployment topology: a 1/0.5/0.25 Hz rate-group split
+// Brings up the deployment topology: a 35/10/1 Hz rate-group split
 // driving the standard F Prime services plus the Doom subtopology.
 // The DoomSubtopology's `doom` instance is configured here with the
 // WAD path before the Start command is accepted.
@@ -11,10 +11,11 @@
 
 #include <Fw/Types/MallocAllocator.hpp>
 
-using namespace ReferenceDeployment;
+namespace {
 
 enum : FwSizeType {
     CMD_SEQ_POOL_BYTES = 5 * 1024,
+    COMM_PRIORITY = 34,
 };
 
 // The CmdSequencer load buffer is allocated exactly once at topology
@@ -36,11 +37,8 @@ static U32 s_rateGroup1Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
 static U32 s_rateGroup2Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
 static U32 s_rateGroup3Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
 
-enum TopologyConstants {
-    COMM_PRIORITY = 34,
-};
-
-static void configureTopology(const TopologyState& state) {
+void configureTopology(const ReferenceDeployment::TopologyState& state) {
+    using namespace ReferenceDeployment;
     rateGroupDriverComp.configure(s_rateGroupDivisorsSet);
 
     rateGroup1Comp.configure(s_rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(s_rateGroup1Context));
@@ -58,21 +56,24 @@ static void configureTopology(const TopologyState& state) {
     }
 }
 
+}  // namespace
+
 namespace ReferenceDeployment {
 
 void setupTopology(const TopologyState& state) {
+    const bool commEnabled = (state.hostname != nullptr) && (state.port != 0U);
     initComponents(state);
     setBaseIds();
     connectComponents();
     regCommands();
     configComponents(state);
-    if ((state.hostname != nullptr) && (state.port != 0U)) {
+    if (commEnabled) {
         comDriver.configure(state.hostname, state.port);
     }
     configureTopology(state);
     loadParameters();
     startTasks(state);
-    if ((state.hostname != nullptr) && (state.port != 0U)) {
+    if (commEnabled) {
         Os::TaskString commName("ReceiveTask");
         comDriver.start(commName, COMM_PRIORITY, ReferenceDeployment::Default::STACK_SIZE);
     }
@@ -91,7 +92,7 @@ void teardownTopology(const TopologyState& state) {
     freeThreads(state);
 
     comDriver.stop();
-    (void)comDriver.join();
+    (void)comDriver.join();  // Best-effort join during shutdown; failure is not actionable.
 
     cmdSeq.deallocateBuffer(s_cmdSeqAllocator);
     tearDownComponents(state);

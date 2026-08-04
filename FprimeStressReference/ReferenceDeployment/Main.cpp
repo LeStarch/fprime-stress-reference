@@ -24,8 +24,10 @@
 #include <Os/Os.hpp>
 #include <Os/Task.hpp>
 
+#include <cerrno>
 #include <cstdlib>
 #include <getopt.h>
+#include <pthread.h>
 #include <signal.h>
 #include <sys/stat.h>
 
@@ -40,17 +42,18 @@ namespace {
 // (`fprime-util run`), or after a fresh `fprime-get-doom` run that
 // landed the WAD at the project root because no build-artifacts
 // directory existed yet.
-constexpr const char* DEFAULT_WAD_PATH =
-    "./build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/data/doom1.wad";
-
 constexpr const char* WAD_PATH_CANDIDATES[] = {
     "./build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/data/doom1.wad",
     "./doom1.wad",
     "../data/doom1.wad",
 };
 
+// The conventional native-build location doubles as the fallback and
+// the usage-text default.
+constexpr const char* DEFAULT_WAD_PATH = WAD_PATH_CANDIDATES[0];
+
 bool fileExists(const char* path) {
-    struct stat info;
+    struct stat info = {};
     return path != nullptr && ::stat(path, &info) == 0 && S_ISREG(info.st_mode);
 }
 
@@ -73,8 +76,34 @@ void printUsage(const char* app) {
         app, DEFAULT_WAD_PATH);
 }
 
-void signalHandler(int /*signum*/) {
-    ReferenceDeployment::stopRateGroups();
+// Parse a decimal TCP port in 1..65535. Returns true on success.
+bool parsePort(const char* text, U16& portOut) {
+    if ((text == nullptr) || (text[0] == '\0')) {
+        return false;
+    }
+    char* end = nullptr;
+    errno = 0;
+    const unsigned long value = ::strtoul(text, &end, 10);
+    if ((errno != 0) || (end == nullptr) || (*end != '\0') || (value < 1UL) || (value > 65535UL)) {
+        return false;
+    }
+    portOut = static_cast<U16>(value);
+    return true;
+}
+
+// SIGINT/SIGTERM are blocked in every thread and consumed by this
+// dedicated waiter via sigwait, so shutdown never runs non-async-
+// signal-safe code (e.g. Os::Mutex::lock) inside a signal handler.
+void* signalWaiter(void* /*arg*/) {
+    sigset_t set;
+    (void)::sigemptyset(&set);
+    (void)::sigaddset(&set, SIGINT);
+    (void)::sigaddset(&set, SIGTERM);
+    int sig = 0;
+    if (::sigwait(&set, &sig) == 0) {
+        ReferenceDeployment::stopRateGroups();
+    }
+    return nullptr;
 }
 
 }  // namespace
@@ -95,7 +124,11 @@ int main(int argc, char* argv[]) {
                 state.hostname = optarg;
                 break;
             case 'p':
-                state.port = static_cast<U16>(atoi(optarg));
+                if (!parsePort(optarg, state.port)) {
+                    Fw::Logger::log("Invalid port '%s': expected 1-65535\n", optarg);
+                    printUsage(argv[0]);
+                    return 1;
+                }
                 break;
             case 'w':
                 state.wadPath = optarg;
@@ -111,8 +144,18 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    signal(SIGINT, signalHandler);
-    signal(SIGTERM, signalHandler);
+    // Block the shutdown signals before any thread is spawned so every
+    // thread inherits the mask and only the waiter thread consumes them.
+    sigset_t blockSet;
+    (void)::sigemptyset(&blockSet);
+    (void)::sigaddset(&blockSet, SIGINT);
+    (void)::sigaddset(&blockSet, SIGTERM);
+    (void)::pthread_sigmask(SIG_BLOCK, &blockSet, nullptr);
+    pthread_t signalThread;
+    if (::pthread_create(&signalThread, nullptr, signalWaiter, nullptr) != 0) {
+        Fw::Logger::log("Failed to create signal-waiter thread\n");
+        return 1;
+    }
 
     Fw::Logger::log("ReferenceDeployment (DOOM) starting. Ctrl-C to exit.\n");
 
@@ -130,6 +173,8 @@ int main(int argc, char* argv[]) {
     ReferenceDeployment::startRateGroups(Fw::TimeInterval(0, 14286));
 
     ReferenceDeployment::teardownTopology(state);
+    (void)::pthread_cancel(signalThread);
+    (void)::pthread_join(signalThread, nullptr);
     Fw::Logger::log("Exiting...\n");
     return 0;
 }
