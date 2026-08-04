@@ -21,6 +21,7 @@ fprime-stress-reference/
 ├── LICENSE                         # GPLv2 (combined-work license, see notes)
 ├── requirements.txt                # F Prime deps + fprime-get-doom CLI
 ├── settings.ini                    # framework_path / library_locations
+├── fprime-gds.yml                  # project-local fprime-gds defaults
 ├── .gitmodules
 ├── lib/
 │   ├── fprime/                     # F Prime framework  (git submodule)

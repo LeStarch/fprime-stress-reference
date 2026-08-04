@@ -12,8 +12,9 @@
 # To register the doom-display addon source itself, run
 # `lib/fprime-stress/gds-plugin/install.sh` once after installing
 # requirements.txt and upgrading to the fprime-gds alpha
-# (`pip install fprime-gds==4.2.2a4`; see README). The script copies the addon into the
-# active fprime-gds package and appends an import to `enabled.js`;
+# (`pip install fprime-gds==4.2.2a4`; see README). The script copies
+# the addon into the active fprime-gds package and appends an import
+# to `enabled.js`;
 # fprime-gds does not yet expose a CLI flag for out-of-tree addons.
 # The Dashboard XML to upload from the browser is at:
 #     lib/fprime-stress/gds-plugin/dashboard.xml
@@ -29,7 +30,9 @@ command-line-options:
     # must not listen on the LAN.
     ip-address: 127.0.0.1
     ip-port: 50100
-    # Threaded TCP server (TTS) port - fprime-cli command-send target.
+    # Threaded TCP server (TTS) - fprime-cli command-send target.
+    # Loopback-bound for the same reason as ip-address above.
+    tts-addr: 127.0.0.1
     tts-port: 50101
 
 flask:

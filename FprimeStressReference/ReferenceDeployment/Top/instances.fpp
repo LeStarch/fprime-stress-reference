@@ -29,7 +29,8 @@ module ReferenceDeployment {
   # policy, so a full queue sheds cycles (counted as cycle slips) and
   # never FATALs; the deep queue reduces dropped cycles during bursts.
   # Note PingIn shares this queue, so sustained backlog delays health
-  # pings - RateGroupCycleSlips remains the canonical overload evidence.
+  # pings - the RgCycleSlips channel remains the canonical overload
+  # evidence.
   instance rateGroup1Comp: Svc.ActiveRateGroup base id 0x10001000 \
     queue size 512 \
     stack size Default.STACK_SIZE \

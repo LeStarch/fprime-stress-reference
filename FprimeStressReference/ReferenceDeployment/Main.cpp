@@ -8,11 +8,12 @@
 //                GDS uplink/downlink (default: no TCP comm).
 //   -p port      TCP port (default: 0 - disables TCP).
 //   -w wadPath   Path to the IWAD file passed to doomgeneric_Create.
-//                Defaults to the conventional native-build WAD location,
-//                rooted at the project directory so the binary works
+//                Defaults to the first existing entry among the
+//                conventional WAD locations (project build-artifacts,
+//                project root, bin-relative) so the binary works
 //                identically whether it is launched manually from the
 //                project root or auto-launched by `fprime-gds`. See the
-//                DEFAULT_WAD_PATH comment below.
+//                WAD_PATH_CANDIDATES comment below.
 //   -S           Auto-start the engine immediately. By default, Start
 //                must be dispatched as a command from the GDS.
 // ======================================================================
@@ -76,7 +77,8 @@ void printUsage(const char* app) {
         app, DEFAULT_WAD_PATH);
 }
 
-// Parse a decimal TCP port in 1..65535. Returns true on success.
+// Parse a decimal TCP port in 0..65535 (0 disables TCP, matching the
+// usage text). Returns true on success.
 bool parsePort(const char* text, U16& portOut) {
     if ((text == nullptr) || (text[0] == '\0')) {
         return false;
@@ -84,11 +86,18 @@ bool parsePort(const char* text, U16& portOut) {
     char* end = nullptr;
     errno = 0;
     const unsigned long value = ::strtoul(text, &end, 10);
-    if ((errno != 0) || (end == nullptr) || (*end != '\0') || (value < 1UL) || (value > 65535UL)) {
+    if ((errno != 0) || (end == nullptr) || (*end != '\0') || (value > 65535UL)) {
         return false;
     }
     portOut = static_cast<U16>(value);
     return true;
+}
+
+// The set of signals that trigger an orderly shutdown.
+void buildShutdownSigset(sigset_t& set) {
+    (void)::sigemptyset(&set);
+    (void)::sigaddset(&set, SIGINT);
+    (void)::sigaddset(&set, SIGTERM);
 }
 
 // SIGINT/SIGTERM are blocked in every thread and consumed by this
@@ -96,13 +105,13 @@ bool parsePort(const char* text, U16& portOut) {
 // signal-safe code (e.g. Os::Mutex::lock) inside a signal handler.
 void* signalWaiter(void* /*arg*/) {
     sigset_t set;
-    (void)::sigemptyset(&set);
-    (void)::sigaddset(&set, SIGINT);
-    (void)::sigaddset(&set, SIGTERM);
+    buildShutdownSigset(set);
     int sig = 0;
-    if (::sigwait(&set, &sig) == 0) {
-        ReferenceDeployment::stopRateGroups();
+    // Retry transient sigwait failures (e.g. EINTR) so the process
+    // always remains stoppable by SIGINT/SIGTERM.
+    while (::sigwait(&set, &sig) != 0) {
     }
+    ReferenceDeployment::stopRateGroups();
     return nullptr;
 }
 
@@ -125,7 +134,7 @@ int main(int argc, char* argv[]) {
                 break;
             case 'p':
                 if (!parsePort(optarg, state.port)) {
-                    Fw::Logger::log("Invalid port '%s': expected 1-65535\n", optarg);
+                    Fw::Logger::log("Invalid port '%s': expected 0-65535\n", optarg);
                     printUsage(argv[0]);
                     return 1;
                 }
@@ -147,11 +156,12 @@ int main(int argc, char* argv[]) {
     // Block the shutdown signals before any thread is spawned so every
     // thread inherits the mask and only the waiter thread consumes them.
     sigset_t blockSet;
-    (void)::sigemptyset(&blockSet);
-    (void)::sigaddset(&blockSet, SIGINT);
-    (void)::sigaddset(&blockSet, SIGTERM);
-    (void)::pthread_sigmask(SIG_BLOCK, &blockSet, nullptr);
-    pthread_t signalThread;
+    buildShutdownSigset(blockSet);
+    if (::pthread_sigmask(SIG_BLOCK, &blockSet, nullptr) != 0) {
+        Fw::Logger::log("Failed to block shutdown signals\n");
+        return 1;
+    }
+    pthread_t signalThread{};
     if (::pthread_create(&signalThread, nullptr, signalWaiter, nullptr) != 0) {
         Fw::Logger::log("Failed to create signal-waiter thread\n");
         return 1;

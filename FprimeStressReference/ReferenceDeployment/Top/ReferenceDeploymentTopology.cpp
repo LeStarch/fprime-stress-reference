@@ -13,10 +13,8 @@
 
 namespace {
 
-enum : FwSizeType {
-    CMD_SEQ_POOL_BYTES = 5 * 1024,
-    COMM_PRIORITY = 34,
-};
+constexpr FwSizeType CMD_SEQ_POOL_BYTES = 5 * 1024;
+constexpr FwTaskPriorityType COMM_PRIORITY = 34;
 
 // The CmdSequencer load buffer is allocated exactly once at topology
 // setup and freed exactly once at teardown - it is a predictable

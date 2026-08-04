@@ -66,7 +66,7 @@ struct TopologyState {
     const char* hostname = nullptr;
     U16 port = 0;
     //! Path to the DOOM IWAD file that should be passed to the engine.
-    //! Empty string means "let DOOM auto-search".
+    //! nullptr or empty string means "let DOOM auto-search".
     const char* wadPath = nullptr;
     //! True if the engine should auto-start at topology setup time;
     //! false if the operator will dispatch the Start command manually.
