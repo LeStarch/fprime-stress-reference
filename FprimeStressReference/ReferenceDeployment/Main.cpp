@@ -111,7 +111,7 @@ void* signalWaiter(void* /*arg*/) {
     // between retries so a broken waiter cannot busy-spin a core while
     // the process stays stoppable via SIGKILL.
     while (::sigwait(&set, &sig) != 0) {
-        Os::Task::delay(Fw::TimeInterval(1, 0));
+        (void)Os::Task::delay(Fw::TimeInterval(1, 0));
     }
     ReferenceDeployment::stopRateGroups();
     return nullptr;
@@ -167,6 +167,11 @@ int main(int argc, char* argv[]) {
     if (::pthread_create(&signalThread, nullptr, signalWaiter, nullptr) != 0) {
         Fw::Logger::log("Failed to create signal-waiter thread\n");
         return 1;
+    }
+
+    // Comms requires both -a and -p; warn when only one was supplied.
+    if ((state.hostname != nullptr) != (state.port != 0U)) {
+        Fw::Logger::log("Warning: comms disabled - both -a and -p (nonzero) are required\n");
     }
 
     Fw::Logger::log("ReferenceDeployment (DOOM) starting. Ctrl-C to exit.\n");

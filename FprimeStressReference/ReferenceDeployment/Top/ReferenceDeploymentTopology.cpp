@@ -60,7 +60,7 @@ void configureTopology(const ReferenceDeployment::TopologyState& state) {
 namespace ReferenceDeployment {
 
 void setupTopology(const TopologyState& state) {
-    const bool commEnabled = (state.hostname != nullptr) && (state.port != 0U);
+    bool commEnabled = (state.hostname != nullptr) && (state.port != 0U);
     initComponents(state);
     setBaseIds();
     connectComponents();
@@ -69,7 +69,11 @@ void setupTopology(const TopologyState& state) {
     if (commEnabled) {
         const Drv::SocketIpStatus status = comDriver.configure(state.hostname, state.port);
         if (status != Drv::SOCK_SUCCESS) {
-            Fw::Logger::log("comDriver.configure failed: %d\n", static_cast<I32>(status));
+            // Run without comms rather than spinning a ReceiveTask on
+            // an unconfigured driver.
+            Fw::Logger::log("comDriver.configure failed (%d): running without comms\n",
+                            static_cast<I32>(status));
+            commEnabled = false;
         }
     }
     configureTopology(state);

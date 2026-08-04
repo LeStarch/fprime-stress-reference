@@ -82,10 +82,11 @@ fprime-get-doom   # auto-discovers build-artifacts/, lands in data/
 ```
 
 With no arguments, `fprime-get-doom` writes to
-`build-artifacts/<platform>/<deployment>/data/doom1.wad`. That is
-also the deployment binary's default `-w` flag, rooted at the
-project directory so the binary behaves the same whether it's
-launched manually from the project root or auto-launched by
+`build-artifacts/<platform>/<deployment>/data/doom1.wad`. When `-w`
+is not given, the binary searches a small list of candidate WAD
+locations (the project-rooted build-artifacts path, `./doom1.wad`,
+then `../data/doom1.wad`) so it behaves the same whether
+it's launched manually from the project root or auto-launched by
 `fprime-gds` (which inherits the operator's working directory; see
 https://github.com/nasa/fprime/issues/5185 for the upstream fix).
 `doom1.wad` is the freely-distributable shareware demo from
@@ -136,7 +137,7 @@ fprime-gds
 With the GDS open, click **Dashboard** in the nav, then
 **Upload Dashboard File**, and select
 `lib/fprime-stress/gds-plugin/dashboard.xml`. Then dispatch the
-`doom.Start` command from the GDS **Commanding** tab — the engine does
+`DoomSubtopology.doom.Start` command from the GDS **Commanding** tab — the engine does
 not start on its own — or launch the binary with `-S` to auto-start
 it. The DOOM panel begins rendering frames once the engine is started.
 
