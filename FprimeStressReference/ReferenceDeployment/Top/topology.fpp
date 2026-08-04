@@ -78,7 +78,7 @@ module ReferenceDeployment {
       rateGroup1Comp.RateGroupMemberOut[4] -> CdhCore.Subtopology.cmdDispRun
       rateGroup1Comp.RateGroupMemberOut[5] -> ComCcsds.Subtopology.aggregatorTimeout
 
-      # Rate group 2 - sequencer driver
+      # Rate group 2 - sequencer pacing and file-manager housekeeping
       rateGroupDriverComp.CycleOut[Ports_RateGroups.rateGroup2] -> rateGroup2Comp.CycleIn
       rateGroup2Comp.RateGroupMemberOut[0] -> cmdSeq.schedIn
       rateGroup2Comp.RateGroupMemberOut[1] -> FileHandling.Subtopology.fileManagerSchedIn

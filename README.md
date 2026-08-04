@@ -114,7 +114,8 @@ lib/fprime-stress/gds-plugin/install.sh
 
 # Start the GDS - it auto-launches the FSW binary, opens the GUI on
 # http://127.0.0.1:5001, and loads the project-local fprime-gds.yml
-# which turns on the Dashboard tab and the doom-display addon.
+# which turns on the Dashboard tab (the doom-display addon itself is
+# registered by install.sh above).
 fprime-gds -d FprimeStressReference/ReferenceDeployment
 ```
 

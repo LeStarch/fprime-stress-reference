@@ -16,6 +16,7 @@
 //                WAD_PATH_CANDIDATES comment below.
 //   -S           Auto-start the engine immediately. By default, Start
 //                must be dispatched as a command from the GDS.
+//   -h           Print the usage text and exit.
 // ======================================================================
 #include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopology.hpp"
 #include "DoomSubtopology/SubtopologyTopologyAc.hpp"
@@ -73,7 +74,8 @@ void printUsage(const char* app) {
         "    -a hostname  TCP hostname for GDS uplink/downlink\n"
         "    -p port      TCP port for GDS uplink/downlink (0 disables TCP; default 0)\n"
         "    -w wad_path  Path to the DOOM IWAD file (default: %s)\n"
-        "    -S           Auto-start the DOOM engine on boot\n",
+        "    -S           Auto-start the DOOM engine on boot\n"
+        "    -h           Print this usage text and exit\n",
         app, DEFAULT_WAD_PATH);
 }
 
@@ -81,6 +83,11 @@ void printUsage(const char* app) {
 // true on success.
 bool parsePort(const char* text, U16& portOut) {
     if ((text == nullptr) || (text[0] == '\0')) {
+        return false;
+    }
+    // Reject sign characters explicitly: strtoul silently wraps
+    // negative inputs into the unsigned range.
+    if ((text[0] == '-') || (text[0] == '+')) {
         return false;
     }
     char* end = nullptr;
@@ -104,7 +111,7 @@ void buildShutdownSigset(sigset_t& set) {
 // dedicated waiter via sigwait, so shutdown never runs non-async-
 // signal-safe code (e.g. Os::Mutex::lock) inside a signal handler.
 void* signalWaiter(void* /*arg*/) {
-    sigset_t set;
+    sigset_t set{};
     buildShutdownSigset(set);
     int sig = 0;
     // sigwait's only documented failure (EINVAL) is permanent; sleep
@@ -157,7 +164,7 @@ int main(int argc, char* argv[]) {
 
     // Block the shutdown signals before any thread is spawned so every
     // thread inherits the mask and only the waiter thread consumes them.
-    sigset_t blockSet;
+    sigset_t blockSet{};
     buildShutdownSigset(blockSet);
     if (::pthread_sigmask(SIG_BLOCK, &blockSet, nullptr) != 0) {
         Fw::Logger::log("Failed to block shutdown signals\n");
@@ -170,7 +177,9 @@ int main(int argc, char* argv[]) {
     }
 
     // Comms requires both -a and -p; warn when only one was supplied.
-    if ((state.hostname != nullptr) != (state.port != 0U)) {
+    const bool haveHost = (state.hostname != nullptr);
+    const bool havePort = (state.port != 0U);
+    if (haveHost != havePort) {
         Fw::Logger::log("Warning: comms disabled - both -a and -p (nonzero) are required\n");
     }
 
