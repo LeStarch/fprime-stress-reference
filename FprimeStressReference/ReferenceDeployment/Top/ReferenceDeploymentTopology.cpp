@@ -47,7 +47,8 @@ void configureTopology(const ReferenceDeployment::TopologyState& state) {
     cmdSeq.allocateBuffer(0, s_cmdSeqAllocator, CMD_SEQ_POOL_BYTES);
 
     // Push the WAD path into the doom instance owned by the
-    // DoomSubtopology. Empty string = "let DOOM auto-search".
+    // DoomSubtopology. An unset path leaves the engine unable to
+    // start (Start is rejected with WadUnavailable).
     if ((state.wadPath != nullptr) && (state.wadPath[0] != '\0')) {
         DoomSubtopology::doom.setWadPath(state.wadPath);
     } else {
