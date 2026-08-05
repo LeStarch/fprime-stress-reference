@@ -1,0 +1,17 @@
+# fprime-yamcs.yml: project-local fprime-yamcs defaults.
+#
+# fprime-yamcs shares fprime-gds's config-file mechanism but accepts a
+# different option set, so it cannot load fprime-gds.yml directly.
+# Point it at this file instead:
+#
+#     FPRIME_GDS_CONFIG_PATH=fprime-yamcs.yml fprime-yamcs \
+#         --app build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/bin/FprimeStressReference_ReferenceDeployment
+
+command-line-options:
+    # Keep the high-bandwidth DOOM frame telemetry (~8.6 MB/s) out of
+    # YAMCS's tm table and parameter archive. The channels stay fully
+    # available on the realtime processor (WebSocket subscriptions,
+    # displays); only history/replay is given up for them.
+    yamcs-realtime-only-channels:
+        - DoomSubtopology.doom.FrameOut*
+        - DoomSubtopology.doom.PaletteOut

@@ -168,11 +168,20 @@ Maven (`mvn`) on the PATH.
 
 ```sh
 pip install fprime-yamcs
-fprime-yamcs \
+FPRIME_GDS_CONFIG_PATH=fprime-yamcs.yml fprime-yamcs \
     --app build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/bin/FprimeStressReference_ReferenceDeployment
 ```
 
 YAMCS's web UI comes up on http://localhost:8090.
+
+`FPRIME_GDS_CONFIG_PATH` points fprime-yamcs at
+[`fprime-yamcs.yml`](fprime-yamcs.yml) (it cannot load `fprime-gds.yml`,
+which contains GDS-only options). That file marks the DOOM frame
+channels (`FrameOut*`, `PaletteOut`, ~8.6 MB/s) realtime-only via
+`yamcs-realtime-only-channels`: their packets are flagged
+"do not archive" so they never enter YAMCS's `tm` table or parameter
+archive, while remaining fully available to the realtime processor for
+live displays and WebSocket subscriptions.
 
 ## License
 
