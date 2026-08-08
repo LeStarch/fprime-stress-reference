@@ -417,6 +417,10 @@ telemetry packets ReferenceDeploymentPackets {
   }
 
 } omit {
+  # Off-nominal counter - visible via events; keeps packets unchanged.
+  CdhCore.events.EventsDropped
+  # File-name string channel - too large for the fixed CDH packet.
+  cmdSeq.CS_CurrentSequence
   # TlmPacketizer self-reporting channels.
   CdhCore.tlmSend.GroupConfigs
   CdhCore.tlmSend.SectionEnabled

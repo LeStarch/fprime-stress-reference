@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fprime-doom"
+version = "0.1.0"
+description = "One-shot launcher: fprime-yamcs + doom-display web extension + the fprime-stress-reference flight software"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "Apache-2.0"}
+keywords = ["fprime", "doom", "yamcs", "embedded", "nasa", "flight", "software"]
+authors = [
+  {name = "JPL F Prime team"},
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: Unix",
+    "Operating System :: POSIX",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+
+dependencies = [
+    "fprime-yamcs",
+]
+
+[project.urls]
+Homepage = "https://github.com/JPL-Devin/fprime-stress-reference"
+Repository = "https://github.com/JPL-Devin/fprime-stress-reference"
+
+[project.scripts]
+fprime-doom = "fprime_doom.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
