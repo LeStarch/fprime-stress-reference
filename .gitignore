@@ -14,3 +14,6 @@ Testing/
 yamcs-data/
 build-fprime-automatic-*/
 build-artifacts/
+
+# Python packaging metadata
+*.egg-info/

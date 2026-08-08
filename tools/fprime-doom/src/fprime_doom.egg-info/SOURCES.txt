@@ -1,9 +1,0 @@
-README.md
-pyproject.toml
-src/fprime_doom/__main__.py
-src/fprime_doom.egg-info/PKG-INFO
-src/fprime_doom.egg-info/SOURCES.txt
-src/fprime_doom.egg-info/dependency_links.txt
-src/fprime_doom.egg-info/entry_points.txt
-src/fprime_doom.egg-info/requires.txt
-src/fprime_doom.egg-info/top_level.txt

@@ -1,2 +1,0 @@
-[console_scripts]
-fprime-doom = fprime_doom.__main__:main
