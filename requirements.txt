@@ -16,3 +16,4 @@
 # exact pin with an override in the same install pass.
 -r ./lib/fprime/requirements.txt
 ./lib/fprime-stress/tools/fprime-get-doom
+./tools/fprime-doom

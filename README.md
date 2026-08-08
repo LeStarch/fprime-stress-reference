@@ -26,6 +26,8 @@ fprime-stress-reference/
 ├── lib/
 │   ├── fprime/                     # F Prime framework  (git submodule)
 │   └── fprime-stress/              # DOOM library       (git submodule)
+├── tools/
+│   └── fprime-doom/                # one-shot YAMCS + DOOM launcher CLI
 └── FprimeStressReference/          # project directory
     └── ReferenceDeployment/        # deployment directory
         ├── CMakeLists.txt
@@ -158,7 +160,7 @@ convention (shared by `fprime-gds.yml` and the binary defaults):
 | 50000 | ground TM listen (binary `-p` / GDS `udp-recv-port`) |
 | 50001 | FSW TC listen (binary `-u` / GDS `udp-send-port`) |
 
-## Run with YAMCS (fprime-yamcs)
+## Run with YAMCS (fprime-doom)
 
 [`fprime-yamcs`](https://github.com/fprime-community/fprime-yamcs)
 launches YAMCS in lieu of the fprime-gds pipelines, converts the
@@ -166,13 +168,25 @@ F Prime JSON dictionary to XTCE at startup, and configures its UDP
 frame links from the dictionary's `ComCfg` constants. Requires JDK +
 Maven (`mvn`) on the PATH.
 
+The `fprime-doom` CLI (installed by `requirements.txt` from
+`tools/fprime-doom/`) wraps it with everything this deployment needs -
+the doom-display web extension from `lib/fprime-stress/yamcs-plugin/`,
+realtime-only filtering of the `DoomSubtopology.doom.FrameOut*` /
+`PaletteOut` channels (the ~9 MB/s frame stream is never archived),
+WAD auto-fetch, and flight-software launch:
+
 ```sh
-pip install fprime-yamcs
-fprime-yamcs \
-    --app build-artifacts/Linux/FprimeStressReference_ReferenceDeployment/bin/FprimeStressReference_ReferenceDeployment
+fprime-doom
 ```
 
-YAMCS's web UI comes up on http://localhost:8090.
+> Until fprime-community/fprime-yamcs#9 and #15 are merged and
+> released, install fprime-yamcs from the feature branch first:
+> `pip install git+https://github.com/lestarch-autobot/fprime-yamcs.git@devin/1786219985-yamcs-web-extensions`
+
+Open http://localhost:8090, click the floating **DOOM** button, press
+**Start**, and click the canvas to play (WASD/arrows/Space/Ctrl).
+`fprime-doom --no-app` skips launching the flight software; other
+arguments are forwarded to `fprime-yamcs`.
 
 ## License
 
