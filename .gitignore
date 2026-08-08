@@ -9,5 +9,8 @@ core.*
 
 # CTest scratch (shouldn't be committed)
 Testing/
+
+# YAMCS runtime data (created by fprime-doom / fprime-yamcs)
+yamcs-data/
 build-fprime-automatic-*/
 build-artifacts/
