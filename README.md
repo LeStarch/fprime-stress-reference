@@ -1,6 +1,6 @@
 # fprime-stress-reference
 
-Reference F Prime deployment that exercises the [`fprime-stress`](https://github.com/JPL-Devin/fprime-stress)
+Reference F Prime deployment that exercises the [`fprime-stress`](https://github.com/LeStarch/fprime-stress)
 library by wrapping [doomgeneric](https://github.com/ozkl/doomgeneric)
 inside an F Prime topology, streaming the framebuffer down as
 telemetry, and driving inputs as F Prime commands.
@@ -55,6 +55,10 @@ cd fprime-stress-reference
 `fprime-bootstrap clone` recurses submodules, creates `fprime-venv/`,
 and installs `requirements.txt` (F Prime framework deps + the
 `fprime-get-doom` CLI from `lib/fprime-stress/tools/fprime-get-doom`).
+
+Existing checkouts that predate the `fprime-stress` repository move to
+`LeStarch/fprime-stress` should run `git submodule sync --recursive`
+once to pick up the new submodule URL.
 
 ### Upgrade to the fprime-gds alpha
 
@@ -145,7 +149,8 @@ With the GDS open, click **Dashboard** in the nav, then
 `DoomSubtopology.doom.Start` command from the GDS **Commanding**
 tab — the engine does not start on its own — or launch the binary
 with `-S` to auto-start it. The DOOM panel begins rendering frames
-once the engine is started.
+once the engine is started. `DoomSubtopology.doom.Reset` returns the
+game to its boot title screen, and `Stop` halts the engine.
 
 ## Communications: CCSDS TM/TC frames over UDP
 
@@ -181,6 +186,10 @@ fprime-doom
 
 Open http://localhost:8090, click the floating **DOOM** button, press
 **Start**, and click the canvas to play (WASD/arrows/Space/Ctrl).
+The panel also offers **Reset** (return to the boot title screen) and
+**Record/Stop Recording** (download the commands you sent as an
+F Prime `.seq` sequence file); the Start/Stop toggle tracks the
+engine's `State` telemetry, so its label stays correct.
 `fprime-doom --no-app` skips launching the flight software; other
 arguments are forwarded to `fprime-yamcs`.
 

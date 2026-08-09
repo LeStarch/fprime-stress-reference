@@ -9,7 +9,7 @@ the companion fprime-stress library, which is itself GPLv2-licensed.
 The verbatim text of the GNU General Public License version 2 is
 preserved in the companion library at:
 
-    https://github.com/JPL-Devin/fprime-stress
+    https://github.com/LeStarch/fprime-stress
     Doom/doomgeneric/COPYING
 
 When you redistribute this deployment as source or as a compiled
