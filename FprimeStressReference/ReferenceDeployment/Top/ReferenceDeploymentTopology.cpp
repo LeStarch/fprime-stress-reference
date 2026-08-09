@@ -32,17 +32,17 @@ Fw::MallocAllocator s_cmdSeqAllocator;
 // 1:1 to one DOOM game frame and one full FrameOut burst.
 const Svc::RateGroupDriver::DividerSet s_rateGroupDivisorsSet{{{2, 0}, {7, 0}, {70, 0}}};
 
-U32 s_rateGroup1Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
-U32 s_rateGroup2Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
-U32 s_rateGroup3Context[Svc::ActiveRateGroup::CONNECTION_COUNT_MAX] = {};
+Svc::ActiveRateGroup::ContextArray s_rateGroup1Context{};
+Svc::ActiveRateGroup::ContextArray s_rateGroup2Context{};
+Svc::ActiveRateGroup::ContextArray s_rateGroup3Context{};
 
 void configureTopology(const ReferenceDeployment::TopologyState& state) {
     using namespace ReferenceDeployment;
     rateGroupDriverComp.configure(s_rateGroupDivisorsSet);
 
-    rateGroup1Comp.configure(s_rateGroup1Context, FW_NUM_ARRAY_ELEMENTS(s_rateGroup1Context));
-    rateGroup2Comp.configure(s_rateGroup2Context, FW_NUM_ARRAY_ELEMENTS(s_rateGroup2Context));
-    rateGroup3Comp.configure(s_rateGroup3Context, FW_NUM_ARRAY_ELEMENTS(s_rateGroup3Context));
+    rateGroup1Comp.configure(s_rateGroup1Context);
+    rateGroup2Comp.configure(s_rateGroup2Context);
+    rateGroup3Comp.configure(s_rateGroup3Context);
 
     cmdSeq.allocateBuffer(0, s_cmdSeqAllocator, CMD_SEQ_POOL_BYTES);
 

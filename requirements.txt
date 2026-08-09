@@ -17,3 +17,7 @@
 -r ./lib/fprime/requirements.txt
 ./lib/fprime-stress/tools/fprime-get-doom
 ./tools/fprime-doom
+# fprime-yamcs with web-extension / realtime-only-channel support
+# (fprime-community/fprime-yamcs#9 and #15 are merged on main but not
+# yet in a PyPI release).
+fprime-yamcs @ git+https://github.com/fprime-community/fprime-yamcs.git@main
