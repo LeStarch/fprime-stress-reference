@@ -181,6 +181,10 @@ fprime-doom
 
 Open http://localhost:8090, click the floating **DOOM** button, press
 **Start**, and click the canvas to play (WASD/arrows/Space/Ctrl).
+The panel also offers **Reset** (return to the boot title screen) and
+**Record/Stop Recording** (download the commands you sent as an
+F Prime `.seq` sequence file); the Start/Stop toggle tracks the
+engine's `State` telemetry, so its label stays correct.
 `fprime-doom --no-app` skips launching the flight software; other
 arguments are forwarded to `fprime-yamcs`.
 
