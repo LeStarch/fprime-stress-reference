@@ -179,10 +179,6 @@ WAD auto-fetch, and flight-software launch:
 fprime-doom
 ```
 
-> Until fprime-community/fprime-yamcs#9 and #15 are merged and
-> released, install fprime-yamcs from the feature branch first:
-> `pip install git+https://github.com/lestarch-autobot/fprime-yamcs.git@devin/1786219985-yamcs-web-extensions`
-
 Open http://localhost:8090, click the floating **DOOM** button, press
 **Start**, and click the canvas to play (WASD/arrows/Space/Ctrl).
 `fprime-doom --no-app` skips launching the flight software; other
