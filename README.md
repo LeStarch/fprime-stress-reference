@@ -1,6 +1,6 @@
 # fprime-stress-reference
 
-Reference F Prime deployment that exercises the [`fprime-stress`](https://github.com/JPL-Devin/fprime-stress)
+Reference F Prime deployment that exercises the [`fprime-stress`](https://github.com/LeStarch/fprime-stress)
 library by wrapping [doomgeneric](https://github.com/ozkl/doomgeneric)
 inside an F Prime topology, streaming the framebuffer down as
 telemetry, and driving inputs as F Prime commands.
