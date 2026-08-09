@@ -56,6 +56,10 @@ cd fprime-stress-reference
 and installs `requirements.txt` (F Prime framework deps + the
 `fprime-get-doom` CLI from `lib/fprime-stress/tools/fprime-get-doom`).
 
+Existing checkouts that predate the `fprime-stress` repository move to
+`LeStarch/fprime-stress` should run `git submodule sync --recursive`
+once to pick up the new submodule URL.
+
 ### Upgrade to the fprime-gds alpha
 
 The 35 Hz x 80-chunk-per-frame DOOM downlink depends on throughput /
@@ -145,7 +149,8 @@ With the GDS open, click **Dashboard** in the nav, then
 `DoomSubtopology.doom.Start` command from the GDS **Commanding**
 tab — the engine does not start on its own — or launch the binary
 with `-S` to auto-start it. The DOOM panel begins rendering frames
-once the engine is started.
+once the engine is started. `DoomSubtopology.doom.Reset` returns the
+game to its boot title screen, and `Stop` halts the engine.
 
 ## Communications: CCSDS TM/TC frames over UDP
 
