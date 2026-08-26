@@ -176,7 +176,7 @@ Maven (`mvn`) on the PATH.
 The `fprime-doom` CLI (installed by `requirements.txt` from
 `tools/fprime-doom/`) wraps it with everything this deployment needs -
 the doom-display web extension from `lib/fprime-stress/yamcs-plugin/`,
-realtime-only filtering of the `DoomSubtopology.doom.FrameOut*` /
+realtime-only filtering of the `DoomSubtopology.frameTlmProcessor.FrameRow*` /
 `PaletteOut` channels (the ~9 MB/s frame stream is never archived),
 WAD auto-fetch, and flight-software launch:
 

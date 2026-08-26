@@ -13,11 +13,12 @@ module CdhCoreConfig {
         # plus the routine key-event cadence.
         constant cmdDisp     = 256
         constant events      = 10
-        # The 35 Hz schedIn on DoomEngine emits 80 FrameChunk writes
-        # per cycle. The upstream default depth of 10 drops 70 of
-        # every 80 chunks before TlmChan can serialise them; size
-        # this clear of the per-cycle burst.
-        constant tlmSend     = 256
+        # The 35 Hz schedIn drives FrameTlmProcessor to emit up to
+        # 400 FrameRow writes per cycle (one per downsampled scanline
+        # at X1). The upstream default depth of 10 drops most of the
+        # burst before TlmChan can serialise it; size this clear of
+        # the worst-case per-cycle burst.
+        constant tlmSend     = 512
         constant $health     = 25
     }
 

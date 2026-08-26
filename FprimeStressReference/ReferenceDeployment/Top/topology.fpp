@@ -68,7 +68,7 @@ module ReferenceDeployment {
       linuxTimer.CycleOut -> rateGroupDriverComp.CycleIn
 
       # Rate group 1 - 35 Hz, DOOM's native gameplay cadence. One tick
-      # = one doomgeneric_Tick = one full FrameOut burst.
+      # = one doomgeneric_Tick = one frame through the frame pipeline.
       # rateGroup1 is configured in ReferenceDeploymentTopology.cpp.
       rateGroupDriverComp.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1Comp.CycleIn
       rateGroup1Comp.RateGroupMemberOut[0] -> DoomSubtopology.Subtopology.schedIn

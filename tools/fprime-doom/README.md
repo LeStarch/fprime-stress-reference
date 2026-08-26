@@ -15,7 +15,7 @@ and, from the project checkout, automatically:
 - fetches the shareware WAD with `fprime-get-doom` if it is missing,
 - loads the `doom-display` yamcs-web extension from
   `lib/fprime-stress/yamcs-plugin/`,
-- marks the `DoomSubtopology.doom.FrameOut*` / `PaletteOut` channels
+- marks the `DoomSubtopology.frameTlmProcessor.FrameRow*` / `PaletteOut` channels
   realtime-only so the ~9 MB/s frame stream is never archived,
 - launches the flight software alongside YAMCS.
 
