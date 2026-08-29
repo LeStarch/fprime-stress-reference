@@ -126,7 +126,8 @@ fprime-doom
 Click the floating **DOOM** button in the YAMCS web UI, then **Start**
 in the panel — the engine does not start on its own. The panel renders
 frames, forwards keyboard input as commands, and offers Stop/Reset.
-`DOWNSAMPLE_PRM_SET` on `frameDownsampler` rescales the display live.
+The display size follows the compile-time `Doom.DOWNSAMPLE_FACTOR`
+configured in `lib/fprime-stress/Doom/DoomConfig/DoomConfig.fpp`.
 
 The project-local `fprime-gds.yml` still configures the python GDS
 (UDP transport, CCSDS framing, ports — see "Communications" below) for
