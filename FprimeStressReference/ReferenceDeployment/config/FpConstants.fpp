@@ -17,13 +17,10 @@ constant FW_QUEUE_NAME_BUFFER_SIZE = 80
 constant FW_TASK_NAME_BUFFER_SIZE = 80
 
 @ Specifies the size of the buffer that contains a communications packet
-@ Overridden for the fprime-stress-reference DOOM deployment so that a
-@ palette-indexed FrameRow telemetry packet (640 pixel bytes plus row
-@ metadata) and the 768-byte Palette packet fit comfortably in a single
-@ telemetry packet. Bumping higher than 4096
-@ blows the stack of upstream F Prime UTs that stack-allocate buffers
-@ scaled to FW_TLM_BUFFER_MAX_SIZE (e.g. Svc_TlmChan).
-constant FW_COM_BUFFER_MAX_SIZE = 4096
+@ Overridden for the fprime-stress-reference DOOM deployment: sized to
+@ fit the 768-byte Palette packet and the compile-time-downsampled
+@ FrameRow packet (Doom.DOWNSAMPLED_WIDTH pixel bytes plus metadata).
+constant FW_COM_BUFFER_MAX_SIZE = 1024
 
 @ Specifies the size of the buffer attached to state machine signals
 constant FW_SM_SIGNAL_BUFFER_MAX_SIZE = 128

@@ -893,811 +893,213 @@ telemetry packets ReferenceDeploymentPackets {
     DoomSubtopology.frameTlmProcessor.FrameRow199
   }
 
-  packet FrameRow200 id 208 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow200
-  }
-
-  packet FrameRow201 id 209 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow201
-  }
-
-  packet FrameRow202 id 210 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow202
-  }
-
-  packet FrameRow203 id 211 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow203
-  }
-
-  packet FrameRow204 id 212 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow204
-  }
-
-  packet FrameRow205 id 213 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow205
-  }
-
-  packet FrameRow206 id 214 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow206
-  }
-
-  packet FrameRow207 id 215 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow207
-  }
-
-  packet FrameRow208 id 216 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow208
-  }
-
-  packet FrameRow209 id 217 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow209
-  }
-
-  packet FrameRow210 id 218 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow210
-  }
-
-  packet FrameRow211 id 219 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow211
-  }
-
-  packet FrameRow212 id 220 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow212
-  }
-
-  packet FrameRow213 id 221 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow213
-  }
-
-  packet FrameRow214 id 222 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow214
-  }
-
-  packet FrameRow215 id 223 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow215
-  }
-
-  packet FrameRow216 id 224 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow216
-  }
-
-  packet FrameRow217 id 225 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow217
-  }
-
-  packet FrameRow218 id 226 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow218
-  }
-
-  packet FrameRow219 id 227 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow219
-  }
-
-  packet FrameRow220 id 228 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow220
-  }
-
-  packet FrameRow221 id 229 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow221
-  }
-
-  packet FrameRow222 id 230 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow222
-  }
-
-  packet FrameRow223 id 231 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow223
-  }
-
-  packet FrameRow224 id 232 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow224
-  }
-
-  packet FrameRow225 id 233 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow225
-  }
-
-  packet FrameRow226 id 234 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow226
-  }
-
-  packet FrameRow227 id 235 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow227
-  }
-
-  packet FrameRow228 id 236 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow228
-  }
-
-  packet FrameRow229 id 237 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow229
-  }
-
-  packet FrameRow230 id 238 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow230
-  }
-
-  packet FrameRow231 id 239 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow231
-  }
-
-  packet FrameRow232 id 240 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow232
-  }
-
-  packet FrameRow233 id 241 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow233
-  }
-
-  packet FrameRow234 id 242 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow234
-  }
-
-  packet FrameRow235 id 243 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow235
-  }
-
-  packet FrameRow236 id 244 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow236
-  }
-
-  packet FrameRow237 id 245 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow237
-  }
-
-  packet FrameRow238 id 246 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow238
-  }
-
-  packet FrameRow239 id 247 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow239
-  }
-
-  packet FrameRow240 id 248 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow240
-  }
-
-  packet FrameRow241 id 249 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow241
-  }
-
-  packet FrameRow242 id 250 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow242
-  }
-
-  packet FrameRow243 id 251 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow243
-  }
-
-  packet FrameRow244 id 252 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow244
-  }
-
-  packet FrameRow245 id 253 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow245
-  }
-
-  packet FrameRow246 id 254 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow246
-  }
-
-  packet FrameRow247 id 255 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow247
-  }
-
-  packet FrameRow248 id 256 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow248
-  }
-
-  packet FrameRow249 id 257 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow249
-  }
-
-  packet FrameRow250 id 258 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow250
-  }
-
-  packet FrameRow251 id 259 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow251
-  }
-
-  packet FrameRow252 id 260 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow252
-  }
-
-  packet FrameRow253 id 261 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow253
-  }
-
-  packet FrameRow254 id 262 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow254
-  }
-
-  packet FrameRow255 id 263 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow255
-  }
-
-  packet FrameRow256 id 264 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow256
-  }
-
-  packet FrameRow257 id 265 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow257
-  }
-
-  packet FrameRow258 id 266 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow258
-  }
-
-  packet FrameRow259 id 267 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow259
-  }
-
-  packet FrameRow260 id 268 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow260
-  }
-
-  packet FrameRow261 id 269 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow261
-  }
-
-  packet FrameRow262 id 270 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow262
-  }
-
-  packet FrameRow263 id 271 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow263
-  }
-
-  packet FrameRow264 id 272 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow264
-  }
-
-  packet FrameRow265 id 273 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow265
-  }
-
-  packet FrameRow266 id 274 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow266
-  }
-
-  packet FrameRow267 id 275 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow267
-  }
-
-  packet FrameRow268 id 276 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow268
-  }
-
-  packet FrameRow269 id 277 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow269
-  }
-
-  packet FrameRow270 id 278 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow270
-  }
-
-  packet FrameRow271 id 279 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow271
-  }
-
-  packet FrameRow272 id 280 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow272
-  }
-
-  packet FrameRow273 id 281 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow273
-  }
-
-  packet FrameRow274 id 282 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow274
-  }
-
-  packet FrameRow275 id 283 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow275
-  }
-
-  packet FrameRow276 id 284 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow276
-  }
-
-  packet FrameRow277 id 285 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow277
-  }
-
-  packet FrameRow278 id 286 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow278
-  }
-
-  packet FrameRow279 id 287 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow279
-  }
-
-  packet FrameRow280 id 288 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow280
-  }
-
-  packet FrameRow281 id 289 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow281
-  }
-
-  packet FrameRow282 id 290 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow282
-  }
-
-  packet FrameRow283 id 291 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow283
-  }
-
-  packet FrameRow284 id 292 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow284
-  }
-
-  packet FrameRow285 id 293 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow285
-  }
-
-  packet FrameRow286 id 294 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow286
-  }
-
-  packet FrameRow287 id 295 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow287
-  }
-
-  packet FrameRow288 id 296 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow288
-  }
-
-  packet FrameRow289 id 297 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow289
-  }
-
-  packet FrameRow290 id 298 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow290
-  }
-
-  packet FrameRow291 id 299 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow291
-  }
-
-  packet FrameRow292 id 300 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow292
-  }
-
-  packet FrameRow293 id 301 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow293
-  }
-
-  packet FrameRow294 id 302 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow294
-  }
-
-  packet FrameRow295 id 303 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow295
-  }
-
-  packet FrameRow296 id 304 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow296
-  }
-
-  packet FrameRow297 id 305 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow297
-  }
-
-  packet FrameRow298 id 306 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow298
-  }
-
-  packet FrameRow299 id 307 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow299
-  }
-
-  packet FrameRow300 id 308 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow300
-  }
-
-  packet FrameRow301 id 309 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow301
-  }
-
-  packet FrameRow302 id 310 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow302
-  }
-
-  packet FrameRow303 id 311 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow303
-  }
-
-  packet FrameRow304 id 312 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow304
-  }
-
-  packet FrameRow305 id 313 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow305
-  }
-
-  packet FrameRow306 id 314 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow306
-  }
-
-  packet FrameRow307 id 315 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow307
-  }
-
-  packet FrameRow308 id 316 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow308
-  }
-
-  packet FrameRow309 id 317 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow309
-  }
-
-  packet FrameRow310 id 318 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow310
-  }
-
-  packet FrameRow311 id 319 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow311
-  }
-
-  packet FrameRow312 id 320 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow312
-  }
-
-  packet FrameRow313 id 321 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow313
-  }
-
-  packet FrameRow314 id 322 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow314
-  }
-
-  packet FrameRow315 id 323 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow315
-  }
-
-  packet FrameRow316 id 324 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow316
-  }
-
-  packet FrameRow317 id 325 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow317
-  }
-
-  packet FrameRow318 id 326 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow318
-  }
-
-  packet FrameRow319 id 327 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow319
-  }
-
-  packet FrameRow320 id 328 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow320
-  }
-
-  packet FrameRow321 id 329 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow321
-  }
-
-  packet FrameRow322 id 330 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow322
-  }
-
-  packet FrameRow323 id 331 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow323
-  }
-
-  packet FrameRow324 id 332 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow324
-  }
-
-  packet FrameRow325 id 333 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow325
-  }
-
-  packet FrameRow326 id 334 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow326
-  }
-
-  packet FrameRow327 id 335 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow327
-  }
-
-  packet FrameRow328 id 336 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow328
-  }
-
-  packet FrameRow329 id 337 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow329
-  }
-
-  packet FrameRow330 id 338 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow330
-  }
-
-  packet FrameRow331 id 339 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow331
-  }
-
-  packet FrameRow332 id 340 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow332
-  }
-
-  packet FrameRow333 id 341 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow333
-  }
-
-  packet FrameRow334 id 342 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow334
-  }
-
-  packet FrameRow335 id 343 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow335
-  }
-
-  packet FrameRow336 id 344 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow336
-  }
-
-  packet FrameRow337 id 345 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow337
-  }
-
-  packet FrameRow338 id 346 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow338
-  }
-
-  packet FrameRow339 id 347 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow339
-  }
-
-  packet FrameRow340 id 348 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow340
-  }
-
-  packet FrameRow341 id 349 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow341
-  }
-
-  packet FrameRow342 id 350 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow342
-  }
-
-  packet FrameRow343 id 351 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow343
-  }
-
-  packet FrameRow344 id 352 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow344
-  }
-
-  packet FrameRow345 id 353 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow345
-  }
-
-  packet FrameRow346 id 354 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow346
-  }
-
-  packet FrameRow347 id 355 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow347
-  }
-
-  packet FrameRow348 id 356 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow348
-  }
-
-  packet FrameRow349 id 357 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow349
-  }
-
-  packet FrameRow350 id 358 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow350
-  }
-
-  packet FrameRow351 id 359 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow351
-  }
-
-  packet FrameRow352 id 360 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow352
-  }
-
-  packet FrameRow353 id 361 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow353
-  }
-
-  packet FrameRow354 id 362 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow354
-  }
-
-  packet FrameRow355 id 363 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow355
-  }
-
-  packet FrameRow356 id 364 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow356
-  }
-
-  packet FrameRow357 id 365 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow357
-  }
-
-  packet FrameRow358 id 366 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow358
-  }
-
-  packet FrameRow359 id 367 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow359
-  }
-
-  packet FrameRow360 id 368 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow360
-  }
-
-  packet FrameRow361 id 369 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow361
-  }
-
-  packet FrameRow362 id 370 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow362
-  }
-
-  packet FrameRow363 id 371 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow363
-  }
-
-  packet FrameRow364 id 372 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow364
-  }
-
-  packet FrameRow365 id 373 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow365
-  }
-
-  packet FrameRow366 id 374 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow366
-  }
-
-  packet FrameRow367 id 375 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow367
-  }
-
-  packet FrameRow368 id 376 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow368
-  }
-
-  packet FrameRow369 id 377 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow369
-  }
-
-  packet FrameRow370 id 378 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow370
-  }
-
-  packet FrameRow371 id 379 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow371
-  }
-
-  packet FrameRow372 id 380 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow372
-  }
-
-  packet FrameRow373 id 381 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow373
-  }
-
-  packet FrameRow374 id 382 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow374
-  }
-
-  packet FrameRow375 id 383 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow375
-  }
-
-  packet FrameRow376 id 384 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow376
-  }
-
-  packet FrameRow377 id 385 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow377
-  }
-
-  packet FrameRow378 id 386 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow378
-  }
-
-  packet FrameRow379 id 387 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow379
-  }
-
-  packet FrameRow380 id 388 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow380
-  }
-
-  packet FrameRow381 id 389 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow381
-  }
-
-  packet FrameRow382 id 390 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow382
-  }
-
-  packet FrameRow383 id 391 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow383
-  }
-
-  packet FrameRow384 id 392 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow384
-  }
-
-  packet FrameRow385 id 393 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow385
-  }
-
-  packet FrameRow386 id 394 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow386
-  }
-
-  packet FrameRow387 id 395 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow387
-  }
-
-  packet FrameRow388 id 396 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow388
-  }
-
-  packet FrameRow389 id 397 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow389
-  }
-
-  packet FrameRow390 id 398 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow390
-  }
-
-  packet FrameRow391 id 399 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow391
-  }
-
-  packet FrameRow392 id 400 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow392
-  }
-
-  packet FrameRow393 id 401 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow393
-  }
-
-  packet FrameRow394 id 402 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow394
-  }
-
-  packet FrameRow395 id 403 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow395
-  }
-
-  packet FrameRow396 id 404 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow396
-  }
-
-  packet FrameRow397 id 405 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow397
-  }
-
-  packet FrameRow398 id 406 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow398
-  }
-
-  packet FrameRow399 id 407 group 1 {
-    DoomSubtopology.frameTlmProcessor.FrameRow399
-  }
-
-  packet Palette id 408 group 1 {
+  packet Palette id 208 group 1 {
     DoomSubtopology.frameTlmProcessor.PaletteOut
   }
 
 } omit {
+  # FrameRow channels beyond the compile-time downsampled height
+  # (Doom.DOWNSAMPLED_HEIGHT) are never emitted.
+  DoomSubtopology.frameTlmProcessor.FrameRow200
+  DoomSubtopology.frameTlmProcessor.FrameRow201
+  DoomSubtopology.frameTlmProcessor.FrameRow202
+  DoomSubtopology.frameTlmProcessor.FrameRow203
+  DoomSubtopology.frameTlmProcessor.FrameRow204
+  DoomSubtopology.frameTlmProcessor.FrameRow205
+  DoomSubtopology.frameTlmProcessor.FrameRow206
+  DoomSubtopology.frameTlmProcessor.FrameRow207
+  DoomSubtopology.frameTlmProcessor.FrameRow208
+  DoomSubtopology.frameTlmProcessor.FrameRow209
+  DoomSubtopology.frameTlmProcessor.FrameRow210
+  DoomSubtopology.frameTlmProcessor.FrameRow211
+  DoomSubtopology.frameTlmProcessor.FrameRow212
+  DoomSubtopology.frameTlmProcessor.FrameRow213
+  DoomSubtopology.frameTlmProcessor.FrameRow214
+  DoomSubtopology.frameTlmProcessor.FrameRow215
+  DoomSubtopology.frameTlmProcessor.FrameRow216
+  DoomSubtopology.frameTlmProcessor.FrameRow217
+  DoomSubtopology.frameTlmProcessor.FrameRow218
+  DoomSubtopology.frameTlmProcessor.FrameRow219
+  DoomSubtopology.frameTlmProcessor.FrameRow220
+  DoomSubtopology.frameTlmProcessor.FrameRow221
+  DoomSubtopology.frameTlmProcessor.FrameRow222
+  DoomSubtopology.frameTlmProcessor.FrameRow223
+  DoomSubtopology.frameTlmProcessor.FrameRow224
+  DoomSubtopology.frameTlmProcessor.FrameRow225
+  DoomSubtopology.frameTlmProcessor.FrameRow226
+  DoomSubtopology.frameTlmProcessor.FrameRow227
+  DoomSubtopology.frameTlmProcessor.FrameRow228
+  DoomSubtopology.frameTlmProcessor.FrameRow229
+  DoomSubtopology.frameTlmProcessor.FrameRow230
+  DoomSubtopology.frameTlmProcessor.FrameRow231
+  DoomSubtopology.frameTlmProcessor.FrameRow232
+  DoomSubtopology.frameTlmProcessor.FrameRow233
+  DoomSubtopology.frameTlmProcessor.FrameRow234
+  DoomSubtopology.frameTlmProcessor.FrameRow235
+  DoomSubtopology.frameTlmProcessor.FrameRow236
+  DoomSubtopology.frameTlmProcessor.FrameRow237
+  DoomSubtopology.frameTlmProcessor.FrameRow238
+  DoomSubtopology.frameTlmProcessor.FrameRow239
+  DoomSubtopology.frameTlmProcessor.FrameRow240
+  DoomSubtopology.frameTlmProcessor.FrameRow241
+  DoomSubtopology.frameTlmProcessor.FrameRow242
+  DoomSubtopology.frameTlmProcessor.FrameRow243
+  DoomSubtopology.frameTlmProcessor.FrameRow244
+  DoomSubtopology.frameTlmProcessor.FrameRow245
+  DoomSubtopology.frameTlmProcessor.FrameRow246
+  DoomSubtopology.frameTlmProcessor.FrameRow247
+  DoomSubtopology.frameTlmProcessor.FrameRow248
+  DoomSubtopology.frameTlmProcessor.FrameRow249
+  DoomSubtopology.frameTlmProcessor.FrameRow250
+  DoomSubtopology.frameTlmProcessor.FrameRow251
+  DoomSubtopology.frameTlmProcessor.FrameRow252
+  DoomSubtopology.frameTlmProcessor.FrameRow253
+  DoomSubtopology.frameTlmProcessor.FrameRow254
+  DoomSubtopology.frameTlmProcessor.FrameRow255
+  DoomSubtopology.frameTlmProcessor.FrameRow256
+  DoomSubtopology.frameTlmProcessor.FrameRow257
+  DoomSubtopology.frameTlmProcessor.FrameRow258
+  DoomSubtopology.frameTlmProcessor.FrameRow259
+  DoomSubtopology.frameTlmProcessor.FrameRow260
+  DoomSubtopology.frameTlmProcessor.FrameRow261
+  DoomSubtopology.frameTlmProcessor.FrameRow262
+  DoomSubtopology.frameTlmProcessor.FrameRow263
+  DoomSubtopology.frameTlmProcessor.FrameRow264
+  DoomSubtopology.frameTlmProcessor.FrameRow265
+  DoomSubtopology.frameTlmProcessor.FrameRow266
+  DoomSubtopology.frameTlmProcessor.FrameRow267
+  DoomSubtopology.frameTlmProcessor.FrameRow268
+  DoomSubtopology.frameTlmProcessor.FrameRow269
+  DoomSubtopology.frameTlmProcessor.FrameRow270
+  DoomSubtopology.frameTlmProcessor.FrameRow271
+  DoomSubtopology.frameTlmProcessor.FrameRow272
+  DoomSubtopology.frameTlmProcessor.FrameRow273
+  DoomSubtopology.frameTlmProcessor.FrameRow274
+  DoomSubtopology.frameTlmProcessor.FrameRow275
+  DoomSubtopology.frameTlmProcessor.FrameRow276
+  DoomSubtopology.frameTlmProcessor.FrameRow277
+  DoomSubtopology.frameTlmProcessor.FrameRow278
+  DoomSubtopology.frameTlmProcessor.FrameRow279
+  DoomSubtopology.frameTlmProcessor.FrameRow280
+  DoomSubtopology.frameTlmProcessor.FrameRow281
+  DoomSubtopology.frameTlmProcessor.FrameRow282
+  DoomSubtopology.frameTlmProcessor.FrameRow283
+  DoomSubtopology.frameTlmProcessor.FrameRow284
+  DoomSubtopology.frameTlmProcessor.FrameRow285
+  DoomSubtopology.frameTlmProcessor.FrameRow286
+  DoomSubtopology.frameTlmProcessor.FrameRow287
+  DoomSubtopology.frameTlmProcessor.FrameRow288
+  DoomSubtopology.frameTlmProcessor.FrameRow289
+  DoomSubtopology.frameTlmProcessor.FrameRow290
+  DoomSubtopology.frameTlmProcessor.FrameRow291
+  DoomSubtopology.frameTlmProcessor.FrameRow292
+  DoomSubtopology.frameTlmProcessor.FrameRow293
+  DoomSubtopology.frameTlmProcessor.FrameRow294
+  DoomSubtopology.frameTlmProcessor.FrameRow295
+  DoomSubtopology.frameTlmProcessor.FrameRow296
+  DoomSubtopology.frameTlmProcessor.FrameRow297
+  DoomSubtopology.frameTlmProcessor.FrameRow298
+  DoomSubtopology.frameTlmProcessor.FrameRow299
+  DoomSubtopology.frameTlmProcessor.FrameRow300
+  DoomSubtopology.frameTlmProcessor.FrameRow301
+  DoomSubtopology.frameTlmProcessor.FrameRow302
+  DoomSubtopology.frameTlmProcessor.FrameRow303
+  DoomSubtopology.frameTlmProcessor.FrameRow304
+  DoomSubtopology.frameTlmProcessor.FrameRow305
+  DoomSubtopology.frameTlmProcessor.FrameRow306
+  DoomSubtopology.frameTlmProcessor.FrameRow307
+  DoomSubtopology.frameTlmProcessor.FrameRow308
+  DoomSubtopology.frameTlmProcessor.FrameRow309
+  DoomSubtopology.frameTlmProcessor.FrameRow310
+  DoomSubtopology.frameTlmProcessor.FrameRow311
+  DoomSubtopology.frameTlmProcessor.FrameRow312
+  DoomSubtopology.frameTlmProcessor.FrameRow313
+  DoomSubtopology.frameTlmProcessor.FrameRow314
+  DoomSubtopology.frameTlmProcessor.FrameRow315
+  DoomSubtopology.frameTlmProcessor.FrameRow316
+  DoomSubtopology.frameTlmProcessor.FrameRow317
+  DoomSubtopology.frameTlmProcessor.FrameRow318
+  DoomSubtopology.frameTlmProcessor.FrameRow319
+  DoomSubtopology.frameTlmProcessor.FrameRow320
+  DoomSubtopology.frameTlmProcessor.FrameRow321
+  DoomSubtopology.frameTlmProcessor.FrameRow322
+  DoomSubtopology.frameTlmProcessor.FrameRow323
+  DoomSubtopology.frameTlmProcessor.FrameRow324
+  DoomSubtopology.frameTlmProcessor.FrameRow325
+  DoomSubtopology.frameTlmProcessor.FrameRow326
+  DoomSubtopology.frameTlmProcessor.FrameRow327
+  DoomSubtopology.frameTlmProcessor.FrameRow328
+  DoomSubtopology.frameTlmProcessor.FrameRow329
+  DoomSubtopology.frameTlmProcessor.FrameRow330
+  DoomSubtopology.frameTlmProcessor.FrameRow331
+  DoomSubtopology.frameTlmProcessor.FrameRow332
+  DoomSubtopology.frameTlmProcessor.FrameRow333
+  DoomSubtopology.frameTlmProcessor.FrameRow334
+  DoomSubtopology.frameTlmProcessor.FrameRow335
+  DoomSubtopology.frameTlmProcessor.FrameRow336
+  DoomSubtopology.frameTlmProcessor.FrameRow337
+  DoomSubtopology.frameTlmProcessor.FrameRow338
+  DoomSubtopology.frameTlmProcessor.FrameRow339
+  DoomSubtopology.frameTlmProcessor.FrameRow340
+  DoomSubtopology.frameTlmProcessor.FrameRow341
+  DoomSubtopology.frameTlmProcessor.FrameRow342
+  DoomSubtopology.frameTlmProcessor.FrameRow343
+  DoomSubtopology.frameTlmProcessor.FrameRow344
+  DoomSubtopology.frameTlmProcessor.FrameRow345
+  DoomSubtopology.frameTlmProcessor.FrameRow346
+  DoomSubtopology.frameTlmProcessor.FrameRow347
+  DoomSubtopology.frameTlmProcessor.FrameRow348
+  DoomSubtopology.frameTlmProcessor.FrameRow349
+  DoomSubtopology.frameTlmProcessor.FrameRow350
+  DoomSubtopology.frameTlmProcessor.FrameRow351
+  DoomSubtopology.frameTlmProcessor.FrameRow352
+  DoomSubtopology.frameTlmProcessor.FrameRow353
+  DoomSubtopology.frameTlmProcessor.FrameRow354
+  DoomSubtopology.frameTlmProcessor.FrameRow355
+  DoomSubtopology.frameTlmProcessor.FrameRow356
+  DoomSubtopology.frameTlmProcessor.FrameRow357
+  DoomSubtopology.frameTlmProcessor.FrameRow358
+  DoomSubtopology.frameTlmProcessor.FrameRow359
+  DoomSubtopology.frameTlmProcessor.FrameRow360
+  DoomSubtopology.frameTlmProcessor.FrameRow361
+  DoomSubtopology.frameTlmProcessor.FrameRow362
+  DoomSubtopology.frameTlmProcessor.FrameRow363
+  DoomSubtopology.frameTlmProcessor.FrameRow364
+  DoomSubtopology.frameTlmProcessor.FrameRow365
+  DoomSubtopology.frameTlmProcessor.FrameRow366
+  DoomSubtopology.frameTlmProcessor.FrameRow367
+  DoomSubtopology.frameTlmProcessor.FrameRow368
+  DoomSubtopology.frameTlmProcessor.FrameRow369
+  DoomSubtopology.frameTlmProcessor.FrameRow370
+  DoomSubtopology.frameTlmProcessor.FrameRow371
+  DoomSubtopology.frameTlmProcessor.FrameRow372
+  DoomSubtopology.frameTlmProcessor.FrameRow373
+  DoomSubtopology.frameTlmProcessor.FrameRow374
+  DoomSubtopology.frameTlmProcessor.FrameRow375
+  DoomSubtopology.frameTlmProcessor.FrameRow376
+  DoomSubtopology.frameTlmProcessor.FrameRow377
+  DoomSubtopology.frameTlmProcessor.FrameRow378
+  DoomSubtopology.frameTlmProcessor.FrameRow379
+  DoomSubtopology.frameTlmProcessor.FrameRow380
+  DoomSubtopology.frameTlmProcessor.FrameRow381
+  DoomSubtopology.frameTlmProcessor.FrameRow382
+  DoomSubtopology.frameTlmProcessor.FrameRow383
+  DoomSubtopology.frameTlmProcessor.FrameRow384
+  DoomSubtopology.frameTlmProcessor.FrameRow385
+  DoomSubtopology.frameTlmProcessor.FrameRow386
+  DoomSubtopology.frameTlmProcessor.FrameRow387
+  DoomSubtopology.frameTlmProcessor.FrameRow388
+  DoomSubtopology.frameTlmProcessor.FrameRow389
+  DoomSubtopology.frameTlmProcessor.FrameRow390
+  DoomSubtopology.frameTlmProcessor.FrameRow391
+  DoomSubtopology.frameTlmProcessor.FrameRow392
+  DoomSubtopology.frameTlmProcessor.FrameRow393
+  DoomSubtopology.frameTlmProcessor.FrameRow394
+  DoomSubtopology.frameTlmProcessor.FrameRow395
+  DoomSubtopology.frameTlmProcessor.FrameRow396
+  DoomSubtopology.frameTlmProcessor.FrameRow397
+  DoomSubtopology.frameTlmProcessor.FrameRow398
+  DoomSubtopology.frameTlmProcessor.FrameRow399
   # Off-nominal counter - visible via events; keeps packets unchanged.
   CdhCore.events.EventsDropped
   # File-name string channel - too large for the fixed CDH packet.

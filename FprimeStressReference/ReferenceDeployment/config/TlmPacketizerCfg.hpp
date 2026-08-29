@@ -17,8 +17,8 @@
 
 namespace Svc {
 //! Maximum number of packets that the packetizer can handle. Sized for
-//! the 400 per-row DOOM frame packets plus housekeeping packets.
-static const FwChanIdType MAX_PACKETIZER_PACKETS = 512;
+//! the per-row DOOM frame packets (Doom.DOWNSAMPLED_HEIGHT) plus housekeeping.
+static const FwChanIdType MAX_PACKETIZER_PACKETS = 256;
 
 //! Maximum number of channels that the packetizer can handle. Must be >= number of non-omitted channels
 static const FwChanIdType MAX_PACKETIZER_CHANNELS = 600;

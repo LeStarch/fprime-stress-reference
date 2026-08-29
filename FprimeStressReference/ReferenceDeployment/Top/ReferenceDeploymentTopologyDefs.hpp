@@ -29,7 +29,7 @@
 #include "Svc/Subtopologies/CdhCore/CdhCoreConfig/FppConstantsAc.hpp"
 #include "Svc/Subtopologies/ComCcsds/ComCcsdsConfig/FppConstantsAc.hpp"
 #include "Svc/Subtopologies/FileHandling/FileHandlingConfig/FppConstantsAc.hpp"
-#include "Doom/DoomSubtopology/DoomSubtopologyConfig/FppConstantsAc.hpp"
+#include "Doom/DoomConfig/FppConstantsAc.hpp"
 
 // ComCcsds queue-port enums required by the inlined
 // ComCcsds::Subtopology::configComponents body (which indexes the
