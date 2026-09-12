@@ -10,10 +10,8 @@ cmake_minimum_required(VERSION 3.26)
 cmake_policy(SET CMP0048 NEW)
 project(FprimeStressReference VERSION 1.0.0 LANGUAGES C CXX)
 
-# Warnings are intentionally relaxed at the top level because the
-# vendored upstream DOOM source (built inside the fprime-stress
-# library) is left untouched. The deployment adds its own strict flags
-# back on top.
+# Warnings are relaxed at the top level because the upstream DOOM
+# submodule (built inside the fprime-stress library) is left untouched.
 add_compile_options(
     -Wall
     -Wno-unused-parameter

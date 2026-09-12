@@ -144,19 +144,24 @@ convention (shared by `fprime-gds.yml` and the binary defaults):
 | 50000 | ground TM listen (binary `-p` / GDS `udp-recv-port`) |
 | 50001 | FSW TC listen (binary `-u` / GDS `udp-send-port`) |
 
+The TC socket binds to `127.0.0.1` by default (the uplink is
+unauthenticated); pass `-b 0.0.0.0` to accept commands from a remote
+ground host.
+
 ## Run with YAMCS (fprime-doom)
 
 [`fprime-yamcs`](https://github.com/fprime-community/fprime-yamcs)
 launches YAMCS in lieu of the fprime-gds pipelines, converts the
 F Prime JSON dictionary to XTCE at startup, and configures its UDP
-frame links from the dictionary's `ComCfg` constants. Requires JDK +
-Maven (`mvn`) on the PATH.
+frame links from the dictionary's `ComCfg` constants. Requires a JDK
+on the PATH (the pinned `fprime-yamcs` wheel ships the prebuilt plugin
+jar, so Maven is not needed).
 
 The `fprime-doom` CLI (installed by `requirements.txt` from
 `tools/fprime-doom/`) wraps it with everything this deployment needs -
 the doom-display web extension from `lib/fprime-stress/yamcs-plugin/`,
 realtime-only filtering of the `DoomSubtopology.frameTlmProcessor.FrameRow*` /
-`PaletteOut` channels (the ~9 MB/s frame stream is never archived),
+`PaletteOut` channels (the multi-MB/s frame stream is never archived),
 WAD auto-fetch, and flight-software launch:
 
 ```sh

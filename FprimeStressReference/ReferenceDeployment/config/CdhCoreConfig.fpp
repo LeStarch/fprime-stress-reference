@@ -5,7 +5,7 @@ module CdhCoreConfig {
     constant BASE_ID = 0x01000000
 
     module QueueSizes {
-        # GDS sends a burst of registration / parameter-restore
+        # The ground system sends a burst of registration / parameter-restore
         # commands the instant comm comes up. The upstream default
         # depth of 10 is shallower than that burst, so the second
         # the deployment connects with comm under load it FATALs
@@ -16,7 +16,7 @@ module CdhCoreConfig {
         # The 35 Hz schedIn drives FrameTlmProcessor to emit up to
         # 400 FrameRow writes per cycle (one per downsampled scanline
         # at X1). The upstream default depth of 10 drops most of the
-        # burst before TlmChan can serialise it; size this clear of
+        # burst before TlmPacketizer can serialise it; size this clear of
         # the worst-case per-cycle burst.
         constant tlmSend     = 512
         constant $health     = 25
