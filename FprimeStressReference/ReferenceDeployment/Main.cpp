@@ -22,7 +22,7 @@
 //   -h           Print the usage text and exit.
 // ======================================================================
 #include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopology.hpp"
-#include "Doom/DoomSubtopology/SubtopologyTopologyAc.hpp"
+#include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopologyAc.hpp"
 #include "Doom/DoomEngine/DoomEngine.hpp"
 
 #include <config/IpCfg.hpp>

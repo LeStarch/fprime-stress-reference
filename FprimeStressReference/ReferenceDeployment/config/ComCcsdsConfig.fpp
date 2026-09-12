@@ -23,6 +23,11 @@ module ComCcsdsConfig {
         constant comQueue   = 29
     }
 
+    module CpuAffinities {
+        constant aggregator = Os.TASK_DEFAULT
+        constant comQueue   = Os.TASK_DEFAULT
+    }
+
     # tlm depth holds one full FrameRow000..399 burst plus the rate
     # channels with margin.
     module QueueDepths {
@@ -35,6 +40,11 @@ module ComCcsdsConfig {
         constant events      = 0
         constant tlm         = 2
         constant file        = 1
+    }
+
+    module Aggregator {
+        @ Packet spanning across TM frames is off: the YAMCS deframer expects whole packets.
+        constant enablePacketSpanning = false
     }
 
     module BuffMgr {

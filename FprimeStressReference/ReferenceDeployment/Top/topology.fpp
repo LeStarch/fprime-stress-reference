@@ -10,7 +10,7 @@ module ReferenceDeployment {
     rateGroup3
   }
 
-  topology ReferenceDeployment {
+  deployment topology ReferenceDeployment {
     # ----------------------------------------------------------------------
     # Subtopology instances - the DOOM subsystem and the standard
     # F Prime services are each absorbed in a single declaration.

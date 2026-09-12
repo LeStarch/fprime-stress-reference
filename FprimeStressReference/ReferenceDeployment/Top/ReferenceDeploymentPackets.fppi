@@ -71,6 +71,7 @@ telemetry packets ReferenceDeploymentPackets {
     FileHandling.fileDownlink.PacketsSent
     FileHandling.fileManager.CommandsExecuted
     FileHandling.fileUplink.Warnings
+    FileHandling.fileUplink.FilesReceivedFailed
     FileHandling.fileDownlink.Warnings
     FileHandling.fileManager.Errors
   }

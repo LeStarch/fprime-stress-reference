@@ -53,23 +53,13 @@ cd fprime-stress-reference
 ```
 
 `fprime-bootstrap clone` recurses submodules, creates `fprime-venv/`,
-and installs `requirements.txt` (F Prime framework deps + the
-`fprime-get-doom` CLI from `lib/fprime-stress/tools/fprime-get-doom`).
+and installs `requirements.txt` (F Prime framework deps, the
+`fprime-get-doom` CLI from `lib/fprime-stress/tools/fprime-get-doom`,
+the `fprime-doom` YAMCS launcher, and `fprime-yamcs`).
 
 Existing checkouts that predate the `fprime-stress` repository move to
 `LeStarch/fprime-stress` should run `git submodule sync --recursive`
 once to pick up the new submodule URL.
-
-### Upgrade to the fprime-gds alpha
-
-The 35 Hz x 80-chunk-per-frame DOOM downlink depends on throughput /
-latency improvements that only ship in the alpha release. Bump
-`fprime-gds` past the framework's `==4.2.1` pin once (pinned to the
-tested alpha for reproducibility):
-
-```sh
-pip install fprime-gds==4.2.2a4
-```
 
 ### Build the deployment
 
