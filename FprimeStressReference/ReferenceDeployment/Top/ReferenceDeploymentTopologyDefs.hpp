@@ -13,13 +13,13 @@
 #include "Svc/Subtopologies/CdhCore/PingEntries.hpp"
 #include "Svc/Subtopologies/ComCcsds/PingEntries.hpp"
 #include "Svc/Subtopologies/FileHandling/PingEntries.hpp"
-#include "DoomSubtopology/PingEntries.hpp"
+#include "Doom/DoomSubtopology/PingEntries.hpp"
 
 // SubtopologyTopologyDefs includes
 #include "Svc/Subtopologies/CdhCore/SubtopologyTopologyDefs.hpp"
 #include "Svc/Subtopologies/ComCcsds/SubtopologyTopologyDefs.hpp"
 #include "Svc/Subtopologies/FileHandling/SubtopologyTopologyDefs.hpp"
-#include "DoomSubtopology/SubtopologyTopologyDefs.hpp"
+#include "Doom/DoomSubtopology/SubtopologyTopologyDefs.hpp"
 
 // FPP constants from each subtopology config. Required because the
 // outer topology autocoder inlines each subtopology's
@@ -29,7 +29,7 @@
 #include "Svc/Subtopologies/CdhCore/CdhCoreConfig/FppConstantsAc.hpp"
 #include "Svc/Subtopologies/ComCcsds/ComCcsdsConfig/FppConstantsAc.hpp"
 #include "Svc/Subtopologies/FileHandling/FileHandlingConfig/FppConstantsAc.hpp"
-#include "DoomSubtopology/DoomSubtopologyConfig/FppConstantsAc.hpp"
+#include "Doom/DoomConfig/FppConstantsAc.hpp"
 
 // ComCcsds queue-port enums required by the inlined
 // ComCcsds::Subtopology::configComponents body (which indexes the

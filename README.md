@@ -112,45 +112,34 @@ fprime-util generate arm-hf-linux
 fprime-util build    arm-hf-linux
 ```
 
-### Install the GDS plugin and start the GDS
+### Run on the YAMCS ground layer
 
 ```sh
-# From the project root, one-shot install of the doom-display addon:
-lib/fprime-stress/gds-plugin/install.sh
+# From the project root - installs are one-time (see tools/fprime-doom):
+pip install -e tools/fprime-doom
 
-# Start the GDS - it auto-launches the FSW binary, opens the GUI on
-# http://127.0.0.1:5001, and loads the project-local fprime-gds.yml
-# which turns on the Dashboard tab (the doom-display addon itself is
-# registered by install.sh above).
-fprime-gds -d FprimeStressReference/ReferenceDeployment
+# Launches YAMCS with the doom-display web extension and auto-starts
+# the FSW binary. Open http://localhost:8090 when it is up.
+fprime-doom
 ```
 
-For cross-compiled deployments or runs from a different working
-directory, override the WAD path explicitly with `-w` on the binary
-or pass `--app <path>` to fprime-gds.
+Click the floating **DOOM** button in the YAMCS web UI, then **Start**
+in the panel — the engine does not start on its own. The panel renders
+frames, forwards keyboard input as commands, and offers Stop/Reset.
+The display size follows the compile-time `Doom.DOWNSAMPLE_FACTOR`
+configured in `lib/fprime-stress/Doom/DoomConfig/DoomConfig.fpp`.
 
-`install.sh` copies the `doom-display` Vue addon into the active
-fprime-gds package and registers it in `enabled.js`. The dashboards
-feature flag (`config.enableDashboards`) is not touched - that is
-flipped per-project by the `fprime-gds.yml` at the project root,
-which points the GDS at `lib/fprime-stress/gds-plugin/config.js` via
-its `flask.JS_CONFIGURATION_FILE` override. The same `fprime-gds.yml`
-also selects the UDP transport and CCSDS framing (see
-"Communications" below) and sets the GUI/port options, so a plain
-invocation just works:
+The project-local `fprime-gds.yml` still configures the python GDS
+(UDP transport, CCSDS framing, ports — see "Communications" below) for
+the integration test suite:
 
 ```sh
 fprime-gds
 ```
 
-With the GDS open, click **Dashboard** in the nav, then
-**Upload Dashboard File**, and select
-`lib/fprime-stress/gds-plugin/dashboard.xml`. Then dispatch the
-`DoomSubtopology.doom.Start` command from the GDS **Commanding**
-tab — the engine does not start on its own — or launch the binary
-with `-S` to auto-start it. The DOOM panel begins rendering frames
-once the engine is started. `DoomSubtopology.doom.Reset` returns the
-game to its boot title screen, and `Stop` halts the engine.
+For cross-compiled deployments or runs from a different working
+directory, override the WAD path explicitly with `-w` on the binary
+or pass `--app <path>` to fprime-gds.
 
 ## Communications: CCSDS TM/TC frames over UDP
 
@@ -176,7 +165,7 @@ Maven (`mvn`) on the PATH.
 The `fprime-doom` CLI (installed by `requirements.txt` from
 `tools/fprime-doom/`) wraps it with everything this deployment needs -
 the doom-display web extension from `lib/fprime-stress/yamcs-plugin/`,
-realtime-only filtering of the `DoomSubtopology.doom.FrameOut*` /
+realtime-only filtering of the `DoomSubtopology.frameTlmProcessor.FrameRow*` /
 `PaletteOut` channels (the ~9 MB/s frame stream is never archived),
 WAD auto-fetch, and flight-software launch:
 

@@ -5,19 +5,11 @@
 # running plain `fprime-gds` is enough to pick up everything below.
 #
 # Anything under `command-line-options` is passed to the GDS as CLI
-# arguments. Anything under `flask` is set on the Flask `app.config`
-# at startup - that is how we swap in the project-local `config.js`
-# below, which is what flips dashboards on.
+# arguments.
 #
-# To register the doom-display addon source itself, run
-# `lib/fprime-stress/gds-plugin/install.sh` once after installing
-# requirements.txt and upgrading to the fprime-gds alpha
-# (`pip install fprime-gds==4.2.2a4`; see README). The script copies
-# the addon into the active fprime-gds package and appends an import
-# to `enabled.js`; fprime-gds does not yet expose a CLI flag for
-# out-of-tree addons.
-# The Dashboard XML to upload from the browser is at:
-#     lib/fprime-stress/gds-plugin/dashboard.xml
+# The DOOM display itself runs on the YAMCS ground layer (see
+# tools/fprime-doom and lib/fprime-stress/yamcs-plugin); the python
+# GDS configured here is used for the integration test suite.
 
 command-line-options:
     # ZMQ network layer off - we use the UDP comm path against the
@@ -51,14 +43,3 @@ command-line-options:
     tts-addr: 127.0.0.1
     tts-port: 50101
 
-flask:
-    # Point fprime-gds's `/js/config.js` route at this project's
-    # config.js (committed under the GDS-plugin directory next to the
-    # dashboard XML it pairs with) instead of the package default.
-    # That config.js sets `config.enableDashboards = true`, so the
-    # Dashboard tab is visible without mutating the installed
-    # fprime-gds site-packages tree.
-    #
-    # The !PATH tag resolves the value relative to this YAML file's
-    # directory; see fprime_gds.executables.cli.ConfigDrivenParser.
-    JS_CONFIGURATION_FILE: !PATH lib/fprime-stress/gds-plugin/config.js

@@ -16,8 +16,8 @@ register_fprime_module(
         Fw_Logger
         Svc_PosixTime
         Svc_TlmPacketizer_config_TlmPacketizerConfig
-        Doom
-        DoomSubtopology
+        Doom_DoomEngine
+        Doom_DoomSubtopology
         Svc_Subtopologies_CdhCore
         Svc_Subtopologies_ComCcsds
         Svc_Subtopologies_FileHandling

@@ -29,16 +29,22 @@ Fw::MallocAllocator s_cmdSeqAllocator;
 //   rateGroup2 = 70 / 7  = 10 Hz (cmdSeq pacing, fileMgr housekeeping)
 //   rateGroup3 = 70 / 70 = 1 Hz  (long-cycle housekeeping, healthRun)
 // 35 Hz is DOOM's native gameplay cadence: a tick on rateGroup1 maps
-// 1:1 to one DOOM game frame and one full FrameOut burst.
+// 1:1 to one DOOM game frame sent out the frame pipeline.
 const Svc::RateGroupDriver::DividerSet s_rateGroupDivisorsSet{{{2, 0}, {7, 0}, {70, 0}}};
 
-Svc::ActiveRateGroup::ContextArray s_rateGroup1Context{};
-Svc::ActiveRateGroup::ContextArray s_rateGroup2Context{};
-Svc::ActiveRateGroup::ContextArray s_rateGroup3Context{};
+// rateGroup1's context slot 0 feeds DoomSubtopology.schedIn the rate
+// group's period in microseconds per tick, so the engine tracks the
+// actual configured rate instead of assuming one.
+Svc::ActiveRateGroup::ContextArray s_rateGroup1Context(0U);
+Svc::ActiveRateGroup::ContextArray s_rateGroup2Context(0U);
+Svc::ActiveRateGroup::ContextArray s_rateGroup3Context(0U);
 
 void configureTopology(const ReferenceDeployment::TopologyState& state) {
     using namespace ReferenceDeployment;
     rateGroupDriverComp.configure(s_rateGroupDivisorsSet);
+
+    // Context slot 0 carries microseconds per tick at 35 Hz.
+    s_rateGroup1Context[0] = 1000000U / 35U;
 
     rateGroup1Comp.configure(s_rateGroup1Context);
     rateGroup2Comp.configure(s_rateGroup2Context);

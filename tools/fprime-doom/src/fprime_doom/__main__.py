@@ -22,8 +22,8 @@ from pathlib import Path
 
 # Channels that must flow in and out of YAMCS without being archived.
 REALTIME_ONLY_CHANNELS = [
-    "DoomSubtopology.doom.FrameOut*",
-    "DoomSubtopology.doom.PaletteOut",
+    "DoomSubtopology.frameTlmProcessor.FrameRow*",
+    "DoomSubtopology.frameTlmProcessor.PaletteOut",
 ]
 WEB_EXTENSION_RELATIVE = Path("lib/fprime-stress/yamcs-plugin/doom-display")
 DEPLOYMENT_NAME = "FprimeStressReference_ReferenceDeployment"
