@@ -3,8 +3,9 @@
 # Each Doom FrameRow channel (and PaletteOut) gets its own packet so
 # the packetizer ships every row with a fixed, statically-known layout
 # that ground systems (YAMCS/XTCE) can decode without per-entry
-# discrimination. Only rows 0..height-1 of the downsampled frame are
-# emitted; the remaining row packets simply never update.
+# discrimination. This list is written for Doom.DOWNSAMPLE_FACTOR = 2:
+# FrameRow000..199 are packetized, FrameRow200..399 are listed under
+# `omit` below and are not downlinked. Update it with the factor.
 telemetry packets ReferenceDeploymentPackets {
 
   packet Engine id 1 group 1 {

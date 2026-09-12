@@ -11,7 +11,7 @@
 //   -b address   Local address the uplink (TC) socket binds to
 //                (default: 127.0.0.1; pass 0.0.0.0 to accept remote TC).
 //   -u port      Local UDP port to listen on for uplink (TC)
-//                datagrams (default: 50001; 0 disables uplink).
+//                datagrams (default: 50001; 0 binds an OS-chosen ephemeral port).
 //   -w wadPath   Path to the IWAD file passed to doomgeneric_Create.
 //                Defaults to the first existing entry among the
 //                conventional WAD locations (project build-artifacts,
@@ -23,9 +23,9 @@
 //                must be dispatched as a command from the GDS.
 //   -h           Print the usage text and exit.
 // ======================================================================
+#include "Doom/DoomEngine/DoomEngine.hpp"
 #include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopology.hpp"
 #include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopologyAc.hpp"
-#include "Doom/DoomEngine/DoomEngine.hpp"
 
 #include <config/IpCfg.hpp>
 
@@ -33,14 +33,14 @@
 #include <Os/Os.hpp>
 #include <Os/Task.hpp>
 
-#include <cctype>
-#include <cerrno>
-#include <cstdlib>
-#include <cstring>
 #include <getopt.h>
 #include <pthread.h>
 #include <signal.h>
 #include <sys/stat.h>
+#include <cctype>
+#include <cerrno>
+#include <cstdlib>
+#include <cstring>
 
 namespace {
 
@@ -142,8 +142,7 @@ int main(int argc, char* argv[]) {
         switch (option) {
             case 'a':
                 if (::strlen(optarg) >= SOCKET_MAX_HOSTNAME_SIZE) {
-                    Fw::Logger::log("Hostname too long (max %d chars)\n",
-                                    SOCKET_MAX_HOSTNAME_SIZE - 1);
+                    Fw::Logger::log("Hostname too long (max %d chars)\n", SOCKET_MAX_HOSTNAME_SIZE - 1);
                     printUsage(argv[0]);
                     return 1;
                 }
@@ -151,8 +150,7 @@ int main(int argc, char* argv[]) {
                 break;
             case 'b':
                 if (::strlen(optarg) >= SOCKET_MAX_HOSTNAME_SIZE) {
-                    Fw::Logger::log("Bind address too long (max %d chars)\n",
-                                    SOCKET_MAX_HOSTNAME_SIZE - 1);
+                    Fw::Logger::log("Bind address too long (max %d chars)\n", SOCKET_MAX_HOSTNAME_SIZE - 1);
                     printUsage(argv[0]);
                     return 1;
                 }
@@ -221,14 +219,10 @@ int main(int argc, char* argv[]) {
 
     if (state.autoStart) {
         const bool ok = DoomSubtopology::doom.forceStart();
-        Fw::Logger::log("Auto-start: doom.forceStart() returned %s\n",
-                        ok ? "ok" : "fail");
+        Fw::Logger::log("Auto-start: doom.forceStart() returned %s\n", ok ? "ok" : "fail");
     }
 
-    // ~70 Hz base timer (14286 us per tick). The rate-group dividers
-    // (2 / 7 / 70) then produce 35 Hz / 10 Hz / 1 Hz rate groups; DOOM
-    // runs on the 35 Hz group, matching its native cadence.
-    ReferenceDeployment::startRateGroups(Fw::TimeInterval(0, 14286));
+    ReferenceDeployment::startRateGroups();
 
     ReferenceDeployment::teardownTopology(state);
     // sigwait is a POSIX cancellation point, so a waiter still blocked

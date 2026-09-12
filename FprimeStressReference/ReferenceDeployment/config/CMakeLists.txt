@@ -5,9 +5,8 @@
 # modifying the upstream F Prime tree:
 #  - FpConstants / ComCfg / ComCcsdsConfig size the framing path
 #    around DOOM's per-frame chunk burst.
-#  - CdhCoreConfig bumps the telemetry worker queue so the same burst
-#    is not dropped before serialisation, and the cmdDisp queue to
-#    absorb the GDS connect-time command burst.
+#  - CdhCoreConfig bumps the cmdDisp queue to absorb the GDS
+#    connect-time command burst.
 #  - CdhCoreTlmConfig swaps tlmSend from TlmChan to TlmPacketizer so
 #    every packet has a fixed layout ground systems can decode.
 ####

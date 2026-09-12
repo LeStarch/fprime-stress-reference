@@ -5,8 +5,10 @@
 // Brings up the deployment topology: a 35/10/1 Hz rate-group split
 // driving the standard F Prime services plus the Doom subtopology.
 // The DoomSubtopology's `doom` instance is configured here with the
-// WAD path before the Start command is accepted.
+// WAD path and its engine is created (initEngine) before tasks start.
 // ======================================================================
+#include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopology.hpp"
+
 #include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopologyAc.hpp"
 
 #include <Fw/Logger/Logger.hpp>
@@ -30,7 +32,8 @@ Fw::MallocAllocator s_cmdSeqAllocator;
 //   rateGroup3 = 70 / 70 = 1 Hz  (long-cycle housekeeping, healthRun)
 // 35 Hz is DOOM's native gameplay cadence: a tick on rateGroup1 maps
 // 1:1 to one DOOM game frame sent out the frame pipeline.
-const Svc::RateGroupDriver::DividerSet s_rateGroupDivisorsSet{{{2, 0}, {7, 0}, {70, 0}}};
+const Svc::RateGroupDriver::DividerSet s_rateGroupDivisorsSet{
+    {{static_cast<FwSizeType>(ReferenceDeployment::DOOM_RATE_DIVIDER), 0}, {7, 0}, {70, 0}}};
 
 // rateGroup1's context slot 0 feeds DoomSubtopology.schedIn the rate
 // group's period in microseconds per tick, so the engine tracks the
@@ -43,8 +46,7 @@ void configureTopology(const ReferenceDeployment::TopologyState& state) {
     using namespace ReferenceDeployment;
     rateGroupDriverComp.configure(s_rateGroupDivisorsSet);
 
-    // Context slot 0 carries microseconds per tick at 35 Hz.
-    s_rateGroup1Context[0] = 1000000U / 35U;
+    s_rateGroup1Context[0] = DOOM_TICK_USEC;
 
     rateGroup1Comp.configure(s_rateGroup1Context);
     rateGroup2Comp.configure(s_rateGroup2Context);
@@ -52,13 +54,17 @@ void configureTopology(const ReferenceDeployment::TopologyState& state) {
 
     cmdSeq.allocateBuffer(0, s_cmdSeqAllocator, CMD_SEQ_POOL_BYTES);
 
-    // Push the WAD path into the doom instance owned by the
-    // DoomSubtopology. An unset path leaves the engine unable to
-    // start (Start is rejected with WadUnavailable).
+    // Configure the WAD and create the engine now, before any task
+    // runs: all engine heap allocation happens here. An unset or
+    // unreadable WAD leaves the engine uncreated (WadUnavailable) and
+    // Start is rejected with EngineUnavailable.
     if ((state.wadPath != nullptr) && (state.wadPath[0] != '\0')) {
         DoomSubtopology::doom.setWadPath(state.wadPath);
     } else {
         DoomSubtopology::doom.setWadPath("");
+    }
+    if (!DoomSubtopology::doom.initEngine()) {
+        Fw::Logger::log("DOOM engine init failed: Start will be rejected\n");
     }
 }
 
@@ -80,14 +86,13 @@ void setupTopology(const TopologyState& state) {
         if (status == Drv::SOCK_SUCCESS) {
             // Uplink: bind the local TC listen address/port. Port 0 binds
             // an ephemeral port, effectively leaving uplink unused.
-            status = comDriver.configureRecv(state.uplinkAddress, state.uplinkPort,
-                                             ComCcsdsConfig::BuffMgr::commsBuffSize);
+            status =
+                comDriver.configureRecv(state.uplinkAddress, state.uplinkPort, ComCcsdsConfig::BuffMgr::commsBuffSize);
         }
         if (status != Drv::SOCK_SUCCESS) {
             // Run without comms rather than spinning a ReceiveTask on
             // an unconfigured driver.
-            Fw::Logger::log("comDriver configure failed (%d): running without comms\n",
-                            static_cast<I32>(status));
+            Fw::Logger::log("comDriver configure failed (%d): running without comms\n", static_cast<I32>(status));
             commEnabled = false;
         }
     }
@@ -100,8 +105,8 @@ void setupTopology(const TopologyState& state) {
     }
 }
 
-void startRateGroups(const Fw::TimeInterval& interval) {
-    linuxTimer.startTimer(interval);
+void startRateGroups() {
+    linuxTimer.startTimer(Fw::TimeInterval(0, BASE_TIMER_USEC));
 }
 
 void stopRateGroups() {
