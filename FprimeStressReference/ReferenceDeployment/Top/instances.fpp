@@ -26,14 +26,12 @@ module ReferenceDeployment {
 
   # rateGroup1Comp paces DOOM at 35 Hz (DOOM's native gameplay cadence)
   # via a sync schedIn on DoomEngine. CycleIn has a drop overflow
-  # policy, so a full queue sheds cycles (counted as cycle slips)
-  # rather than FATALing on CycleIn; the deep queue reduces dropped
-  # cycles during bursts. (PingIn uses the default assert policy.)
-  # Note PingIn shares this queue, so sustained backlog delays health
-  # pings - the RgCycleSlips channel remains the canonical overload
-  # evidence.
+  # policy, so a full queue sheds cycles (counted in RgCycleSlips)
+  # rather than FATALing. PingIn shares this queue, so its depth is
+  # kept well under the Health FATAL horizon (5 pings at 1 Hz):
+  # 64 ticks x 28.6 ms = 1.8 s worst-case ping delay.
   instance rateGroup1Comp: Svc.ActiveRateGroup base id 0x10001000 \
-    queue size 512 \
+    queue size 64 \
     stack size Default.STACK_SIZE \
     priority 43
 

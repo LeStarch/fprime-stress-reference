@@ -71,12 +71,11 @@ module ReferenceDeployment {
       # = one doomgeneric_Tick = one frame through the frame pipeline.
       # rateGroup1 is configured in ReferenceDeploymentTopology.cpp.
       rateGroupDriverComp.CycleOut[Ports_RateGroups.rateGroup1] -> rateGroup1Comp.CycleIn
+      # Only the frame pipeline runs here: tlmSend.Run emits the packets
+      # and aggregatorTimeout bounds frame latency.
       rateGroup1Comp.RateGroupMemberOut[0] -> DoomSubtopology.Subtopology.schedIn
       rateGroup1Comp.RateGroupMemberOut[1] -> CdhCore.Subtopology.tlmSendRun
-      rateGroup1Comp.RateGroupMemberOut[2] -> FileHandling.Subtopology.fileDownlinkRun
-      rateGroup1Comp.RateGroupMemberOut[3] -> ComCcsds.Subtopology.comQueueRun
-      rateGroup1Comp.RateGroupMemberOut[4] -> CdhCore.Subtopology.cmdDispRun
-      rateGroup1Comp.RateGroupMemberOut[5] -> ComCcsds.Subtopology.aggregatorTimeout
+      rateGroup1Comp.RateGroupMemberOut[2] -> ComCcsds.Subtopology.aggregatorTimeout
 
       # Rate group 2 - sequencer pacing and file-manager housekeeping
       rateGroupDriverComp.CycleOut[Ports_RateGroups.rateGroup2] -> rateGroup2Comp.CycleIn
@@ -88,9 +87,13 @@ module ReferenceDeployment {
       rateGroup3Comp.RateGroupMemberOut[0] -> CdhCore.Subtopology.healthRun
       rateGroup3Comp.RateGroupMemberOut[1] -> ComCcsds.Subtopology.bufferManagerSchedIn
       rateGroup3Comp.RateGroupMemberOut[2] -> DoomSubtopology.Subtopology.bufferManagerSchedIn
-      # /proc-scraping housekeeping belongs on the 1 Hz group, not the
-      # deadline-sensitive 35 Hz DOOM group.
+      # Housekeeping (telemetry counters, /proc scraping, the 1 s file
+      # downlink cycle) belongs here, not on the 35 Hz DOOM group.
       rateGroup3Comp.RateGroupMemberOut[3] -> systemResources.run
+      rateGroup3Comp.RateGroupMemberOut[4] -> CdhCore.Subtopology.eventsRun
+      rateGroup3Comp.RateGroupMemberOut[5] -> CdhCore.Subtopology.cmdDispRun
+      rateGroup3Comp.RateGroupMemberOut[6] -> ComCcsds.Subtopology.comQueueRun
+      rateGroup3Comp.RateGroupMemberOut[7] -> FileHandling.Subtopology.fileDownlinkRun
     }
 
     connections Communications {

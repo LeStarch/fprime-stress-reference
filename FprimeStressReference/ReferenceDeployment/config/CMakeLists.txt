@@ -6,7 +6,9 @@
 #  - FpConstants / ComCfg / ComCcsdsConfig size the framing path
 #    around DOOM's per-frame chunk burst.
 #  - CdhCoreConfig bumps the cmdDisp queue to absorb the GDS
-#    connect-time command burst.
+#    connect-time command burst and tlmSend for the 35 Hz Run.
+#  - FileHandlingConfig sandboxes ground file access to the working
+#    directory.
 #  - CdhCoreTlmConfig swaps tlmSend from TlmChan to TlmPacketizer so
 #    every packet has a fixed layout ground systems can decode.
 ####
@@ -18,6 +20,7 @@ register_fprime_config(
         "${CMAKE_CURRENT_LIST_DIR}/ComCcsdsConfig.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/CdhCoreConfig.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/CdhCoreTlmConfig.fpp"
+        "${CMAKE_CURRENT_LIST_DIR}/FileHandlingConfig.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/TlmPacketizerCfg.hpp"
     INTERFACE
     DEPENDS

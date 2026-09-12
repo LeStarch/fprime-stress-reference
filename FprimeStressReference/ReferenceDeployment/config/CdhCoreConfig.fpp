@@ -1,6 +1,6 @@
 # Project-local override of F Prime's CdhCoreConfig. Mirrors the
-# upstream defaults verbatim except for QueueSizes.cmdDisp, the one
-# constant this deployment tunes.
+# upstream defaults verbatim except for QueueSizes.cmdDisp and
+# QueueSizes.tlmSend, the two constants this deployment tunes.
 module CdhCoreConfig {
     constant BASE_ID = 0x01000000
 
@@ -14,10 +14,10 @@ module CdhCoreConfig {
         constant cmdDisp     = 256
         constant events      = 10
         # TlmPacketizer.TlmRecv is a sync port: the FrameRow burst is
-        # serialised on the caller's thread and never enters this queue,
-        # which only carries Run/ping/commands. The burst is buffered in
-        # ComCcsdsConfig.QueueDepths.tlm. Upstream default depth.
-        constant tlmSend     = 10
+        # serialised on the caller's thread and never enters this queue
+        # (it is buffered in ComCcsdsConfig.QueueDepths.tlm). Run arrives
+        # at 35 Hz and overflows with an assert, so cover a ~1.8 s stall.
+        constant tlmSend     = 64
         constant $health     = 25
     }
 

@@ -97,6 +97,7 @@ void setupTopology(const TopologyState& state) {
         }
     }
     configureTopology(state);
+    readParameters();
     loadParameters();
     startTasks(state);
     if (commEnabled) {
