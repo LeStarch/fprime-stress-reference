@@ -74,13 +74,13 @@ void setupTopology(const TopologyState& state) {
     regCommands();
     configComponents(state);
     if (commEnabled) {
-        // Downlink: bare space packets, one per datagram, sent to the
+        // Downlink: CCSDS TM frames, one per datagram, sent to the
         // ground system's TM listen port.
         Drv::SocketIpStatus status = comDriver.configureSend(state.hostname, state.port);
         if (status == Drv::SOCK_SUCCESS) {
-            // Uplink: bind the local TC listen port. Port 0 binds an
-            // ephemeral port, effectively leaving uplink unused.
-            status = comDriver.configureRecv("0.0.0.0", state.uplinkPort,
+            // Uplink: bind the local TC listen address/port. Port 0 binds
+            // an ephemeral port, effectively leaving uplink unused.
+            status = comDriver.configureRecv(state.uplinkAddress, state.uplinkPort,
                                              ComCcsdsConfig::BuffMgr::commsBuffSize);
         }
         if (status != Drv::SOCK_SUCCESS) {

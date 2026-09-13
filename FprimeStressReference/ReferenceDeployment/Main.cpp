@@ -2,12 +2,14 @@
 // \title  Main.cpp
 // \brief  Entry point for the ReferenceDeployment deployment.
 //
-//   fprime-stress-reference [-a hostname] [-p port] [-u port] [-w /path/to/DOOM1.WAD] [-S] [-h]
+//   fprime-stress-reference [-a hostname] [-p port] [-b address] [-u port] [-w /path/to/DOOM1.WAD] [-S] [-h]
 //
 //   -a hostname  IP the downlink (TM) datagrams are sent to, i.e. the
 //                ground system host (default: no comm).
 //   -p port      Remote UDP port receiving downlink datagrams
 //                (default: 0 - disables comm).
+//   -b address   Local address the uplink (TC) socket binds to
+//                (default: 127.0.0.1; pass 0.0.0.0 to accept remote TC).
 //   -u port      Local UDP port to listen on for uplink (TC)
 //                datagrams (default: 50001; 0 disables uplink).
 //   -w wadPath   Path to the IWAD file passed to doomgeneric_Create.
@@ -22,7 +24,7 @@
 //   -h           Print the usage text and exit.
 // ======================================================================
 #include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopology.hpp"
-#include "Doom/DoomSubtopology/SubtopologyTopologyAc.hpp"
+#include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopologyAc.hpp"
 #include "Doom/DoomEngine/DoomEngine.hpp"
 
 #include <config/IpCfg.hpp>
@@ -71,9 +73,10 @@ const char* resolveDefaultWadPath() {
 
 void printUsage(const char* app) {
     Fw::Logger::log(
-        "Usage: %s [-a hostname] [-p port] [-u port] [-w wad_path] [-S] [-h]\n"
+        "Usage: %s [-a hostname] [-p port] [-b address] [-u port] [-w wad_path] [-S] [-h]\n"
         "    -a hostname  Ground system IP downlink (TM) datagrams are sent to\n"
         "    -p port      Remote UDP port for downlink (0 disables comm; default 0)\n"
+        "    -b address   Local address the uplink (TC) socket binds to (default 127.0.0.1)\n"
         "    -u port      Local UDP port to listen on for uplink (0 disables uplink; default 50001)\n"
         "    -w wad_path  Path to the DOOM IWAD file (default: first\n"
         "                 existing candidate near the binary, else %s)\n"
@@ -82,8 +85,7 @@ void printUsage(const char* app) {
         app, DEFAULT_WAD_PATH);
 }
 
-// Parse a decimal TCP port in 0..65535 (0 disables TCP). Returns
-// true on success.
+// Parse a decimal UDP port in 0..65535. Returns true on success.
 bool parsePort(const char* text, U16& portOut) {
     if ((text == nullptr) || (text[0] == '\0')) {
         return false;
@@ -136,7 +138,7 @@ int main(int argc, char* argv[]) {
     state.wadPath = resolveDefaultWadPath();
 
     I32 option = 0;
-    while ((option = getopt(argc, argv, "ha:p:u:w:S")) != -1) {
+    while ((option = getopt(argc, argv, "ha:p:b:u:w:S")) != -1) {
         switch (option) {
             case 'a':
                 if (::strlen(optarg) >= SOCKET_MAX_HOSTNAME_SIZE) {
@@ -146,6 +148,15 @@ int main(int argc, char* argv[]) {
                     return 1;
                 }
                 state.hostname = optarg;
+                break;
+            case 'b':
+                if (::strlen(optarg) >= SOCKET_MAX_HOSTNAME_SIZE) {
+                    Fw::Logger::log("Bind address too long (max %d chars)\n",
+                                    SOCKET_MAX_HOSTNAME_SIZE - 1);
+                    printUsage(argv[0]);
+                    return 1;
+                }
+                state.uplinkAddress = optarg;
                 break;
             case 'p':
                 if (!parsePort(optarg, state.port)) {

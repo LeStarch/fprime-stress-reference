@@ -11,13 +11,16 @@ module ComCfg {
     dictionary constant SpacecraftId = 0x0044
 
     @ Fixed size of CCSDS TM frames
-    dictionary constant TmFrameFixedSize = 1064  # FW_COM_BUFFER_MAX_SIZE (1024) + TM header/footer, 2 SP headers, idle byte
+    dictionary constant TmFrameFixedSize = 1064  # FW_COM_BUFFER_MAX_SIZE (1024) + 2 SpacePacket headers + idle byte, with margin
 
     @ Upper Bound on Fixed size of CCSDS AOS frames
     constant AosMaxFrameFixedSize = 1536
 
-    @ Aggregation buffer for ComAggregator component
-    constant AggregationSize = TmFrameFixedSize - 6 - 6 - 1 - 2  # 2 header (6) + 1 idle byte + 2 trailer bytes
+    @ Bytes of transfer-frame data field available to Svc.ComAggregator output (TM: frame minus 6-byte header and
+    @ 2-byte trailer). Projects inserting a layer between the aggregator and Svc.Ccsds.TmFramer that adds bytes
+    @ (e.g. the 2-byte SA index of Svc.Ccsds.CcsdsSdlsFramer) must subtract that overhead here.
+    @ With packet spanning enabled this must not exceed 2046 (0x7FE), the TM First Header Pointer range; Svc.ComAggregator.configure() asserts otherwise.
+    constant AggregationSize = TmFrameFixedSize - 6 - 2  # TM primary header (6) + TM trailer/CRC (2)
 
     @ Packet Version Numbers are 3 bits with only 2 currently valid values
     dictionary enum Pvn : U8 {
@@ -37,6 +40,7 @@ module ComCfg {
         FW_PACKET_PACKETIZED_TLM = 0x0004  @< Packetized telemetry packet type
         FW_PACKET_DP             = 0x0005  @< Data Product packet type
         FW_PACKET_IDLE           = 0x0006  @< F Prime idle
+        FW_PACKET_PARAM          = 0x0007  @< Parameter value type - outgoing
         FW_PACKET_HAND           = 0x00FE  @< F Prime handshake
         FW_PACKET_UNKNOWN        = 0x00FF  @< F Prime unknown packet
         SPP_IDLE_PACKET          = 0x07FF  @< Per Space Packet Standard, all 1s (11bits) is reserved for Idle Packets
@@ -57,6 +61,7 @@ module ComCfg {
         pvn: Pvn                    @< Packet Version Number - used for AOS deframing to identify packet type
         sendNow: bool               @< Flag to AOS Framer that the Frame this packet goes into should be sent ASAP
         saIndex: U16                @< Security Association Index - set by SDLS deframers, read by SDLS framers
+        firstHeaderPointer: U16     @< 11 bit TM First Header Pointer - set by ComAggregator, read by TmFramer
     } default {
         comQueueIndex = 0
         apid = Apid.FW_PACKET_UNKNOWN
@@ -67,6 +72,7 @@ module ComCfg {
         pvn = Pvn.INVALID_UNINITIALIZED
         sendNow = false
         saIndex = SaIndexUnset
+        firstHeaderPointer = 0
     }
 
 }

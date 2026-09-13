@@ -1,8 +1,8 @@
 // ======================================================================
 // \title  ReferenceDeploymentTopologyDefs.hpp
 // \brief  Required header for the topology autocoder. Pulls in every
-//         subtopology PingEntries / TopologyDefs file and declares the
-//         per-instance health-ping thresholds used by the deployment.
+//         subtopology TopologyDefs file and declares the per-instance
+//         health-ping thresholds used by the deployment.
 // ======================================================================
 #ifndef ReferenceDeployment_ReferenceDeploymentTopologyDefs_HPP
 #define ReferenceDeployment_ReferenceDeploymentTopologyDefs_HPP
@@ -13,7 +13,6 @@
 #include "Svc/Subtopologies/CdhCore/PingEntries.hpp"
 #include "Svc/Subtopologies/ComCcsds/PingEntries.hpp"
 #include "Svc/Subtopologies/FileHandling/PingEntries.hpp"
-#include "Doom/DoomSubtopology/PingEntries.hpp"
 
 // SubtopologyTopologyDefs includes
 #include "Svc/Subtopologies/CdhCore/SubtopologyTopologyDefs.hpp"
@@ -67,10 +66,12 @@ struct TopologyState {
     const char* hostname = nullptr;
     //! Remote UDP port receiving downlink (TM) datagrams.
     U16 port = 0;
-    //! Local UDP port to listen on for uplink (TC) datagrams; 0
-    //! binds an ephemeral port, effectively disabling uplink. Only
-    //! used when comms are enabled via hostname/port. Defaults to the
-    //! project convention shared with fprime-gds.yml and yamcs/etc.
+    //! Local address the uplink (TC) socket binds to. Loopback by
+    //! default: the uplink is unauthenticated, so exposing it is opt-in.
+    const char* uplinkAddress = "127.0.0.1";
+    //! Local UDP port to listen on for uplink (TC) datagrams; 0 binds an
+    //! ephemeral port, effectively disabling uplink. Only used when comms
+    //! are enabled via hostname/port. Matches fprime-gds.yml.
     U16 uplinkPort = 50001;
     //! Path to the DOOM IWAD file that should be passed to the engine.
     //! Must reference an existing WAD: the engine rejects a Start

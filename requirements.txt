@@ -2,22 +2,10 @@
 #
 # Pulls in the F Prime framework's own requirements (fprime-tools,
 # fprime-gds, fprime-fpp, ...), then layers on the DOOM-fetch CLI
-# that ships inside the fprime-stress library.
-#
-# Note: the 35 Hz x 80-chunk-per-frame DOOM downlink relies on
-# throughput / latency improvements only present in the fprime-gds
-# alpha. After this file is installed, upgrade fprime-gds with the
-# pinned tested alpha:
-#
-#     pip install fprime-gds==4.2.2a4
-#
-# That step lives outside this file because lib/fprime/requirements.txt
-# exact-pins fprime-gds==4.2.1 and pip's resolver rejects mixing an
-# exact pin with an override in the same install pass.
+# that ships inside the fprime-stress library and the YAMCS launcher.
 -r ./lib/fprime/requirements.txt
 ./lib/fprime-stress/tools/fprime-get-doom
 ./tools/fprime-doom
-# fprime-yamcs with web-extension / realtime-only-channel support
-# (fprime-community/fprime-yamcs#9 and #15 are merged on main but not
-# yet in a PyPI release).
-fprime-yamcs @ git+https://github.com/fprime-community/fprime-yamcs.git@main
+# fprime-yamcs 0.1.7 ships the web-extension / realtime-only-channel
+# support and the prebuilt plugin jar (source checkouts require Maven).
+fprime-yamcs==0.1.7

@@ -12,8 +12,10 @@ Testing/
 
 # YAMCS runtime data (created by fprime-doom / fprime-yamcs)
 yamcs-data/
-build-fprime-automatic-*/
-build-artifacts/
 
 # Python packaging metadata
 *.egg-info/
+tools/fprime-doom/build/
+
+# fprime-yamcs XTCE conversion cache
+cache/

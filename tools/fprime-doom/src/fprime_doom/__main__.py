@@ -104,15 +104,21 @@ def main(argv=None):
 
     # The project fprime-gds.yml carries GDS-only options (gui-port, ...)
     # that fprime-yamcs does not understand; mask the auto-loaded config.
-    with tempfile.NamedTemporaryFile("w", suffix=".yml", delete=False) as empty_config:
-        empty_config.write("command-line-options: {}\n")
+    empty_config = None
     if "-c" not in passthrough and "--config" not in passthrough:
-        command += ["-c", empty_config.name]
+        with tempfile.NamedTemporaryFile("w", suffix=".yml", delete=False) as handle:
+            handle.write("command-line-options: {}\n")
+            empty_config = Path(handle.name)
+        command += ["-c", str(empty_config)]
 
     print(f"[INFO] fprime-doom: {' '.join(command)}")
     print("[INFO] YAMCS web UI: http://localhost:8090 - click the DOOM button, then Start.")
-    # Run from the project root so the binary's relative WAD search works.
-    return subprocess.run(command, cwd=project_root).returncode
+    try:
+        # Run from the project root so the binary's relative WAD search works.
+        return subprocess.run(command, cwd=project_root).returncode
+    finally:
+        if empty_config is not None:
+            empty_config.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":
