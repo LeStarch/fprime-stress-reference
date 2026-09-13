@@ -105,7 +105,7 @@ def main(argv=None):
     # The project fprime-gds.yml carries GDS-only options (gui-port, ...)
     # that fprime-yamcs does not understand; mask the auto-loaded config.
     empty_config = None
-    if "-c" not in passthrough and "--config" not in passthrough:
+    if not any(arg in ("-c", "--config") or arg.startswith("--config=") for arg in passthrough):
         with tempfile.NamedTemporaryFile("w", suffix=".yml", delete=False) as handle:
             handle.write("command-line-options: {}\n")
             empty_config = Path(handle.name)

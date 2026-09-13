@@ -11,7 +11,7 @@
 //   -b address   Local address the uplink (TC) socket binds to
 //                (default: 127.0.0.1; pass 0.0.0.0 to accept remote TC).
 //   -u port      Local UDP port to listen on for uplink (TC)
-//                datagrams (default: 50001; 0 disables uplink).
+//                datagrams (default: 50001; 0 binds an OS-chosen ephemeral port).
 //   -w wadPath   Path to the IWAD file passed to doomgeneric_Create.
 //                Defaults to the first existing entry among the
 //                conventional WAD locations (project build-artifacts,
@@ -23,24 +23,25 @@
 //                must be dispatched as a command from the GDS.
 //   -h           Print the usage text and exit.
 // ======================================================================
+#include "Doom/DoomEngine/DoomEngine.hpp"
 #include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopology.hpp"
 #include "FprimeStressReference/ReferenceDeployment/Top/ReferenceDeploymentTopologyAc.hpp"
-#include "Doom/DoomEngine/DoomEngine.hpp"
 
 #include <config/IpCfg.hpp>
 
 #include <Fw/Logger/Logger.hpp>
+#include <Fw/Types/String.hpp>
 #include <Os/Os.hpp>
 #include <Os/Task.hpp>
 
-#include <cctype>
-#include <cerrno>
-#include <cstdlib>
-#include <cstring>
 #include <getopt.h>
 #include <pthread.h>
 #include <signal.h>
 #include <sys/stat.h>
+#include <cctype>
+#include <cerrno>
+#include <cstdlib>
+#include <cstring>
 
 namespace {
 
@@ -77,7 +78,7 @@ void printUsage(const char* app) {
         "    -a hostname  Ground system IP downlink (TM) datagrams are sent to\n"
         "    -p port      Remote UDP port for downlink (0 disables comm; default 0)\n"
         "    -b address   Local address the uplink (TC) socket binds to (default 127.0.0.1)\n"
-        "    -u port      Local UDP port to listen on for uplink (0 disables uplink; default 50001)\n"
+        "    -u port      Local UDP port to listen on for uplink (0 binds an ephemeral port; default 50001)\n"
         "    -w wad_path  Path to the DOOM IWAD file (default: first\n"
         "                 existing candidate near the binary, else %s)\n"
         "    -S           Auto-start the DOOM engine on boot\n"
@@ -85,24 +86,44 @@ void printUsage(const char* app) {
         app, DEFAULT_WAD_PATH);
 }
 
-// Parse a decimal UDP port in 0..65535. Returns true on success.
-bool parsePort(const char* text, U16& portOut) {
+// Outcome of parsePort; anything but OK names the rejected check.
+enum class PortParseStatus { OK, EMPTY, NOT_DECIMAL, OUT_OF_RANGE };
+
+const char* toString(PortParseStatus status) {
+    switch (status) {
+        case PortParseStatus::OK:
+            return "OK";
+        case PortParseStatus::EMPTY:
+            return "empty";
+        case PortParseStatus::NOT_DECIMAL:
+            return "not a decimal number";
+        case PortParseStatus::OUT_OF_RANGE:
+        default:
+            return "out of range 0-65535";
+    }
+}
+
+// Parse a decimal UDP port in 0..65535.
+PortParseStatus parsePort(const char* text, U16& portOut) {
     if ((text == nullptr) || (text[0] == '\0')) {
-        return false;
+        return PortParseStatus::EMPTY;
     }
     // Require a leading digit: strtoul skips whitespace and wraps
     // signed inputs into the unsigned range.
     if (::isdigit(static_cast<unsigned char>(text[0])) == 0) {
-        return false;
+        return PortParseStatus::NOT_DECIMAL;
     }
     char* end = nullptr;
     errno = 0;
     const unsigned long value = ::strtoul(text, &end, 10);
-    if ((errno != 0) || (end == nullptr) || (*end != '\0') || (value > 65535UL)) {
-        return false;
+    if ((end == nullptr) || (*end != '\0')) {
+        return PortParseStatus::NOT_DECIMAL;
+    }
+    if ((errno != 0) || (value > 65535UL)) {
+        return PortParseStatus::OUT_OF_RANGE;
     }
     portOut = static_cast<U16>(value);
-    return true;
+    return PortParseStatus::OK;
 }
 
 // The set of signals that trigger an orderly shutdown.
@@ -142,8 +163,7 @@ int main(int argc, char* argv[]) {
         switch (option) {
             case 'a':
                 if (::strlen(optarg) >= SOCKET_MAX_HOSTNAME_SIZE) {
-                    Fw::Logger::log("Hostname too long (max %d chars)\n",
-                                    SOCKET_MAX_HOSTNAME_SIZE - 1);
+                    Fw::Logger::log("Hostname too long (max %d chars)\n", SOCKET_MAX_HOSTNAME_SIZE - 1);
                     printUsage(argv[0]);
                     return 1;
                 }
@@ -151,27 +171,23 @@ int main(int argc, char* argv[]) {
                 break;
             case 'b':
                 if (::strlen(optarg) >= SOCKET_MAX_HOSTNAME_SIZE) {
-                    Fw::Logger::log("Bind address too long (max %d chars)\n",
-                                    SOCKET_MAX_HOSTNAME_SIZE - 1);
+                    Fw::Logger::log("Bind address too long (max %d chars)\n", SOCKET_MAX_HOSTNAME_SIZE - 1);
                     printUsage(argv[0]);
                     return 1;
                 }
                 state.uplinkAddress = optarg;
                 break;
             case 'p':
-                if (!parsePort(optarg, state.port)) {
-                    Fw::Logger::log("Invalid port '%s': expected 0-65535\n", optarg);
+            case 'u': {
+                U16& port = (option == 'p') ? state.port : state.uplinkPort;
+                const PortParseStatus status = parsePort(optarg, port);
+                if (status != PortParseStatus::OK) {
+                    Fw::Logger::log("Invalid port '%s': %s\n", optarg, toString(status));
                     printUsage(argv[0]);
                     return 1;
                 }
                 break;
-            case 'u':
-                if (!parsePort(optarg, state.uplinkPort)) {
-                    Fw::Logger::log("Invalid port '%s': expected 0-65535\n", optarg);
-                    printUsage(argv[0]);
-                    return 1;
-                }
-                break;
+            }
             case 'w':
                 if (::strlen(optarg) >= Doom::DoomEngine::WAD_PATH_MAX) {
                     Fw::Logger::log("WAD path too long (max %" PRI_FwSizeType " chars)\n",
@@ -220,15 +236,12 @@ int main(int argc, char* argv[]) {
     ReferenceDeployment::setupTopology(state);
 
     if (state.autoStart) {
-        const bool ok = DoomSubtopology::doom.forceStart();
-        Fw::Logger::log("Auto-start: doom.forceStart() returned %s\n",
-                        ok ? "ok" : "fail");
+        Fw::String status;
+        DoomSubtopology::doom.forceStart().toString(status);
+        Fw::Logger::log("Auto-start: doom.forceStart() returned %s\n", status.toChar());
     }
 
-    // ~70 Hz base timer (14286 us per tick). The rate-group dividers
-    // (2 / 7 / 70) then produce 35 Hz / 10 Hz / 1 Hz rate groups; DOOM
-    // runs on the 35 Hz group, matching its native cadence.
-    ReferenceDeployment::startRateGroups(Fw::TimeInterval(0, 14286));
+    ReferenceDeployment::startRateGroups();
 
     ReferenceDeployment::teardownTopology(state);
     // sigwait is a POSIX cancellation point, so a waiter still blocked

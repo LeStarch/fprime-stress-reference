@@ -13,12 +13,11 @@ module CdhCoreConfig {
         # plus the routine key-event cadence.
         constant cmdDisp     = 256
         constant events      = 10
-        # The 35 Hz schedIn drives FrameTlmProcessor to emit up to
-        # 400 FrameRow writes per cycle (one per downsampled scanline
-        # at X1). The upstream default depth of 10 drops most of the
-        # burst before TlmPacketizer can serialise it; size this clear of
-        # the worst-case per-cycle burst.
-        constant tlmSend     = 512
+        # TlmPacketizer.TlmRecv is a sync port: the FrameRow burst is
+        # serialised on the caller's thread and never enters this queue
+        # (it is buffered in ComCcsdsConfig.QueueDepths.tlm). Run arrives
+        # at 35 Hz and overflows with an assert, so cover a ~1.8 s stall.
+        constant tlmSend     = 64
         constant $health     = 25
     }
 
