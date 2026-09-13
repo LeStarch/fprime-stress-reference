@@ -86,24 +86,44 @@ void printUsage(const char* app) {
         app, DEFAULT_WAD_PATH);
 }
 
-// Parse a decimal UDP port in 0..65535. Returns true on success.
-bool parsePort(const char* text, U16& portOut) {
+// Outcome of parsePort; anything but OK names the rejected check.
+enum class PortParseStatus { OK, EMPTY, NOT_DECIMAL, OUT_OF_RANGE };
+
+const char* toString(PortParseStatus status) {
+    switch (status) {
+        case PortParseStatus::OK:
+            return "OK";
+        case PortParseStatus::EMPTY:
+            return "empty";
+        case PortParseStatus::NOT_DECIMAL:
+            return "not a decimal number";
+        case PortParseStatus::OUT_OF_RANGE:
+        default:
+            return "out of range 0-65535";
+    }
+}
+
+// Parse a decimal UDP port in 0..65535.
+PortParseStatus parsePort(const char* text, U16& portOut) {
     if ((text == nullptr) || (text[0] == '\0')) {
-        return false;
+        return PortParseStatus::EMPTY;
     }
     // Require a leading digit: strtoul skips whitespace and wraps
     // signed inputs into the unsigned range.
     if (::isdigit(static_cast<unsigned char>(text[0])) == 0) {
-        return false;
+        return PortParseStatus::NOT_DECIMAL;
     }
     char* end = nullptr;
     errno = 0;
     const unsigned long value = ::strtoul(text, &end, 10);
-    if ((errno != 0) || (end == nullptr) || (*end != '\0') || (value > 65535UL)) {
-        return false;
+    if ((end == nullptr) || (*end != '\0')) {
+        return PortParseStatus::NOT_DECIMAL;
+    }
+    if ((errno != 0) || (value > 65535UL)) {
+        return PortParseStatus::OUT_OF_RANGE;
     }
     portOut = static_cast<U16>(value);
-    return true;
+    return PortParseStatus::OK;
 }
 
 // The set of signals that trigger an orderly shutdown.
@@ -158,19 +178,16 @@ int main(int argc, char* argv[]) {
                 state.uplinkAddress = optarg;
                 break;
             case 'p':
-                if (!parsePort(optarg, state.port)) {
-                    Fw::Logger::log("Invalid port '%s': expected 0-65535\n", optarg);
+            case 'u': {
+                U16& port = (option == 'p') ? state.port : state.uplinkPort;
+                const PortParseStatus status = parsePort(optarg, port);
+                if (status != PortParseStatus::OK) {
+                    Fw::Logger::log("Invalid port '%s': %s\n", optarg, toString(status));
                     printUsage(argv[0]);
                     return 1;
                 }
                 break;
-            case 'u':
-                if (!parsePort(optarg, state.uplinkPort)) {
-                    Fw::Logger::log("Invalid port '%s': expected 0-65535\n", optarg);
-                    printUsage(argv[0]);
-                    return 1;
-                }
-                break;
+            }
             case 'w':
                 if (::strlen(optarg) >= Doom::DoomEngine::WAD_PATH_MAX) {
                     Fw::Logger::log("WAD path too long (max %" PRI_FwSizeType " chars)\n",
