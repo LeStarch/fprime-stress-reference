@@ -1,12 +1,14 @@
 # Project-local override of F Prime's FileHandlingConfig. Mirrors the
-# upstream defaults verbatim except Paths.sandboxDir, so ground file
-# commands cannot reach outside the deployment's working directory.
+# upstream defaults verbatim except Paths.sandboxDir (ground file
+# commands stay inside the working directory) and QueueSizes.fileUplink.
 module FileHandlingConfig {
     #Base ID for the FileHandling Subtopology, all components are offsets from this base ID
     constant BASE_ID = 0x05000000
     
     module QueueSizes {
-        constant fileUplink    = 10
+        # FILE packets arrive async on the comDriver thread; a burst
+        # deeper than this queue asserts. Match ComCcsdsConfig commsBuffCount.
+        constant fileUplink    = 128
         constant fileDownlink  = 10
         constant fileManager   = 10
         constant prmDb         = 10
