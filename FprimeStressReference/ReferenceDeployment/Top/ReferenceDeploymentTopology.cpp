@@ -59,12 +59,10 @@ void configureTopology(const ReferenceDeployment::TopologyState& state) {
     // runs: all engine heap allocation happens here. An unset or
     // unreadable WAD leaves the engine uncreated (WadUnavailable) and
     // Start is rejected with StartRejected(NOT_INITIALIZED).
-    if ((state.wadPath != nullptr) && (state.wadPath[0] != '\0')) {
-        DoomSubtopology::doom.setWadPath(state.wadPath);
-    } else {
-        DoomSubtopology::doom.setWadPath("");
+    Doom::InitStatus initStatus = DoomSubtopology::doom.setWadPath((state.wadPath != nullptr) ? state.wadPath : "");
+    if (initStatus == Doom::InitStatus::OK) {
+        initStatus = DoomSubtopology::doom.initEngine();
     }
-    const Doom::InitStatus initStatus = DoomSubtopology::doom.initEngine();
     if (initStatus != Doom::InitStatus::OK) {
         Fw::String text;
         initStatus.toString(text);
