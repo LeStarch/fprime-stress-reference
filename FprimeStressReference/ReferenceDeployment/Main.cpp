@@ -78,7 +78,7 @@ void printUsage(const char* app) {
         "    -a hostname  Ground system IP downlink (TM) datagrams are sent to\n"
         "    -p port      Remote UDP port for downlink (0 disables comm; default 0)\n"
         "    -b address   Local address the uplink (TC) socket binds to (default 127.0.0.1)\n"
-        "    -u port      Local UDP port to listen on for uplink (0 disables uplink; default 50001)\n"
+        "    -u port      Local UDP port to listen on for uplink (0 binds an ephemeral port; default 50001)\n"
         "    -w wad_path  Path to the DOOM IWAD file (default: first\n"
         "                 existing candidate near the binary, else %s)\n"
         "    -S           Auto-start the DOOM engine on boot\n"
