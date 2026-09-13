@@ -13,6 +13,7 @@
 
 #include <Fw/Logger/Logger.hpp>
 #include <Fw/Types/MallocAllocator.hpp>
+#include <Fw/Types/String.hpp>
 
 namespace {
 
@@ -57,14 +58,17 @@ void configureTopology(const ReferenceDeployment::TopologyState& state) {
     // Configure the WAD and create the engine now, before any task
     // runs: all engine heap allocation happens here. An unset or
     // unreadable WAD leaves the engine uncreated (WadUnavailable) and
-    // Start is rejected with EngineUnavailable.
+    // Start is rejected with StartRejected(NOT_INITIALIZED).
     if ((state.wadPath != nullptr) && (state.wadPath[0] != '\0')) {
         DoomSubtopology::doom.setWadPath(state.wadPath);
     } else {
         DoomSubtopology::doom.setWadPath("");
     }
-    if (!DoomSubtopology::doom.initEngine()) {
-        Fw::Logger::log("DOOM engine init failed: Start will be rejected\n");
+    const Doom::InitStatus initStatus = DoomSubtopology::doom.initEngine();
+    if (initStatus != Doom::InitStatus::OK) {
+        Fw::String text;
+        initStatus.toString(text);
+        Fw::Logger::log("DOOM engine init failed (%s): Start will be rejected\n", text.toChar());
     }
 }
 

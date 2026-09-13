@@ -30,6 +30,7 @@
 #include <config/IpCfg.hpp>
 
 #include <Fw/Logger/Logger.hpp>
+#include <Fw/Types/String.hpp>
 #include <Os/Os.hpp>
 #include <Os/Task.hpp>
 
@@ -218,8 +219,9 @@ int main(int argc, char* argv[]) {
     ReferenceDeployment::setupTopology(state);
 
     if (state.autoStart) {
-        const bool ok = DoomSubtopology::doom.forceStart();
-        Fw::Logger::log("Auto-start: doom.forceStart() returned %s\n", ok ? "ok" : "fail");
+        Fw::String status;
+        DoomSubtopology::doom.forceStart().toString(status);
+        Fw::Logger::log("Auto-start: doom.forceStart() returned %s\n", status.toChar());
     }
 
     ReferenceDeployment::startRateGroups();
