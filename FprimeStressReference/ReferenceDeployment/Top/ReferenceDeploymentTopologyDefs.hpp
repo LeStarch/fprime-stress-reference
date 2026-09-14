@@ -15,28 +15,28 @@
 #include "Svc/Subtopologies/FileHandling/PingEntries.hpp"
 
 // SubtopologyTopologyDefs includes
+#include "Doom/DoomSubtopology/SubtopologyTopologyDefs.hpp"
 #include "Svc/Subtopologies/CdhCore/SubtopologyTopologyDefs.hpp"
 #include "Svc/Subtopologies/ComCcsds/SubtopologyTopologyDefs.hpp"
 #include "Svc/Subtopologies/FileHandling/SubtopologyTopologyDefs.hpp"
-#include "Doom/DoomSubtopology/SubtopologyTopologyDefs.hpp"
 
 // FPP constants from each subtopology config. Required because the
 // outer topology autocoder inlines each subtopology's
 // `phase configComponents` body into the deployment-level
 // ReferenceDeploymentTopologyAc.cpp, where those config namespaces
 // must already be visible.
+#include "Doom/DoomConfig/FppConstantsAc.hpp"
 #include "Svc/Subtopologies/CdhCore/CdhCoreConfig/FppConstantsAc.hpp"
 #include "Svc/Subtopologies/ComCcsds/ComCcsdsConfig/FppConstantsAc.hpp"
 #include "Svc/Subtopologies/FileHandling/FileHandlingConfig/FppConstantsAc.hpp"
-#include "Doom/DoomConfig/FppConstantsAc.hpp"
 
 // ComCcsds queue-port enums required by the inlined
 // ComCcsds::Subtopology::configComponents body (which indexes the
 // ComQueue configurationTable via Ports_ComPacketQueue and
 // Ports_ComBufferQueue). Pulled in directly via the autocoded enum
 // headers so the outer topology autocoder finds them in scope.
-#include "Svc/Subtopologies/ComCcsds/Ports_ComPacketQueueEnumAc.hpp"
 #include "Svc/Subtopologies/ComCcsds/Ports_ComBufferQueueEnumAc.hpp"
+#include "Svc/Subtopologies/ComCcsds/Ports_ComPacketQueueEnumAc.hpp"
 
 // Per-instance health-ping thresholds. The local active components in
 // the deployment (rate groups and the command sequencer) need their
@@ -74,8 +74,8 @@ struct TopologyState {
     //! are enabled via hostname/port. Matches fprime-gds.yml.
     U16 uplinkPort = 50001;
     //! Path to the DOOM IWAD file that should be passed to the engine.
-    //! Must reference an existing WAD: the engine rejects a Start
-    //! with no configured path (auto-search is not permitted).
+    //! Must reference an existing WAD: the engine is created at setup
+    //! only if it opens (auto-search is not permitted).
     const char* wadPath = nullptr;
     //! True if the engine should auto-start at topology setup time;
     //! false if the operator will dispatch the Start command manually.

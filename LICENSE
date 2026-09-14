@@ -30,6 +30,8 @@ by this project; see the upstream F Prime checkout for its LICENSE
 file.
 
 The "new" source files in this repository - the deployment
-topology, configuration overrides, Main.cpp entry point, fprime-doom
-launcher, and documentation - were authored for this deployment and
-are released under GPLv2 to match the linked work.
+topology, configuration overrides, Main.cpp entry point, and
+documentation - were authored for this deployment and are released
+under GPLv2 to match the linked work. The fprime-doom launcher
+(tools/fprime-doom) does not link the engine and is released under
+Apache-2.0, as declared in its pyproject.toml.
