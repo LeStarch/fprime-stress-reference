@@ -19,7 +19,7 @@ fprime-stress-reference/
 ├── CMakeLists.txt                  # root: bootstraps the F Prime build
 ├── README.md
 ├── LICENSE                         # GPLv2 (combined-work license, see notes)
-├── requirements.txt                # F Prime deps + fprime-get-doom CLI
+├── requirements.txt                # F Prime deps + fprime-get-doom, fprime-doom, fprime-yamcs
 ├── settings.ini                    # framework_path / library_locations
 ├── fprime-gds.yml                  # project-local fprime-gds defaults
 ├── .gitmodules
@@ -47,7 +47,7 @@ component itself is sourced from `lib/fprime-stress`.
 
 ```sh
 pip install fprime-bootstrap
-fprime-bootstrap clone https://github.com/JPL-Devin/fprime-stress-reference.git
+fprime-bootstrap clone https://github.com/LeStarch/fprime-stress-reference.git
 cd fprime-stress-reference
 . fprime-venv/bin/activate
 ```
@@ -117,7 +117,9 @@ Click the floating **DOOM** button in the YAMCS web UI, then **Start**
 in the panel — the engine does not start on its own. The panel renders
 frames, forwards keyboard input as commands, and offers Stop/Reset.
 The display size follows the compile-time `Doom.DOWNSAMPLE_FACTOR`
-configured in `lib/fprime-stress/Doom/DoomConfig/DoomConfig.fpp`.
+configured in `lib/fprime-stress/Doom/DoomConfig/DoomConfig.fpp`; the
+packet list in `Top/ReferenceDeploymentPackets.fppi` is written for factor 2
+and must be updated together with it.
 
 The project-local `fprime-gds.yml` still configures the python GDS
 (UDP transport, CCSDS framing, ports — see "Communications" below) for

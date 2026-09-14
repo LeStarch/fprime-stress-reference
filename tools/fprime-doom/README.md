@@ -23,7 +23,8 @@ Open http://localhost:8090, click the floating **DOOM** button, press
 **Start**, and click the canvas to play. The panel also offers
 **Reset** (back to the boot title screen) and **Record/Stop
 Recording** (download sent commands as an F Prime `.seq` file).
-Requires JDK + Maven (`mvn`) on the PATH (fprime-yamcs requirement).
+Requires a JDK on the PATH (fprime-yamcs requirement; the pinned wheel
+ships the prebuilt plugin jar, so Maven is not needed).
 
 Options: `--no-app` skips launching the flight software (attach your
 own); `--project-root DIR` overrides checkout auto-detection; all

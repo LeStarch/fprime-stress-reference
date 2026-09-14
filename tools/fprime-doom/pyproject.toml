@@ -24,12 +24,12 @@ classifiers = [
 ]
 
 dependencies = [
-    "fprime-yamcs",
+    "fprime-yamcs>=0.1.7,<0.2",
 ]
 
 [project.urls]
-Homepage = "https://github.com/JPL-Devin/fprime-stress-reference"
-Repository = "https://github.com/JPL-Devin/fprime-stress-reference"
+Homepage = "https://github.com/LeStarch/fprime-stress-reference"
+Repository = "https://github.com/LeStarch/fprime-stress-reference"
 
 [project.scripts]
 fprime-doom = "fprime_doom.__main__:main"
